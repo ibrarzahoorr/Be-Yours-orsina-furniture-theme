@@ -351,7 +351,13 @@
     min-width: 0;
   }
   
+  /* Updated clickable heading styles */
   .menu-column h3 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu-column-heading {
     font-size: 13px;
     font-weight: 600;
     color: #2c2c2c;
@@ -363,11 +369,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-column-heading:hover {
+    color: rgb(var(--color-highlight));
+    transform: translateX(3px);
   }
   
   /* Responsive adjustments for column headers */
   @media screen and (max-width: 1199px) {
-    .menu-column h3 {
+    .menu-column-heading {
       font-size: 12px;
       margin-bottom: 12px;
       padding-bottom: 6px;
@@ -379,7 +393,7 @@
       padding: 0 8px;
     }
     
-    .menu-column h3 {
+    .menu-column-heading {
       font-size: 11px;
       margin-bottom: 10px;
     }
@@ -1118,7 +1132,8 @@
   .header__icon:focus-visible,
   .nav-link:focus-visible,
   .mobile-nav-link:focus-visible,
-  .menu-item:focus-visible {
+  .menu-item:focus-visible,
+  .menu-column-heading:focus-visible {
     outline: 2px solid rgb(var(--color-highlight));
     outline-offset: 2px;
     border-radius: 4px;
@@ -1266,7 +1281,11 @@
                   <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
-                        <h3>{{ child_link.title }}</h3>
+                        <h3>
+                          <a href="{{ child_link.url }}" class="menu-column-heading">
+                            {{ child_link.title }}
+                          </a>
+                        </h3>
                         <div class="menu-items">
                           {%- if child_link.links != blank -%}
                             {%- for grandchild_link in child_link.links -%}
@@ -1286,6 +1305,7 @@
                               </a>
                             {%- endfor -%}
                           {%- else -%}
+                            <!-- If no sub-items, show View All link -->
                             <a href="{{ child_link.url }}" class="menu-item">
                               <div class="menu-icon">
                                 {%- if child_link.object.image -%}
@@ -1298,7 +1318,7 @@
                                   <span style="font-size: 16px;">📂</span>
                                 {%- endif -%}
                               </div>
-                              <span>{{ child_link.title }}</span>
+                              <span>View All {{ child_link.title }}</span>
                             </a>
                           {%- endif -%}
                         </div>
