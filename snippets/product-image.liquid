@@ -23,7 +23,13 @@
   %}
 {% endcomment %}
 
-{%- capture sizes -%}(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | times: media_width | round }}px, (min-width: 990px) calc({{ media_width | times: 100 }}vw - 10rem), (min-width: 750px) calc((100vw - 10rem) / 2), calc(100vw - 3rem){%- endcapture -%}
+{%- capture sizes -%}
+(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | times: media_width | round }}px, 
+(min-width: 990px) calc({{ media_width | times: 100 }}vw - 10rem), 
+(min-width: 750px) calc((100vw - 10rem) / 2), 
+calc(100vw - 3rem)
+{%- endcapture -%}
+
 {%- liquid
   assign image_loading = 'eager'
   if lazy_load
@@ -44,7 +50,9 @@
       {%- endif -%}
       <div class="media-wrapper">
         <div class="product__media media media--{{ image_ratio }}{% if mobile_image_ratio %} media-mobile--{{ mobile_image_ratio }}{% endif %}"
-          {%- if image_ratio == 'adapt' or mobile_image_ratio == 'adapt' %} style="--image-ratio-percent: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%;"{% endif -%}
+          {%- if image_ratio == 'adapt' or mobile_image_ratio == 'adapt' %}
+            style="--image-ratio-percent: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%;"
+          {% endif -%}
         >
           {{ media.preview_image | image_url: width: 533 | image_tag:
             loading: image_loading,
@@ -58,19 +66,24 @@
   {%- else -%}
     <div class="media-wrapper">
       <div class="product__media media media--{{ image_ratio }}{% if mobile_image_ratio %} media-mobile--{{ mobile_image_ratio }}{% endif %}"
-        {%- if image_ratio == 'adapt' or mobile_image_ratio == 'adapt' %} style="--image-ratio-percent: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%;"{% endif -%}
+        {%- if image_ratio == 'adapt' or mobile_image_ratio == 'adapt' %}
+          style="--image-ratio-percent: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%;"
+        {% endif -%}
       >
-        {{ media.preview_image | image_url: width: 1500 | image_tag:
-          loading: image_loading,
-          sizes: sizes,
-          widths: widths,
-          alt: alt,
-          is: 'lazy-image'
-        }}
+        <img is="lazy-image"
+             alt="{{ alt }}"
+             loading="{{ image_loading }}"
+             sizes="{{ sizes }}"
+             widths="{{ widths }}"
+             src="{{ media.preview_image | image_url: width: 50 }}"               <!-- LQIP placeholder -->
+             data-src-mobile="{{ media.preview_image | image_url: width: 400 }}"  <!-- ~200kb -->
+             data-src-desktop="{{ media.preview_image | image_url: width: 800 }}" <!-- ~533kb -->
+             data-src-ultra="{{ media.preview_image | image_url: width: 200 }}">  <!-- Ultra low fallback -->
       </div>
     </div>
   {%- endif -%}
 </noscript>
+
 
 <modal-opener class="product__modal-opener product__modal-opener--{{ media.media_type }} no-js-hidden" data-modal="#ProductModal-{{ modal_id }}">
   {%- if zoom -%}
