@@ -1,4 +1,4 @@
-/*! Lazy Image */
+/*! Lazy Image with Size Limit */
 class LazyImage extends HTMLImageElement {
   constructor() {
     super();
@@ -16,28 +16,44 @@ class LazyImage extends HTMLImageElement {
         }
       });
     });
-    observer.observe(this, {attributes : true});
+    observer.observe(this, { attributes: true });
   }
 
-  handleLazy () {
-    const mql = window.matchMedia('(min-width: 750px)');
-    if (mql.matches && this.classList.contains('medium-hide')) return;
-    if (!mql.matches && this.classList.contains('small-hide')) return;
+  handleLazy() {
+    const isDesktop = window.matchMedia('(min-width: 750px)').matches;
+    const isMobile = !isDesktop;
+
+    // Hidden image checks
+    if (isDesktop && this.classList.contains('medium-hide')) return;
+    if (isMobile && this.classList.contains('small-hide')) return;
     if (this.complete || this.classList.contains('loaded')) return;
-    
+
+    // Decide which image to load based on device
+    let mobileImage = this.getAttribute('data-src-mobile');   // ~200kb version
+    let desktopImage = this.getAttribute('data-src-desktop'); // ~533kb version
+
+    if (isDesktop && desktopImage) {
+      this.src = desktopImage;
+    } else if (isMobile && mobileImage) {
+      this.src = mobileImage;
+    }
+
     this.wrapper.classList.add('loading');
     this.addEventListener('load', () => {
       const loaded = () => {
         this.classList.add('loaded');
         this.wrapper.classList.remove('loading');
       };
-
-      window.requestIdleCallback ? window.requestIdleCallback(loaded, {timeout: 150}) : setTimeout(loaded);
+      window.requestIdleCallback
+        ? window.requestIdleCallback(loaded, { timeout: 150 })
+        : setTimeout(loaded);
     }, false);
   }
 }
 window.customElements.define('lazy-image', LazyImage, { extends: 'img' });
 
+
+/*! Progressive Picture */
 class ProgPicture extends HTMLPictureElement {
   constructor() {
     super();
@@ -49,7 +65,10 @@ class ProgPicture extends HTMLPictureElement {
   touchmove_handler(ev) {
     if (ev.scale > 1) {
       var hqImage = this.getAttribute('data-hq');
-      this.querySelector('source').setAttribute('srcset', hqImage);
+      let source = this.querySelector('source');
+      if (hqImage && source) {
+        source.setAttribute('srcset', hqImage);
+      }
       this.abortController.abort();
     }
   }
