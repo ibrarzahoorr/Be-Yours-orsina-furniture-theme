@@ -1198,6 +1198,16 @@ summary::-webkit-details-marker {
   background-color: rgb(var(--color-placeholder));
 }
 
+.media-wrapper.loading img {
+  filter: blur(20px);
+  transition: filter 0.4s ease;
+}
+.media-wrapper img.loaded {
+  filter: blur(0);
+}
+
+
+
 [data-lazy-image] .media-wrapper.loading,
 .media-wrapper[loading] {
   position: relative;
