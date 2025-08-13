@@ -443,9 +443,10 @@
     transform: translateX(3px);
   }
   
+  /* UPDATED MEGA MENU ICON SIZE */
   .menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     background-color: #f5f3f0;
     border-radius: 50%;
     display: flex;
@@ -465,8 +466,8 @@
     }
     
     .menu-icon {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
     }
   }
   
@@ -478,8 +479,8 @@
     }
     
     .menu-icon {
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
     }
   }
   
@@ -491,8 +492,8 @@
   }
   
   .mega-menu-content.many-items .menu-icon {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
   }
   
   .mega-menu-content.extra-columns .menu-item {
@@ -502,8 +503,8 @@
   }
   
   .mega-menu-content.extra-columns .menu-icon {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
   }
   
   .menu-item:hover .menu-icon {
@@ -1019,9 +1020,10 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
   
+  /* UPDATED CART ITEM IMAGE SIZE */
   .cart-item-image {
-    width: 100px;
-    height: 120px;
+    width: 120px;
+    height: 140px;
     object-fit: cover;
     border-radius: 6px;
     flex-shrink: 0;
@@ -1453,9 +1455,10 @@
       padding: 15px;
     }
     
+    /* Mobile cart item image size */
     .cart-item-image {
-      width: 80px;
-      height: 100px;
+      width: 100px;
+      height: 120px;
     }
   }
   
@@ -1712,7 +1715,7 @@
                               <a href="{{ grandchild_link.url }}" class="menu-item">
                                 <div class="menu-icon">
                                   {%- if grandchild_link.object.image -%}
-                                    <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" 
+                                    <img src="{{ grandchild_link.object.image | image_url: width: 50 }}" 
                                          alt="{{ grandchild_link.title }}"
                                          loading="lazy">
                                   {%- elsif grandchild_link.object.type == 'collection' -%}
@@ -1729,7 +1732,7 @@
                             <a href="{{ child_link.url }}" class="menu-item">
                               <div class="menu-icon">
                                 {%- if child_link.object.image -%}
-                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" 
+                                  <img src="{{ child_link.object.image | image_url: width: 50 }}" 
                                        alt="{{ child_link.title }}"
                                        loading="lazy">
                                 {%- elsif child_link.object.type == 'collection' -%}
@@ -2066,8 +2069,12 @@ function renderCartDrawer() {
     cartHTML += `
       <div class="cart-drawer-item" data-key="${item.key}">
         <button class="cart-item-remove" onclick="removeCartItem('${item.key}')" aria-label="Remove item">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M6 6l12 12M6 18L18 6" stroke-width="2"/>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M3 6h18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 11v6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 11v6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
         
