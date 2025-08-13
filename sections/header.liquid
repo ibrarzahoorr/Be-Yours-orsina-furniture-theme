@@ -283,8 +283,8 @@
   .mega-menu-content {
     padding: 40px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
@@ -294,19 +294,115 @@
     min-height: auto;
   }
   
+  /* Flexible Grid Based on Item Count and Screen Size */
+  @media screen and (min-width: 1400px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    
+    /* For many items on large screens */
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 25px;
+    }
+  }
+  
+  @media screen and (max-width: 1399px) and (min-width: 1200px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 25px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 20px;
+    }
+  }
+  
+  @media screen and (max-width: 1199px) and (min-width: 900px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 35px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) and (min-width: 768px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      padding: 30px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+  }
+  
   .menu-column {
-    padding: 0 15px;
+    padding: 0 10px;
+    min-width: 0;
   }
   
   .menu-column h3 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #2c2c2c;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Responsive adjustments for column headers */
+  @media screen and (max-width: 1199px) {
+    .menu-column h3 {
+      font-size: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .menu-column {
+      padding: 0 8px;
+    }
+    
+    .menu-column h3 {
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  /* Extra columns class for 7+ columns */
+  .mega-menu-content.extra-columns {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  
+  @media screen and (max-width: 1199px) {
+    .mega-menu-content.extra-columns {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .mega-menu-content.extra-columns {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
   }
   
   .menu-items {
@@ -318,11 +414,11 @@
   .menu-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px;
+    gap: 10px;
+    padding: 6px;
     text-decoration: none;
     color: #666;
-    font-size: 14px;
+    font-size: 13px;
     transition: all 0.3s ease;
     border-radius: 4px;
   }
@@ -330,12 +426,12 @@
   .menu-item:hover {
     color: rgb(var(--color-highlight));
     background-color: rgba(var(--color-highlight), 0.05);
-    transform: translateX(5px);
+    transform: translateX(3px);
   }
   
   .menu-icon {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background-color: #f5f3f0;
     border-radius: 50%;
     display: flex;
@@ -344,6 +440,56 @@
     overflow: hidden;
     flex-shrink: 0;
     transition: transform 0.3s ease;
+  }
+  
+  /* Responsive menu items */
+  @media screen and (max-width: 1199px) {
+    .menu-item {
+      gap: 8px;
+      padding: 5px;
+      font-size: 12px;
+    }
+    
+    .menu-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .menu-item {
+      gap: 6px;
+      padding: 4px;
+      font-size: 11px;
+    }
+    
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  /* For extra small items in mega menu */
+  .mega-menu-content.many-items .menu-item {
+    font-size: 12px;
+    padding: 5px;
+    gap: 8px;
+  }
+  
+  .mega-menu-content.many-items .menu-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .mega-menu-content.extra-columns .menu-item {
+    font-size: 11px;
+    padding: 4px;
+    gap: 6px;
+  }
+  
+  .mega-menu-content.extra-columns .menu-icon {
+    width: 24px;
+    height: 24px;
   }
   
   .menu-item:hover .menu-icon {
@@ -673,6 +819,49 @@
     display: none;
   }
   
+  /* Dynamic grid classes applied by JavaScript */
+  .mega-menu-content.dynamic-grid-1 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  
+  .mega-menu-content.dynamic-grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 22px;
+  }
+  
+  .mega-menu-content.dynamic-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+  }
+  
+  .mega-menu-content.dynamic-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  
+  .mega-menu-content.dynamic-grid-5 {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  /* Scroll optimization for mega menu with many items */
+  .mega-menu-content.many-items {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .mega-menu-content.extra-columns {
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  
+  /* Hover optimization for performance */
+  .mega-menu-content {
+    will-change: scroll-position;
+    transform: translateZ(0);
+  }
+  
   /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
   @media screen and (max-width: 1400px) {
     .mega-menu-content {
@@ -968,7 +1157,9 @@
               {%- if link.links != blank -%}
                 {%- liquid
                   assign total_items = 0
+                  assign column_count = 0
                   for child_link in link.links
+                    assign column_count = column_count | plus: 1
                     if child_link.links != blank
                       assign total_items = total_items | plus: child_link.links.size
                     else
@@ -978,7 +1169,7 @@
                 -%}
                 
                 <div class="mega-menu">
-                  <div class="mega-menu-content{% if total_items > 12 %} many-items{% endif %}">
+                  <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
                         <h3>{{ child_link.title }}</h3>
@@ -1243,7 +1434,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Function to position mega menu full width
+  // Function to position mega menu full width and dynamically adjust
   function positionMegaMenu() {
     const header = document.querySelector('.header-wrapper');
     const megaMenus = document.querySelectorAll('.mega-menu');
@@ -1257,18 +1448,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set CSS variable for top position
     document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
     
-    // Apply to each mega menu for full width
+    // Apply to each mega menu for full width and dynamic adjustments
     megaMenus.forEach(menu => {
       menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
+      
+      // Dynamic grid adjustments based on content
+      const content = menu.querySelector('.mega-menu-content');
+      if (content) {
+        const columns = parseInt(content.getAttribute('data-columns') || '0');
+        const items = parseInt(content.getAttribute('data-items') || '0');
+        const screenWidth = window.innerWidth;
+        
+        // Remove existing dynamic classes
+        content.classList.remove('dynamic-grid-1', 'dynamic-grid-2', 'dynamic-grid-3', 'dynamic-grid-4', 'dynamic-grid-5');
+        
+        // Add appropriate class based on screen size and content
+        if (screenWidth >= 1400) {
+          if (columns > 6) content.classList.add('dynamic-grid-1');
+          else if (items > 20) content.classList.add('dynamic-grid-2');
+        } else if (screenWidth >= 1200) {
+          if (columns > 5) content.classList.add('dynamic-grid-3');
+          else if (items > 15) content.classList.add('dynamic-grid-4');
+        } else if (screenWidth >= 900) {
+          if (columns > 4) content.classList.add('dynamic-grid-5');
+        }
+      }
     });
   }
   
   // Initial positioning
   positionMegaMenu();
   
-  // Update on window resize
+  // Update on window resize with debouncing
+  let resizeTimeout;
   window.addEventListener('resize', function() {
-    positionMegaMenu();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      positionMegaMenu();
+    }, 100);
   });
   
   // Update on scroll for sticky header
