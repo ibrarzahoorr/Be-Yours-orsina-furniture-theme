@@ -806,19 +806,6 @@
     color: rgb(var(--color-highlight));
   }
   
-  /* Cart Drawer Container Fix */
-  .cart-drawer-container {
-    position: relative;
-  }
-  
-  .cart-drawer-container summary {
-    list-style: none;
-  }
-  
-  .cart-drawer-container summary::-webkit-details-marker {
-    display: none;
-  }
-  
   /* Dynamic grid classes applied by JavaScript */
   .mega-menu-content.dynamic-grid-1 {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -1344,38 +1331,19 @@
         </a>
       {%- endif -%}
 
-      <!-- Cart -->
-      {%- if settings.cart_drawer_enabled -%}
-        <cart-drawer>
-          <details class="cart-drawer-container">
-            <summary class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-              <svg width="24" height="24">
-                <use href="#icon-cart"></use>
-              </svg>
-              {%- if cart != empty -%}
-                <span class="cart-count-bubble">
-                  {%- if cart.item_count < 100 -%}
-                    {{ cart.item_count }}
-                  {%- endif -%}
-                </span>
-              {%- endif -%}
-            </summary>
-          </details>
-        </cart-drawer>
-      {%- else -%}
-        <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-          <svg width="24" height="24">
-            <use href="#icon-cart"></use>
-          </svg>
-          {%- if cart != empty -%}
-            <span class="cart-count-bubble">
-              {%- if cart.item_count < 100 -%}
-                {{ cart.item_count }}
-              {%- endif -%}
-            </span>
-          {%- endif -%}
-        </a>
-      {%- endif -%}
+      <!-- Cart - FIXED to always redirect to cart page -->
+      <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
+        <svg width="24" height="24">
+          <use href="#icon-cart"></use>
+        </svg>
+        {%- if cart != empty -%}
+          <span class="cart-count-bubble">
+            {%- if cart.item_count < 100 -%}
+              {{ cart.item_count }}
+            {%- endif -%}
+          </span>
+        {%- endif -%}
+      </a>
     </div>
   </header>
 </{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
@@ -1496,10 +1464,6 @@
 <!-- CSS Links -->
 <link rel="stylesheet" href="{{ 'component-sticky-header.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
-
-{%- if settings.cart_drawer_enabled -%}
-<link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
-{%- endif -%}
 
 {%- if enable_transparent_header -%}
   {{ 'component-transparent-header.css' | asset_url | stylesheet_tag }}
