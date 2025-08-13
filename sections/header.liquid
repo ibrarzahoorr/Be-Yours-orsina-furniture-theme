@@ -33,11 +33,12 @@
     --color-header-border: {{ section.settings.colors_border.red }}, {{ section.settings.colors_border.green }}, {{ section.settings.colors_border.blue }};
     --color-highlight: {{ section.settings.colors_highlight.red }}, {{ section.settings.colors_highlight.green }}, {{ section.settings.colors_highlight.blue }};
     --color-icons: {{ section.settings.colors_icons.red }}, {{ section.settings.colors_icons.green }}, {{ section.settings.colors_icons.blue }};
-    --icon-weight: 1.5px;
+    --icon-weight: {{ section.settings.icon_weight | default: 1.5 }}px;
   }
 {%- endstyle -%}
+
 <style>
-  /* Single Line Header CSS - Complete Version with Full Width Mega Menu for Desktop */
+  /* Enhanced Header CSS - Best of Both Versions */
   * {
     box-sizing: border-box;
   }
@@ -89,7 +90,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1px 1px;
+    padding: 16px 24px;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
@@ -205,6 +206,9 @@
     background: none;
     border: none;
     outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Search button specific - Remove all borders */
@@ -230,6 +234,7 @@
     width: 22px;
     height: 22px;
     stroke-width: var(--icon-weight);
+    display: block;
   }
   
   .cart-count-bubble {
@@ -248,21 +253,19 @@
     right: -8px;
   }
   
-  /* MEGA MENU - FULL WIDTH FOR DESKTOP */
+  /* MEGA MENU - POSITIONED FROM LOGO TO CART */
   .mega-menu {
     position: fixed !important;
     top: var(--mega-menu-top, 60px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
+    left: var(--mega-menu-left, 24px) !important;
+    right: var(--mega-menu-right, 24px) !important;
+    width: auto !important;
     transform: none !important;
     background-color: white;
     border: 1px solid rgb(var(--color-header-border));
-    border-left: none;
-    border-right: none;
     border-top: none;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    border-radius: 0;
+    border-radius: 0 0 8px 8px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -283,120 +286,81 @@
   .mega-menu-content {
     padding: 40px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
     background-color: white;
+    border-radius: 0 0 8px 8px;
     position: relative;
     z-index: 9999;
     min-height: auto;
   }
   
-  /* Flexible Grid Based on Item Count and Screen Size */
-  @media screen and (min-width: 1400px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-    }
-    
-    /* For many items on large screens */
+  /* When there are too many columns, make them scrollable */
+  @media screen and (min-width: 1200px) {
     .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(4, 1fr);
+      max-height: 60vh;
+      overflow-y: auto;
     }
   }
   
-  @media screen and (max-width: 1399px) and (min-width: 1200px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 25px;
-    }
-    
+  @media screen and (max-width: 1199px) {
     .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      max-height: 50vh;
+      overflow-y: auto;
     }
   }
   
-  @media screen and (max-width: 1199px) and (min-width: 900px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 35px;
-    }
-    
+  @media screen and (max-width: 990px) {
     .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 18px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) and (min-width: 768px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 18px;
-      padding: 30px;
-    }
-    
-    .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(2, 1fr);
+      max-height: 40vh;
+      overflow-y: auto;
     }
   }
   
   .menu-column {
-    padding: 0 10px;
-    min-width: 0;
+    padding: 0 15px;
   }
   
   .menu-column h3 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #2c2c2c;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-    border: none;
-    padding: 0;
-    text-align: center;
-  }
-  
-  /* Only regular headers (non-clickable) get border */
-  .menu-column h3.regular-header {
     border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-    text-align: center;
+    padding-bottom: 10px;
   }
   
-  /* Clickable Column Headers */
-  .menu-column-header {
+  .menu-items {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 8px;
-    padding: 12px 8px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
     text-decoration: none;
-    color: #2c2c2c;
+    color: #666;
+    font-size: 14px;
     transition: all 0.3s ease;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 15px;
+    border-radius: 4px;
   }
   
-  .menu-column-header:hover {
-    background-color: rgba(var(--color-highlight), 0.08);
-    transform: translateY(-1px);
+  .menu-item:hover {
+    color: rgb(var(--color-highlight));
+    background-color: rgba(var(--color-highlight), 0.05);
+    transform: translateX(5px);
   }
   
-  .menu-column-header .menu-icon {
+  .menu-icon {
     width: 40px;
     height: 40px;
     background-color: #f5f3f0;
@@ -406,296 +370,7 @@
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
-    transition: none;
-  }
-  
-  .menu-column-header .menu-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: none;
-  }
-  
-  .menu-column-header:hover .menu-icon {
-    transform: none;
-  }
-  
-  .menu-item:hover .menu-icon {
-    transform: none;
-  }
-  
-  .menu-column-header h3 {
-    margin: 0;
-    border: none;
-    padding: 0;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-  
-  /* Non-clickable headers fallback - No border */
-  .menu-column h3:not(.clickable-header) {
-    font-size: 13px;
-    font-weight: 600;
-    color: #2c2c2c;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  /* When column header exists, remove border from regular h3 */
-  .menu-column:has(.menu-column-header) h3 {
-    border: none;
-    padding-bottom: 0;
-    margin-bottom: 15px;
-  }
-  
-  /* Responsive adjustments for column headers */
-  @media screen and (max-width: 1199px) {
-    .menu-column h3.regular-header {
-      font-size: 12px;
-      margin-bottom: 12px;
-      padding-bottom: 6px;
-    }
-    
-    .menu-column-header {
-      gap: 6px;
-      padding: 10px 6px;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-    }
-    
-    .menu-column-header .menu-icon {
-      width: 36px;
-      height: 36px;
-      transition: none;
-    }
-    
-    .menu-column-header h3 {
-      font-size: 12px;
-    }
-    
-    .menu-items {
-      padding-left: 10px;
-      margin-left: 6px;
-    }
-    
-    .menu-item {
-      padding: 5px 6px;
-      font-size: 12px;
-      gap: 8px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .menu-column {
-      padding: 0 8px;
-    }
-    
-    .menu-column h3.regular-header {
-      font-size: 11px;
-      margin-bottom: 10px;
-    }
-    
-    .menu-column-header {
-      gap: 5px;
-      padding: 8px 5px;
-      margin-bottom: 10px;
-      padding-bottom: 10px;
-    }
-    
-    .menu-column-header .menu-icon {
-      width: 32px;
-      height: 32px;
-      transition: none;
-    }
-    
-    .menu-column-header h3 {
-      font-size: 11px;
-    }
-    
-    .menu-items {
-      padding-left: 8px;
-      margin-left: 4px;
-    }
-    
-    .menu-item {
-      padding: 4px 5px;
-      font-size: 11px;
-      gap: 6px;
-    }
-  }
-  
-  /* Extra columns class for 7+ columns */
-  .mega-menu-content.extra-columns {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
-  }
-  
-  @media screen and (max-width: 1199px) {
-    .mega-menu-content.extra-columns {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .mega-menu-content.extra-columns {
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-    }
-  }
-  
-  .menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding-left: 12px;
-    border-left: 2px solid rgba(var(--color-highlight), 0.1);
-    margin-left: 8px;
-  }
-  
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 8px;
-    text-decoration: none;
-    color: #666;
-    font-size: 13px;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-    position: relative;
-  }
-  
-  .menu-item:hover {
-    color: rgb(var(--color-highlight));
-    background-color: rgba(var(--color-highlight), 0.05);
-    transform: translateX(3px);
-  }
-  
-  .menu-item::before {
-    content: '';
-    width: 4px;
-    height: 4px;
-    background-color: rgba(var(--color-highlight), 0.4);
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  
-  .menu-item:hover::before {
-    background-color: rgb(var(--color-highlight));
-  }
-  
-  /* Remove menu-icon from sub items since we use bullet points */
-  .menu-item .menu-icon {
-    display: none;
-  }
-  
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px;
-    text-decoration: none;
-    color: #666;
-    font-size: 13px;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-  }
-  
-  .menu-item:hover {
-    color: rgb(var(--color-highlight));
-    background-color: rgba(var(--color-highlight), 0.05);
-    transform: translateX(3px);
-  }
-  
-  .menu-icon {
-    width: 32px;
-    height: 32px;
-    background-color: #f5f3f0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
     transition: transform 0.3s ease;
-  }
-  
-  /* Responsive menu items */
-  @media screen and (max-width: 1199px) {
-    .menu-item {
-      gap: 8px;
-      padding: 5px;
-      font-size: 12px;
-    }
-    
-    .menu-icon {
-      width: 28px;
-      height: 28px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .menu-item {
-      gap: 6px;
-      padding: 4px;
-      font-size: 11px;
-    }
-    
-    .menu-icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-  
-  /* For extra small items in mega menu */
-  .mega-menu-content.many-items .menu-item {
-    font-size: 12px;
-    padding: 5px;
-    gap: 8px;
-  }
-  
-  .mega-menu-content.many-items .menu-icon {
-    width: 28px;
-    height: 28px;
-    transition: none;
-  }
-  
-  .mega-menu-content.extra-columns .menu-item {
-    font-size: 11px;
-    padding: 4px;
-    gap: 6px;
-  }
-  
-  .mega-menu-content.extra-columns .menu-icon {
-    width: 24px;
-    height: 24px;
-    transition: none;
-  }
-  
-  /* Remove all icon scaling effects */
-  .mega-menu-content .menu-icon,
-  .mega-menu-content .menu-icon img {
-    transition: none !important;
-    transform: none !important;
-  }
-  
-  .mega-menu-content .menu-item:hover .menu-icon {
-    transform: none !important;
-    scale: none !important;
   }
   
   .menu-item:hover .menu-icon {
@@ -721,6 +396,12 @@
   
   .mobile-menu-toggle:hover {
     color: rgb(var(--color-highlight));
+  }
+  
+  .mobile-menu-toggle svg {
+    width: 24px;
+    height: 24px;
+    display: block;
   }
   
   /* Mobile Menu Styles */
@@ -876,18 +557,17 @@
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
-    transition: none;
+    transition: transform 0.3s ease;
   }
   
   .mobile-sub-link:hover .mobile-menu-icon {
-    transform: none;
+    transform: scale(1.1);
   }
   
   .mobile-menu-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: none;
   }
   
   .mobile-menu-icon.no-image {
@@ -925,7 +605,13 @@
     border-color: rgb(var(--color-highlight));
   }
   
-  /* Search Modal Styles - Mobile & Desktop Responsive */
+  .mobile-search svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+  
+  /* Enhanced Search Modal Styles */
   .search-modal {
     position: fixed;
     top: 0;
@@ -974,6 +660,12 @@
     position: relative;
   }
   
+  .search-modal-header svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+  
   .search-modal-input {
     flex: 1;
     border: none;
@@ -1013,56 +705,180 @@
     color: rgb(var(--color-highlight));
   }
   
-  /* Mobile responsive search modal */
-  @media screen and (max-width: 768px) {
-    .search-modal {
-      padding-top: 5vh;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    
-    .search-modal-content {
-      width: 100%;
-      border-radius: 8px;
-    }
-    
-    .search-modal-header {
-      padding: 16px 20px;
-    }
-    
-    .search-modal-input {
-      font-size: 16px;
-    }
-    
-    .search-modal-close {
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      font-size: 24px;
-    }
+  /* Enhanced Search Results Styling */
+  .search-results {
+    display: none;
+    max-height: 60vh;
+    overflow-y: auto;
   }
   
-  @media screen and (max-width: 480px) {
-    .search-modal {
-      padding: 20px 12px;
-    }
-    
-    .search-modal-header {
-      padding: 12px 16px;
-      gap: 12px;
-    }
-    
-    .search-modal-input {
-      font-size: 16px;
-      padding-right: 36px;
-    }
-    
-    .search-modal-close {
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      font-size: 20px;
-    }
+  .search-results.active {
+    display: block;
+  }
+  
+  .search-results-content {
+    padding: 20px 24px;
+  }
+  
+  .search-category {
+    margin-bottom: 30px;
+  }
+  
+  .search-category-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgb(var(--color-highlight));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .search-results-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .search-result-item:hover {
+    background-color: rgba(var(--color-highlight), 0.05);
+    border-color: rgb(var(--color-highlight));
+    transform: translateX(5px);
+  }
+  
+  .search-result-image {
+    width: 50px;
+    height: 50px;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  
+  .search-result-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .search-result-image.no-image {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 20px;
+  }
+  
+  .search-result-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .search-result-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+  }
+  
+  .search-result-title mark {
+    background: rgba(var(--color-highlight), 0.2) !important;
+    color: rgb(var(--color-highlight)) !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+  }
+  
+  .search-result-price {
+    font-size: 13px;
+    color: rgb(var(--color-highlight));
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .search-result-type {
+    font-size: 12px;
+    color: rgba(var(--color-header-foreground), 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .search-result-arrow {
+    color: rgb(var(--color-highlight));
+    font-size: 16px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .search-result-item:hover .search-result-arrow {
+    opacity: 1;
+  }
+  
+  .search-loading {
+    padding: 40px 24px;
+    text-align: center;
+    color: rgba(var(--color-header-foreground), 0.6);
+  }
+  
+  .search-loading p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .search-no-results {
+    padding: 40px 24px;
+    text-align: center;
+    color: rgba(var(--color-header-foreground), 0.6);
+  }
+  
+  .search-view-all {
+    text-align: center;
+    padding: 20px 24px;
+    border-top: 1px solid #eee;
+  }
+  
+  .search-view-all-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: rgb(var(--color-highlight));
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .search-view-all-btn:hover {
+    background-color: rgba(var(--color-highlight), 0.9);
+    transform: translateY(-2px);
+  }
+  
+  .search-match-info {
+    font-size: 11px;
+    background: rgba(var(--color-highlight), 0.1);
+    color: rgb(var(--color-highlight));
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: normal;
   }
   
   /* Cart Drawer Container Fix */
@@ -1078,50 +894,26 @@
     display: none;
   }
   
-  /* Dynamic grid classes applied by JavaScript */
-  .mega-menu-content.dynamic-grid-1 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
+  /* Scrollbar styling for mega menu */
+  .mega-menu-content::-webkit-scrollbar {
+    width: 6px;
   }
   
-  .mega-menu-content.dynamic-grid-2 {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 22px;
+  .mega-menu-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
   }
   
-  .mega-menu-content.dynamic-grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 18px;
+  .mega-menu-content::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-highlight));
+    border-radius: 3px;
   }
   
-  .mega-menu-content.dynamic-grid-4 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
+  .mega-menu-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--color-highlight), 0.8);
   }
   
-  .mega-menu-content.dynamic-grid-5 {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-  }
-  
-  /* Scroll optimization for mega menu with many items */
-  .mega-menu-content.many-items {
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  
-  .mega-menu-content.extra-columns {
-    max-height: 75vh;
-    overflow-y: auto;
-  }
-  
-  /* Hover optimization for performance */
-  .mega-menu-content {
-    will-change: scroll-position;
-    transform: translateZ(0);
-  }
-  
-  /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
+  /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & ENHANCED LAYOUT */
   @media screen and (max-width: 1400px) {
     .mega-menu-content {
       padding: 35px;
@@ -1144,100 +936,51 @@
   }
   
   @media screen and (max-width: 990px) {
-    /* Mobile Header - Flexible Layout */
+    /* Enhanced Mobile Layout - Center Logo, Absolute Positioned Controls */
     .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       position: relative;
-      padding: 12px 16px;
-      gap: 12px;
+      padding: 12px 60px;
     }
     
-    /* Mobile menu toggle - Left side */
+    /* Mobile menu toggle - absolute left position */
     .mobile-menu-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      order: 1;
-      flex: 0 0 auto;
-      width: 44px;
-      height: 44px;
-      padding: 10px;
-      z-index: 103;
+      display: block;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     
-    /* Logo section - Center, flexible */
+    /* Logo/Left section - centered */
     .header__left {
-      order: 2;
-      flex: 1 1 auto;
-      display: flex;
+      flex: 0 0 auto;
       justify-content: center;
-      align-items: center;
       margin: 0;
-      padding: 0 8px;
-      min-width: 0;
     }
     
-    /* Hide any duplicate mobile toggle */
+    /* Hide the mobile toggle from header__left */
     .header__left .mobile-menu-toggle {
       display: none;
     }
     
-    /* Hide desktop navigation */
+    /* Center navigation hide */
     .header__center {
       display: none;
     }
     
-    /* Icons section - Right side, flexible */
+    /* Right section - absolute right position */
     .header__right {
-      order: 3;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
       flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      position: static;
-      transform: none;
     }
     
-    /* Logo responsive sizing */
-    .header__heading-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 100%;
-    }
-    
-    .header__heading-logo {
-      max-width: 100%;
-      height: auto;
-    }
-    
-    .header__heading .h2 {
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
-    /* Mobile icons optimization */
-    .header__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 10px;
-    }
-    
-    .header__icon svg {
-      width: 22px;
-      height: 22px;
-    }
-    
-    /* Search icon ko mobile pe show karo */
+    /* Search icon visible on desktop, handled in JS for mobile */
     .search-modal-toggle {
-      display: flex !important;
+      display: block;
     }
     
     .mega-menu {
@@ -1247,20 +990,17 @@
   
   @media screen and (max-width: 768px) {
     .header {
-      padding: 12px 14px;
-      gap: 10px;
+      padding: 12px 50px;
+      gap: 12px;
     }
     
-    /* Mobile toggle adjustments */
     .mobile-menu-toggle {
-      width: 40px;
-      height: 40px;
-      padding: 8px;
+      left: 12px;
     }
     
-    /* Logo section responsive */
-    .header__left {
-      padding: 0 6px;
+    .header__right {
+      right: 12px;
+      gap: 10px;
     }
     
     .header__heading .h2 {
@@ -1268,90 +1008,58 @@
       letter-spacing: 1px;
     }
     
-    /* Icons section adjustments */
-    .header__right {
-      gap: 6px;
-    }
-    
-    .header__icon {
-      width: 40px;
-      height: 40px;
-      padding: 8px;
-    }
-    
     .header__icon svg {
       width: 20px;
       height: 20px;
-    }
-    
-    /* Cart bubble responsive */
-    .cart-count-bubble {
-      width: 16px;
-      height: 16px;
-      font-size: 10px;
-      top: -6px;
-      right: -6px;
     }
     
     #shopify-section-{{ section.id }} {
       --image-logo-height: {{ section.settings.mobile_logo_height }}px;
     }
+    
+    .search-result-item {
+      gap: 10px;
+      padding: 8px;
+    }
+    
+    .search-result-image {
+      width: 45px;
+      height: 45px;
+    }
+    
+    .search-result-title {
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    
+    .search-result-price {
+      font-size: 12px;
+    }
+    
+    .search-result-type {
+      font-size: 10px;
+    }
   }
   
   @media screen and (max-width: 480px) {
     .header {
-      padding: 10px 12px;
-      gap: 8px;
+      padding: 10px 45px;
+      gap: 10px;
     }
     
-    /* Compact mobile toggle */
     .mobile-menu-toggle {
-      width: 36px;
-      height: 36px;
-      padding: 6px;
+      left: 10px;
     }
     
-    .mobile-menu-toggle svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    /* Logo section compact */
-    .header__left {
-      padding: 0 4px;
+    .header__right {
+      right: 10px;
+      gap: 8px;
     }
     
     .header__heading .h2 {
       font-size: 18px;
-      letter-spacing: 0.5px;
     }
     
-    /* Icons section compact */
-    .header__right {
-      gap: 4px;
-    }
-    
-    .header__icon {
-      width: 36px;
-      height: 36px;
-      padding: 6px;
-    }
-    
-    .header__icon svg {
-      width: 18px;
-      height: 18px;
-    }
-    
-    /* Cart bubble small */
-    .cart-count-bubble {
-      width: 14px;
-      height: 14px;
-      font-size: 9px;
-      top: -5px;
-      right: -5px;
-    }
-    
-    /* Mobile menu content adjustments */
     .mobile-menu-content {
       padding: 15px 20px;
     }
@@ -1368,7 +1076,7 @@
     }
   }
   
-  /* Mobile & Desktop - Show search on all devices */
+  /* Desktop only - Show search on desktop */
   @media screen and (min-width: 991px) {
     .search-modal-toggle {
       display: block !important;
@@ -1382,7 +1090,7 @@
     .mega-menu,
     .mobile-menu,
     .search-modal {
-      display: block !important;
+      display: none !important;
     }
   }
   
@@ -1434,34 +1142,17 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
   }
-  
-  /* Scrollbar styling for mega menu */
-  .mega-menu-content::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .mega-menu-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-  }
-  
-  .mega-menu-content::-webkit-scrollbar-thumb {
-    background: rgb(var(--color-highlight));
-    border-radius: 3px;
-  }
-  
-  .mega-menu-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(var(--color-highlight), 0.8);
-  }
 </style>
 
-<!-- UPDATED HEADER STRUCTURE -->
+<!-- UPDATED HEADER STRUCTURE - BEST LAYOUT COMBINATION -->
 <{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
   <header class="header">
     <!-- Mobile Menu Toggle - Positioned Absolutely -->
     <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-      <svg width="24" height="24">
-        <use href="#icon-hamburger"></use>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
     
@@ -1523,9 +1214,7 @@
               {%- if link.links != blank -%}
                 {%- liquid
                   assign total_items = 0
-                  assign column_count = 0
                   for child_link in link.links
-                    assign column_count = column_count | plus: 1
                     if child_link.links != blank
                       assign total_items = total_items | plus: child_link.links.size
                     else
@@ -1535,36 +1224,41 @@
                 -%}
                 
                 <div class="mega-menu">
-                  <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
+                  <div class="mega-menu-content{% if total_items > 12 %} many-items{% endif %}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
-                        {%- if child_link.url != blank -%}
-                          <a href="{{ child_link.url }}" class="menu-column-header">
-                            <div class="menu-icon">
-                              {%- if child_link.object.image -%}
-                                <img src="{{ child_link.object.image | image_url: width: 40 }}" 
-                                     alt="{{ child_link.title }}"
-                                     loading="lazy">
-                              {%- elsif child_link.object.type == 'collection' -%}
-                                <span style="font-size: 16px;">🏷️</span>
-                              {%- else -%}
-                                <span style="font-size: 16px;">📂</span>
-                              {%- endif -%}
-                            </div>
-                            <h3>{{ child_link.title }}</h3>
-                          </a>
-                        {%- else -%}
-                          <h3 class="regular-header">{{ child_link.title }}</h3>
-                        {%- endif -%}
+                        <h3>{{ child_link.title }}</h3>
                         <div class="menu-items">
                           {%- if child_link.links != blank -%}
                             {%- for grandchild_link in child_link.links -%}
                               <a href="{{ grandchild_link.url }}" class="menu-item">
+                                <div class="menu-icon">
+                                  {%- if grandchild_link.object.image -%}
+                                    <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" 
+                                         alt="{{ grandchild_link.title }}"
+                                         loading="lazy">
+                                  {%- elsif grandchild_link.object.type == 'collection' -%}
+                                    <span style="font-size: 16px;">🏷️</span>
+                                  {%- else -%}
+                                    <span style="font-size: 16px;">📁</span>
+                                  {%- endif -%}
+                                </div>
                                 <span>{{ grandchild_link.title }}</span>
                               </a>
                             {%- endfor -%}
                           {%- else -%}
                             <a href="{{ child_link.url }}" class="menu-item">
+                              <div class="menu-icon">
+                                {%- if child_link.object.image -%}
+                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" 
+                                       alt="{{ child_link.title }}"
+                                       loading="lazy">
+                                {%- elsif child_link.object.type == 'collection' -%}
+                                  <span style="font-size: 16px;">🏷️</span>
+                                {%- else -%}
+                                  <span style="font-size: 16px;">📂</span>
+                                {%- endif -%}
+                              </div>
                               <span>{{ child_link.title }}</span>
                             </a>
                           {%- endif -%}
@@ -1580,20 +1274,22 @@
       {%- endif -%}
     </div>
 
-    <!-- RIGHT: Search + Account + Cart Icons -->
+    <!-- RIGHT: Search (Desktop Only) + Account + Cart Icons -->
     <div class="header__right">
-      <!-- Search Icon - Mobile & Desktop -->
+      <!-- Search Icon - Desktop Only -->
       <button class="header__icon search-modal-toggle" onclick="openSearchModal()" title="{{ 'general.search.search' | t }}">
-        <svg width="24" height="24">
-          <use href="#icon-search"></use>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
         </svg>
       </button>
       
       <!-- Account -->
       {%- if shop.customer_accounts_enabled -%}
         <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon" title="{%- if customer -%}{{ 'customer.account_fallback' | t }}{%- else -%}{{ 'customer.log_in' | t }}{%- endif -%}">
-          <svg width="24" height="24">
-            <use href="#icon-account"></use>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
           </svg>
         </a>
       {%- endif -%}
@@ -1603,9 +1299,19 @@
         <cart-drawer>
           <details class="cart-drawer-container">
             <summary class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-              <svg width="24" height="24">
-                <use href="#icon-cart"></use>
-              </svg>
+              {%- if section.settings.cart_icon == 'bag' -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              {%- else -%}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+              {%- endif -%}
               {%- if cart != empty -%}
                 <span class="cart-count-bubble">
                   {%- if cart.item_count < 100 -%}
@@ -1618,9 +1324,19 @@
         </cart-drawer>
       {%- else -%}
         <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-          <svg width="24" height="24">
-            <use href="#icon-cart"></use>
-          </svg>
+          {%- if section.settings.cart_icon == 'bag' -%}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          {%- else -%}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          {%- endif -%}
           {%- if cart != empty -%}
             <span class="cart-count-bubble">
               {%- if cart.item_count < 100 -%}
@@ -1634,15 +1350,27 @@
   </header>
 </{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
 
-<!-- Search Modal -->
+<!-- Enhanced Search Modal with Live Results -->
 <div class="search-modal" id="search-modal" onclick="closeSearchModal(event)">
   <div class="search-modal-content" onclick="event.stopPropagation()">
     <div class="search-modal-header">
-      <svg width="20" height="20" style="color: #666;">
-        <use href="#icon-search"></use>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; color: #666;">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
       </svg>
       <input type="text" class="search-modal-input" placeholder="{{ 'general.search.search' | t }}" id="search-modal-input" autocomplete="off">
       <button class="search-modal-close" onclick="closeSearchModal()">×</button>
+    </div>
+    
+    <!-- Enhanced Search Results -->
+    <div class="search-results" id="search-results">
+      <div class="search-loading" id="search-loading" style="display: none;">
+        <p>Searching...</p>
+      </div>
+      <div class="search-no-results" id="search-no-results" style="display: none;">
+        <p>No results found. Try a different search term.</p>
+      </div>
+      <div class="search-results-content" id="search-results-content"></div>
     </div>
   </div>
 </div>
@@ -1672,8 +1400,9 @@
     <form action="{{ routes.search_url }}" method="get" style="display: flex; position: relative;">
       <input type="search" class="mobile-search-input" placeholder="{{ 'general.search.search' | t }}" name="q" value="{{ search.terms | escape }}">
       <button type="submit" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; padding: 8px;" aria-label="{{ 'general.search.search' | t }}">
-        <svg width="16" height="16">
-          <use href="#icon-search"></use>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 16px; height: 16px;">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
         </svg>
       </button>
     </form>
@@ -1759,97 +1488,431 @@
   {{ 'component-transparent-header.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
-<!-- SVG Icons -->
-<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
-  {%- if section.settings.cart_icon == 'bag' %}
-    <symbol id="icon-cart" fill="none" viewbox="0 0 24 24">
-      <path d="M16 10V6a4 4 0 0 0-8 0v4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-      <path d="M20.46 15.44 18.39 21a1.39 1.39 0 0 1-1.27.93H6.88A1.39 1.39 0 0 1 5.61 21l-2.07-5.56-1.23-3.26c-.12-.34-.23-.62-.32-.85a17.28 17.28 0 0 1 20 0c-.09.23-.2.51-.32.85Z" fill="none" stroke="currentColor" stroke-miterlimit="10" vector-effect="non-scaling-stroke"/>
-    </symbol>
-  {% else %}
-    <symbol id="icon-cart" fill="none" viewbox="0 0 18 19">
-      <path d="M3.09333 5.87954L16.2853 5.87945V5.87945C16.3948 5.8795 16.4836 5.96831 16.4836 6.07785V11.4909C16.4836 11.974 16.1363 12.389 15.6603 12.4714C11.3279 13.2209 9.49656 13.2033 5.25251 13.9258C4.68216 14.0229 4.14294 13.6285 4.0774 13.0537C3.77443 10.3963 2.99795 3.58502 2.88887 2.62142C2.75288 1.42015 0.905376 1.51528 0.283581 1.51478" stroke="currentColor"/>
-      <path d="M13.3143 16.8554C13.3143 17.6005 13.9183 18.2045 14.6634 18.2045C15.4085 18.2045 16.0125 17.6005 16.0125 16.8554C16.0125 16.1104 15.4085 15.5063 14.6634 15.5063C13.9183 15.5063 13.3143 16.1104 13.3143 16.8554Z" fill="currentColor"/>
-      <path d="M3.72831 16.8554C3.72831 17.6005 4.33233 18.2045 5.07741 18.2045C5.8225 18.2045 6.42651 17.6005 6.42651 16.8554C6.42651 16.1104 5.8225 15.5063 5.07741 15.5063C4.33233 15.5063 3.72831 16.1104 3.72831 16.8554Z" fill="currentColor"/>
-    </symbol>
-  {% endif -%}
-  <symbol id="icon-search" fill="none" viewBox="0 0 15 17">
-    <circle cx="7.11113" cy="7.11113" r="6.56113" stroke="currentColor" fill="none"/>
-    <path d="M11.078 12.3282L13.8878 16.0009" stroke="currentColor" stroke-linecap="round" fill="none"/>
-  </symbol>
-  <symbol id="icon-heart" fill="none" viewBox="0 0 24 24">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
-  </symbol>
-  <symbol id="icon-account" fill="none" viewBox="0 0 24 24">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
-    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
-  </symbol>
-  <symbol id="icon-hamburger" fill="none" viewBox="0 0 24 24">
-    <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </symbol>
-  <symbol id="icon-close" fill="none" viewBox="0 0 12 12">
-    <path d="M1 1L11 11" stroke="currentColor" stroke-linecap="round" fill="none"/>
-    <path d="M11 1L1 11" stroke="currentColor" stroke-linecap="round" fill="none"/>
-  </symbol>
-</svg>
-
+<!-- Enhanced JavaScript with Best Features Combined -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Function to position mega menu full width and dynamically adjust
-  function positionMegaMenu() {
-    const header = document.querySelector('.header-wrapper');
-    const megaMenus = document.querySelectorAll('.mega-menu');
-    
-    if (!header || !megaMenus.length) return;
-    
-    // Get exact header position
-    const headerRect = header.getBoundingClientRect();
-    const topPosition = headerRect.bottom;
-    
-    // Set CSS variable for top position
-    document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
-    
-    // Apply to each mega menu for full width and dynamic adjustments
-    megaMenus.forEach(menu => {
-      menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
+  // Enhanced Search Variables
+  const searchInput = document.getElementById('search-modal-input');
+  const searchResults = document.getElementById('search-results');
+  const searchLoading = document.getElementById('search-loading');
+  const searchNoResults = document.getElementById('search-no-results');
+  const searchResultsContent = document.getElementById('search-results-content');
+  
+  let searchTimeout;
+  let currentQuery = '';
+  let allProducts = [];
+  let allCollections = [];
+  
+  // Load search data for enhanced live search
+  async function loadSearchData() {
+    try {
+      // Fetch products
+      const productsResponse = await fetch('/products.json');
+      const productsData = await productsResponse.json();
+      allProducts = productsData.products || [];
       
-      // Dynamic grid adjustments based on content
-      const content = menu.querySelector('.mega-menu-content');
-      if (content) {
-        const columns = parseInt(content.getAttribute('data-columns') || '0');
-        const items = parseInt(content.getAttribute('data-items') || '0');
-        const screenWidth = window.innerWidth;
-        
-        // Remove existing dynamic classes
-        content.classList.remove('dynamic-grid-1', 'dynamic-grid-2', 'dynamic-grid-3', 'dynamic-grid-4', 'dynamic-grid-5');
-        
-        // Add appropriate class based on screen size and content
-        if (screenWidth >= 1400) {
-          if (columns > 6) content.classList.add('dynamic-grid-1');
-          else if (items > 20) content.classList.add('dynamic-grid-2');
-        } else if (screenWidth >= 1200) {
-          if (columns > 5) content.classList.add('dynamic-grid-3');
-          else if (items > 15) content.classList.add('dynamic-grid-4');
-        } else if (screenWidth >= 900) {
-          if (columns > 4) content.classList.add('dynamic-grid-5');
+      // Fetch collections
+      const collectionsResponse = await fetch('/collections.json');
+      const collectionsData = await collectionsResponse.json();
+      allCollections = collectionsData.collections || [];
+      
+      console.log('Search data loaded:', {
+        products: allProducts.length,
+        collections: allCollections.length
+      });
+    } catch (error) {
+      console.error('Error loading search data:', error);
+    }
+  }
+  
+  // Load data when page loads
+  loadSearchData();
+  
+  // Enhanced search functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.trim();
+      currentQuery = query;
+      
+      clearTimeout(searchTimeout);
+      
+      if (query.length > 1) {
+        searchTimeout = setTimeout(() => {
+          if (currentQuery === query) {
+            performSearch(query);
+          }
+        }, 200);
+      } else {
+        hideSearchResults();
+      }
+    });
+    
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const query = e.target.value.trim();
+        if (query) {
+          window.location.href = `/search?q=${encodeURIComponent(query)}`;
         }
       }
+      
+      if (e.key === 'Escape') {
+        closeSearchModal();
+      }
+    });
+  }
+  
+  function performSearch(query) {
+    showLoading();
+    
+    setTimeout(() => {
+      if (currentQuery === query) {
+        const results = searchProducts(query);
+        displaySearchResults(results, query);
+      }
+    }, 100);
+  }
+  
+  function searchProducts(query) {
+    const searchTerm = query.toLowerCase();
+    const results = {
+      products: [],
+      collections: []
+    };
+    
+    // Enhanced product search with better matching
+    allProducts.forEach(product => {
+      let matchScore = 0;
+      let matchType = '';
+      
+      const title = product.title.toLowerCase();
+      if (title.includes(searchTerm)) {
+        if (title.startsWith(searchTerm)) {
+          matchScore = 100;
+          matchType = 'title-start';
+        } else {
+          matchScore = 80;
+          matchType = 'title-contains';
+        }
+      }
+      
+      if (product.tags && matchScore < 100) {
+        const tags = product.tags.map(tag => tag.toLowerCase());
+        const tagMatch = tags.some(tag => tag.includes(searchTerm));
+        if (tagMatch) {
+          const exactTagMatch = tags.some(tag => tag === searchTerm);
+          if (exactTagMatch) {
+            matchScore = Math.max(matchScore, 90);
+            matchType = 'tag-exact';
+          } else {
+            matchScore = Math.max(matchScore, 60);
+            matchType = 'tag-contains';
+          }
+        }
+      }
+      
+      if (product.product_type && matchScore < 80) {
+        const productType = product.product_type.toLowerCase();
+        if (productType.includes(searchTerm)) {
+          matchScore = Math.max(matchScore, 40);
+          matchType = 'type-match';
+        }
+      }
+      
+      if (product.vendor && matchScore < 80) {
+        const vendor = product.vendor.toLowerCase();
+        if (vendor.includes(searchTerm)) {
+          matchScore = Math.max(matchScore, 30);
+          matchType = 'vendor-match';
+        }
+      }
+      
+      if (product.body_html && matchScore < 60) {
+        const description = product.body_html.toLowerCase().replace(/<[^>]*>/g, '');
+        if (description.includes(searchTerm)) {
+          matchScore = Math.max(matchScore, 20);
+          matchType = 'description-match';
+        }
+      }
+      
+      if (matchScore > 0) {
+        results.products.push({
+          ...product,
+          matchScore,
+          matchType
+        });
+      }
+    });
+    
+    // Enhanced collection search
+    allCollections.forEach(collection => {
+      let matchScore = 0;
+      let matchType = '';
+      
+      const title = collection.title.toLowerCase();
+      if (title.includes(searchTerm)) {
+        if (title.startsWith(searchTerm)) {
+          matchScore = 100;
+          matchType = 'title-start';
+        } else {
+          matchScore = 80;
+          matchType = 'title-contains';
+        }
+      }
+      
+      if (collection.handle && matchScore < 100) {
+        const handle = collection.handle.toLowerCase();
+        if (handle.includes(searchTerm)) {
+          matchScore = Math.max(matchScore, 60);
+          matchType = 'handle-match';
+        }
+      }
+      
+      if (matchScore > 0) {
+        results.collections.push({
+          ...collection,
+          matchScore,
+          matchType
+        });
+      }
+    });
+    
+    // Sort by relevance
+    results.products.sort((a, b) => {
+      if (b.matchScore !== a.matchScore) {
+        return b.matchScore - a.matchScore;
+      }
+      return a.title.localeCompare(b.title);
+    });
+    
+    results.collections.sort((a, b) => {
+      if (b.matchScore !== a.matchScore) {
+        return b.matchScore - a.matchScore;
+      }
+      return a.title.localeCompare(b.title);
+    });
+    
+    // Limit results
+    results.products = results.products.slice(0, 8);
+    results.collections = results.collections.slice(0, 4);
+    
+    return results;
+  }
+  
+  function showLoading() {
+    searchResults.classList.add('active');
+    searchLoading.style.display = 'block';
+    searchNoResults.style.display = 'none';
+    searchResultsContent.innerHTML = '';
+  }
+  
+  function hideLoading() {
+    searchLoading.style.display = 'none';
+  }
+  
+  function hideSearchResults() {
+    searchResults.classList.remove('active');
+    searchResultsContent.innerHTML = '';
+    hideLoading();
+    searchNoResults.style.display = 'none';
+  }
+  
+  function showNoResults() {
+    hideLoading();
+    searchNoResults.style.display = 'block';
+  }
+  
+  function displaySearchResults(results, query) {
+    hideLoading();
+    
+    const products = results.products || [];
+    const collections = results.collections || [];
+    
+    let hasResults = false;
+    let html = '';
+    
+    // Products Results
+    if (products.length > 0) {
+      hasResults = true;
+      html += `
+        <div class="search-category">
+          <h3 class="search-category-title">Products (${products.length})</h3>
+          <div class="search-results-grid">
+      `;
+      
+      products.forEach(product => {
+        let price = '';
+        let comparePrice = '';
+        
+        if (product.variants && product.variants.length > 0) {
+          const firstVariant = product.variants[0];
+          if (firstVariant.price) {
+            price = formatPrice(firstVariant.price);
+          }
+          if (firstVariant.compare_at_price && parseFloat(firstVariant.compare_at_price) > parseFloat(firstVariant.price)) {
+            comparePrice = formatPrice(firstVariant.compare_at_price);
+          }
+        }
+        
+        let imageUrl = '';
+        if (product.images && product.images.length > 0) {
+          imageUrl = product.images[0].src;
+        }
+        
+        const matchBadge = getMatchBadge(product.matchType);
+        
+        html += `
+          <a href="/products/${product.handle}" class="search-result-item" onclick="closeSearchModal()">
+            <div class="search-result-image ${imageUrl ? '' : 'no-image'}">
+              ${imageUrl ? 
+                `<img src="${imageUrl}" alt="${product.title}" loading="lazy">` : 
+                '🛍️'
+              }
+            </div>
+            <div class="search-result-info">
+              <h4 class="search-result-title">${highlightMatch(product.title, query)}</h4>
+              ${price ? `<div class="search-result-price">
+                ${comparePrice ? `<span style="text-decoration: line-through; opacity: 0.6; margin-right: 8px;">${comparePrice}</span>` : ''}
+                ${price}
+              </div>` : ''}
+              <div class="search-result-type">Product ${matchBadge}</div>
+            </div>
+            <div class="search-result-arrow">→</div>
+          </a>
+        `;
+      });
+      
+      html += `</div></div>`;
+    }
+    
+    // Collections Results
+    if (collections.length > 0) {
+      hasResults = true;
+      html += `
+        <div class="search-category">
+          <h3 class="search-category-title">Collections (${collections.length})</h3>
+          <div class="search-results-grid">
+      `;
+      
+      collections.forEach(collection => {
+        let imageUrl = '';
+        if (collection.image && collection.image.src) {
+          imageUrl = collection.image.src;
+        }
+        
+        const matchBadge = getMatchBadge(collection.matchType);
+        
+        html += `
+          <a href="/collections/${collection.handle}" class="search-result-item" onclick="closeSearchModal()">
+            <div class="search-result-image ${imageUrl ? '' : 'no-image'}">
+              ${imageUrl ? 
+                `<img src="${imageUrl}" alt="${collection.title}" loading="lazy">` : 
+                '📁'
+              }
+            </div>
+            <div class="search-result-info">
+              <h4 class="search-result-title">${highlightMatch(collection.title, query)}</h4>
+              <div class="search-result-type">Collection ${matchBadge}</div>
+            </div>
+            <div class="search-result-arrow">→</div>
+          </a>
+        `;
+      });
+      
+      html += `</div></div>`;
+    }
+    
+    // View All Results Button
+    if (hasResults) {
+      html += `
+        <div class="search-view-all">
+          <a href="/search?q=${encodeURIComponent(query)}" class="search-view-all-btn" onclick="closeSearchModal()">
+            View All Results for "${query}" (${products.length + collections.length} found)
+          </a>
+        </div>
+      `;
+    }
+    
+    if (hasResults) {
+      searchResultsContent.innerHTML = html;
+      searchResults.classList.add('active');
+      searchNoResults.style.display = 'none';
+    } else {
+      showNoResults();
+    }
+  }
+  
+  function getMatchBadge(matchType) {
+    const badges = {
+      'title-start': '• Title Match',
+      'title-contains': '• Title',
+      'tag-exact': '• Tag Match',
+      'tag-contains': '• Tag',
+      'type-match': '• Type',
+      'vendor-match': '• Brand',
+      'description-match': '• Description',
+      'handle-match': '• Name'
+    };
+    return badges[matchType] || '';
+  }
+  
+  function highlightMatch(text, query) {
+    if (!query || query.length < 2) return text;
+    
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(regex, '<mark style="background: rgba(var(--color-highlight), 0.2); padding: 2px 4px; border-radius: 3px;">$1</mark>');
+  }
+  
+  function formatPrice(priceString) {
+    const price = parseFloat(priceString);
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: '{{ cart.currency.iso_code | default: "USD" }}',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(price);
+  }
+  
+  // Enhanced mega menu positioning function
+  function positionMegaMenu() {
+    const header = document.querySelector('.header');
+    const logo = document.querySelector('.header__left');
+    const cart = document.querySelector('.header__right');
+    const megaMenus = document.querySelectorAll('.mega-menu');
+    
+    if (!header || !logo || !cart || !megaMenus.length) return;
+    
+    const headerRect = header.getBoundingClientRect();
+    const logoRect = logo.getBoundingClientRect();
+    const cartRect = cart.getBoundingClientRect();
+    
+    const topPosition = headerRect.bottom;
+    const leftPosition = logoRect.left;
+    const rightPosition = window.innerWidth - cartRect.right;
+    
+    document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-right', `${rightPosition}px`);
+    
+    megaMenus.forEach(menu => {
+      menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
+      menu.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+      menu.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     });
   }
   
   // Initial positioning
   positionMegaMenu();
   
-  // Update on window resize with debouncing
-  let resizeTimeout;
+  // Enhanced window resize handler
   window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      positionMegaMenu();
-    }, 100);
+    positionMegaMenu();
+    if (window.innerWidth > 990) {
+      closeMobileMenu();
+    }
   });
   
-  // Update on scroll for sticky header
+  // Enhanced scroll handler with sticky header functionality
   let lastScrollTop = 0;
   window.addEventListener('scroll', function() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1873,7 +1936,49 @@ document.addEventListener('DOMContentLoaded', function() {
     positionMegaMenu();
   });
   
-  // Mobile Menu Functions
+  // Enhanced mega menu hover handling
+  let megaMenuTimeout;
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  navItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
+      clearTimeout(megaMenuTimeout);
+      positionMegaMenu();
+      
+      navItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+        }
+      });
+      
+      this.classList.add('active');
+    });
+    
+    item.addEventListener('mouseleave', function() {
+      const item = this;
+      megaMenuTimeout = setTimeout(() => {
+        item.classList.remove('active');
+      }, 300);
+    });
+  });
+  
+  const megaMenus = document.querySelectorAll('.mega-menu');
+  megaMenus.forEach(menu => {
+    menu.addEventListener('mouseenter', function() {
+      clearTimeout(megaMenuTimeout);
+    });
+    
+    menu.addEventListener('mouseleave', function() {
+      const parentItem = this.closest('.nav-item');
+      if (parentItem) {
+        megaMenuTimeout = setTimeout(() => {
+          parentItem.classList.remove('active');
+        }, 300);
+      }
+    });
+  });
+  
+  // Global functions for header functionality
   window.toggleMobileMenu = function() {
     const menu = document.getElementById('mobile-menu');
     if (menu) {
@@ -1894,7 +1999,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = button.parentElement.nextElementSibling;
     const isActive = dropdown.classList.contains('active');
     
-    // Close all other dropdowns
     document.querySelectorAll('.mobile-dropdown.active').forEach(item => {
       item.classList.remove('active');
     });
@@ -1903,7 +2007,6 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.classList.remove('active');
     });
     
-    // Toggle current dropdown
     if (!isActive) {
       dropdown.classList.add('active');
       button.textContent = '−';
@@ -1911,7 +2014,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Search Modal Functions - Mobile & Desktop
   window.openSearchModal = function() {
     const modal = document.getElementById('search-modal');
     const input = document.getElementById('search-modal-input');
@@ -1919,6 +2021,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal) {
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
+      if (input) {
+        input.value = '';
+      }
+      hideSearchResults();
+      
+      if (allProducts.length === 0) {
+        loadSearchData();
+      }
       
       setTimeout(() => {
         if (input) input.focus();
@@ -1933,86 +2044,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal) {
       modal.classList.remove('active');
       document.body.style.overflow = '';
+      hideSearchResults();
     }
   }
-  
-  // Search functionality
-  const searchInput = document.getElementById('search-modal-input');
-  if (searchInput) {
-    searchInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const query = e.target.value.trim();
-        if (query) {
-          window.location.href = `/search?q=${encodeURIComponent(query)}`;
-        }
-      }
-      
-      if (e.key === 'Escape') {
-        closeSearchModal();
-      }
-    });
-  }
-  
-  // Close mobile menu on resize to desktop or when search opens
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 990) {
-      closeMobileMenu();
-    }
-  });
-  
-  // Close mobile menu when search modal opens
-  const searchToggle = document.querySelector('.search-modal-toggle');
-  if (searchToggle) {
-    searchToggle.addEventListener('click', function() {
-      // Close mobile menu if open
-      closeMobileMenu();
-    });
-  }
-  
-  // Handle mega menu hover delay
-  let megaMenuTimeout;
-  const navItems = document.querySelectorAll('.nav-item');
-  
-  navItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
-      clearTimeout(megaMenuTimeout);
-      positionMegaMenu();
-      
-      // Close other mega menus
-      navItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('active');
-        }
-      });
-      
-      this.classList.add('active');
-    });
-    
-    item.addEventListener('mouseleave', function() {
-      const item = this;
-      megaMenuTimeout = setTimeout(() => {
-        item.classList.remove('active');
-      }, 300);
-    });
-  });
-  
-  // Prevent mega menu from closing when hovering over it
-  const megaMenus = document.querySelectorAll('.mega-menu');
-  megaMenus.forEach(menu => {
-    menu.addEventListener('mouseenter', function() {
-      clearTimeout(megaMenuTimeout);
-    });
-    
-    menu.addEventListener('mouseleave', function() {
-      const parentItem = this.closest('.nav-item');
-      if (parentItem) {
-        megaMenuTimeout = setTimeout(() => {
-          parentItem.classList.remove('active');
-        }, 300);
-      }
-    });
-  });
 });
 </script>
 
@@ -2228,6 +2262,21 @@ document.addEventListener('DOMContentLoaded', function() {
       "label": "Highlight/Hover Color",
       "info": "Color when hovering over links and buttons",
       "default": "#A85A3B"
+    },
+    {
+      "type": "header",
+      "content": "Icon Settings"
+    },
+    {
+      "type": "range",
+      "id": "icon_weight",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.5,
+      "unit": "px",
+      "label": "Icon Stroke Weight",
+      "info": "Thickness of icon lines"
     },
     {
       "type": "header",
