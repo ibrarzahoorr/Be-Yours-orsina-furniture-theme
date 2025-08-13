@@ -364,6 +364,7 @@
     margin: 0;
     border: none;
     padding: 0;
+    text-align: center;
   }
   
   /* Only regular headers (non-clickable) get border */
@@ -371,21 +372,23 @@
     border-bottom: 2px solid rgb(var(--color-highlight));
     padding-bottom: 8px;
     margin-bottom: 15px;
+    text-align: center;
   }
   
   /* Clickable Column Headers */
   .menu-column-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 8px;
+    gap: 8px;
+    padding: 12px 8px;
     text-decoration: none;
     color: #2c2c2c;
     transition: all 0.3s ease;
-    border-radius: 6px;
+    border-radius: 8px;
     margin-bottom: 15px;
     border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 12px;
+    padding-bottom: 15px;
   }
   
   .menu-column-header:hover {
@@ -394,8 +397,8 @@
   }
   
   .menu-column-header .menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background-color: #f5f3f0;
     border-radius: 50%;
     display: flex;
@@ -403,6 +406,22 @@
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
+    transition: none;
+  }
+  
+  .menu-column-header .menu-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: none;
+  }
+  
+  .menu-column-header:hover .menu-icon {
+    transform: none;
+  }
+  
+  .menu-item:hover .menu-icon {
+    transform: none;
   }
   
   .menu-column-header h3 {
@@ -413,10 +432,11 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    flex: 1;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
   }
   
   /* Non-clickable headers fallback - No border */
@@ -450,19 +470,31 @@
     }
     
     .menu-column-header {
-      gap: 8px;
-      padding: 6px;
+      gap: 6px;
+      padding: 10px 6px;
       margin-bottom: 12px;
-      padding-bottom: 10px;
+      padding-bottom: 12px;
     }
     
     .menu-column-header .menu-icon {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
+      transition: none;
     }
     
     .menu-column-header h3 {
       font-size: 12px;
+    }
+    
+    .menu-items {
+      padding-left: 10px;
+      margin-left: 6px;
+    }
+    
+    .menu-item {
+      padding: 5px 6px;
+      font-size: 12px;
+      gap: 8px;
     }
   }
   
@@ -477,19 +509,31 @@
     }
     
     .menu-column-header {
-      gap: 6px;
-      padding: 5px;
+      gap: 5px;
+      padding: 8px 5px;
       margin-bottom: 10px;
-      padding-bottom: 8px;
+      padding-bottom: 10px;
     }
     
     .menu-column-header .menu-icon {
-      width: 24px;
-      height: 24px;
+      width: 32px;
+      height: 32px;
+      transition: none;
     }
     
     .menu-column-header h3 {
       font-size: 11px;
+    }
+    
+    .menu-items {
+      padding-left: 8px;
+      margin-left: 4px;
+    }
+    
+    .menu-item {
+      padding: 4px 5px;
+      font-size: 11px;
+      gap: 6px;
     }
   }
   
@@ -516,7 +560,47 @@
   .menu-items {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+    padding-left: 12px;
+    border-left: 2px solid rgba(var(--color-highlight), 0.1);
+    margin-left: 8px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    text-decoration: none;
+    color: #666;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    position: relative;
+  }
+  
+  .menu-item:hover {
+    color: rgb(var(--color-highlight));
+    background-color: rgba(var(--color-highlight), 0.05);
+    transform: translateX(3px);
+  }
+  
+  .menu-item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background-color: rgba(var(--color-highlight), 0.4);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  .menu-item:hover::before {
+    background-color: rgb(var(--color-highlight));
+  }
+  
+  /* Remove menu-icon from sub items since we use bullet points */
+  .menu-item .menu-icon {
+    display: none;
   }
   
   .menu-item {
@@ -587,6 +671,7 @@
   .mega-menu-content.many-items .menu-icon {
     width: 28px;
     height: 28px;
+    transition: none;
   }
   
   .mega-menu-content.extra-columns .menu-item {
@@ -598,6 +683,19 @@
   .mega-menu-content.extra-columns .menu-icon {
     width: 24px;
     height: 24px;
+    transition: none;
+  }
+  
+  /* Remove all icon scaling effects */
+  .mega-menu-content .menu-icon,
+  .mega-menu-content .menu-icon img {
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .mega-menu-content .menu-item:hover .menu-icon {
+    transform: none !important;
+    scale: none !important;
   }
   
   .menu-item:hover .menu-icon {
@@ -778,17 +876,18 @@
     justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
-    transition: transform 0.3s ease;
+    transition: none;
   }
   
   .mobile-sub-link:hover .mobile-menu-icon {
-    transform: scale(1.1);
+    transform: none;
   }
   
   .mobile-menu-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: none;
   }
   
   .mobile-menu-icon.no-image {
@@ -1443,13 +1542,13 @@
                           <a href="{{ child_link.url }}" class="menu-column-header">
                             <div class="menu-icon">
                               {%- if child_link.object.image -%}
-                                <img src="{{ child_link.object.image | image_url: width: 32 }}" 
+                                <img src="{{ child_link.object.image | image_url: width: 40 }}" 
                                      alt="{{ child_link.title }}"
                                      loading="lazy">
                               {%- elsif child_link.object.type == 'collection' -%}
-                                <span style="font-size: 14px;">🏷️</span>
+                                <span style="font-size: 16px;">🏷️</span>
                               {%- else -%}
-                                <span style="font-size: 14px;">📂</span>
+                                <span style="font-size: 16px;">📂</span>
                               {%- endif -%}
                             </div>
                             <h3>{{ child_link.title }}</h3>
@@ -1461,33 +1560,11 @@
                           {%- if child_link.links != blank -%}
                             {%- for grandchild_link in child_link.links -%}
                               <a href="{{ grandchild_link.url }}" class="menu-item">
-                                <div class="menu-icon">
-                                  {%- if grandchild_link.object.image -%}
-                                    <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" 
-                                         alt="{{ grandchild_link.title }}"
-                                         loading="lazy">
-                                  {%- elsif grandchild_link.object.type == 'collection' -%}
-                                    <span style="font-size: 16px;">🏷️</span>
-                                  {%- else -%}
-                                    <span style="font-size: 16px;">📁</span>
-                                  {%- endif -%}
-                                </div>
                                 <span>{{ grandchild_link.title }}</span>
                               </a>
                             {%- endfor -%}
                           {%- else -%}
                             <a href="{{ child_link.url }}" class="menu-item">
-                              <div class="menu-icon">
-                                {%- if child_link.object.image -%}
-                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" 
-                                       alt="{{ child_link.title }}"
-                                       loading="lazy">
-                                {%- elsif child_link.object.type == 'collection' -%}
-                                  <span style="font-size: 16px;">🏷️</span>
-                                {%- else -%}
-                                  <span style="font-size: 16px;">📂</span>
-                                {%- endif -%}
-                              </div>
                               <span>{{ child_link.title }}</span>
                             </a>
                           {%- endif -%}
