@@ -46,7 +46,7 @@
         <div class="product__media media media--{{ image_ratio }}{% if mobile_image_ratio %} media-mobile--{{ mobile_image_ratio }}{% endif %}"
           {%- if image_ratio == 'adapt' or mobile_image_ratio == 'adapt' %} style="--image-ratio-percent: {{ 1 | divided_by: media.preview_image.aspect_ratio | times: 100 }}%;"{% endif -%}
         >
-          {{ media.preview_image | image_url: width: 1500 | image_tag:
+          {{ media.preview_image | image_url: width: 533 | image_tag:
             loading: image_loading,
             sizes: sizes,
             widths: widths,
