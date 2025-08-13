@@ -862,6 +862,405 @@
     will-change: scroll-position;
     transform: translateZ(0);
   }
+
+  /* ============ CART DRAWER STYLES START ============ */
+  /* Cart Drawer Overlay */
+  .cart-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .cart-drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Cart Drawer Container */
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    max-width: 100vw;
+    height: 100%;
+    background: #fff;
+    z-index: 99999;
+    transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-drawer.active {
+    right: 0;
+  }
+  
+  /* Cart Header */
+  .cart-drawer-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .cart-drawer-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+    letter-spacing: -0.5px;
+  }
+  
+  .cart-items-count {
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+    margin-left: 10px;
+  }
+  
+  .cart-drawer-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 50%;
+  }
+  
+  .cart-drawer-close:hover {
+    background: #f5f5f5;
+    transform: rotate(90deg);
+  }
+  
+  /* Cart Body */
+  .cart-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    background: #fafafa;
+  }
+  
+  /* Empty Cart */
+  .cart-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .cart-empty-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    opacity: 0.3;
+  }
+  
+  .cart-empty-text {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .continue-shopping-btn {
+    background: #000;
+    color: #fff;
+    padding: 14px 40px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  
+  .continue-shopping-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+  }
+  
+  /* Cart Items Container */
+  .cart-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Individual Cart Item */
+  .cart-drawer-item {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    position: relative;
+    transition: all 0.3s;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .cart-drawer-item:hover {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  
+  .cart-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .cart-item-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    text-decoration: none;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .cart-item-title:hover {
+    color: #000;
+  }
+  
+  .cart-item-variant {
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .cart-item-price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+  }
+  
+  .cart-item-original-price {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+  }
+  
+  .cart-item-sale-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e74c3c;
+  }
+  
+  /* Quantity Selector */
+  .cart-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .cart-quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .quantity-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .quantity-btn:hover {
+    background: #f5f5f5;
+  }
+  
+  .quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .quantity-value {
+    width: 50px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .cart-item-remove {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 8px;
+    transition: all 0.2s;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
+  
+  .cart-item-remove:hover {
+    color: #e74c3c;
+    transform: scale(1.1);
+  }
+  
+  /* Cart Footer */
+  .cart-drawer-footer {
+    padding: 25px;
+    border-top: 2px solid #e5e5e5;
+    background: #fff;
+  }
+  
+  .cart-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  .cart-total-price {
+    font-size: 22px;
+    color: #e74c3c;
+  }
+  
+  .cart-footer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .cart-checkout-btn {
+    width: 100%;
+    padding: 16px;
+    background: #000;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+  }
+  
+  .cart-checkout-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .cart-view-btn {
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+  }
+  
+  .cart-view-btn:hover {
+    background: #000;
+    color: #fff;
+  }
+  
+  /* Loading State */
+  .cart-loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+  }
+  
+  .cart-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Cart Drawer Animation */
+  .cart-drawer-item.removing {
+    animation: slideOut 0.3s ease forwards;
+  }
+  
+  @keyframes slideOut {
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  /* ============ CART DRAWER STYLES END ============ */
   
   /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
   @media screen and (max-width: 1400px) {
@@ -1040,6 +1439,26 @@
     }
   }
   
+  @media screen and (max-width: 500px) {
+    .cart-drawer {
+      width: 100%;
+      right: -100%;
+    }
+    
+    .cart-drawer-body {
+      padding: 20px;
+    }
+    
+    .cart-drawer-item {
+      padding: 15px;
+    }
+    
+    .cart-item-image {
+      width: 80px;
+      height: 100px;
+    }
+  }
+  
   @media screen and (max-width: 480px) {
     .header {
       padding: 10px 12px;
@@ -1123,8 +1542,9 @@
     .mobile-menu-toggle,
     .mega-menu,
     .mobile-menu,
-    .search-modal {
-      display: block !important;
+    .search-modal,
+    .cart-drawer {
+      display: none !important;
     }
   }
   
@@ -1199,7 +1619,7 @@
 </style>
 
 <!-- UPDATED HEADER STRUCTURE -->
-<{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
+<{% if enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
   <header class="header">
     <!-- Mobile Menu Toggle - Positioned Absolutely -->
     <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
@@ -1351,22 +1771,53 @@
         </a>
       {%- endif -%}
 
-      <!-- Cart - FIXED to always redirect to cart page -->
-      <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
+      <!-- Cart - Opens Drawer -->
+      <button class="header__icon" id="cart-icon-bubble" onclick="openCartDrawer()" title="{{ 'templates.cart.cart' | t }}">
         <svg width="24" height="24">
           <use href="#icon-cart"></use>
         </svg>
-        {%- if cart != empty -%}
-          <span class="cart-count-bubble">
-            {%- if cart.item_count < 100 -%}
-              {{ cart.item_count }}
-            {%- endif -%}
-          </span>
-        {%- endif -%}
-      </a>
+        <span class="cart-count-bubble" style="display: {% if cart.item_count > 0 %}flex{% else %}none{% endif %}">
+          {{ cart.item_count }}
+        </span>
+      </button>
     </div>
   </header>
-</{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
+</{% if enable_sticky_header %}sticky-header{% else %}div{% endif %}>
+
+<!-- Cart Drawer HTML -->
+<div class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-drawer-header">
+    <h2 class="cart-drawer-title">
+      Shopping Cart
+      <span class="cart-items-count" id="cart-items-count">0 items</span>
+    </h2>
+    <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart">
+      ✕
+    </button>
+  </div>
+  
+  <div class="cart-drawer-body" id="cart-drawer-body">
+    <div class="cart-loading-state">
+      <div class="cart-spinner"></div>
+    </div>
+  </div>
+  
+  <div class="cart-drawer-footer" id="cart-drawer-footer" style="display: none;">
+    <div class="cart-subtotal-row">
+      <span>Subtotal:</span>
+      <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+    </div>
+    <div class="cart-total-row">
+      <span>Total:</span>
+      <span class="cart-total-price" id="cart-total">{{ cart.total_price | money }}</span>
+    </div>
+    <div class="cart-footer-buttons">
+      <a href="/checkout" class="cart-checkout-btn">CHECKOUT</a>
+      <a href="/cart" class="cart-view-btn">VIEW MY BAG</a>
+    </div>
+  </div>
+</div>
 
 <!-- Search Modal -->
 <div class="search-modal" id="search-modal" onclick="closeSearchModal(event)">
@@ -1524,6 +1975,183 @@
 </svg>
 
 <script>
+// ============ CART DRAWER JAVASCRIPT START ============
+// Cart Drawer State
+let cartDrawerOpen = false;
+let cartData = null;
+
+// Open Cart Drawer
+function openCartDrawer() {
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.querySelector('.cart-drawer-overlay');
+  
+  if (drawer && overlay) {
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    cartDrawerOpen = true;
+    
+    // Load cart contents
+    loadCartDrawer();
+  }
+}
+
+// Close Cart Drawer
+function closeCartDrawer() {
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.querySelector('.cart-drawer-overlay');
+  
+  if (drawer && overlay) {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    cartDrawerOpen = false;
+  }
+}
+
+// Load Cart Contents
+async function loadCartDrawer() {
+  try {
+    const response = await fetch('/cart.js');
+    cartData = await response.json();
+    renderCartDrawer();
+  } catch (error) {
+    console.error('Error loading cart:', error);
+  }
+}
+
+// Render Cart Drawer
+function renderCartDrawer() {
+  if (!cartData) return;
+  
+  const cartBody = document.getElementById('cart-drawer-body');
+  const cartFooter = document.getElementById('cart-drawer-footer');
+  const cartItemsCount = document.getElementById('cart-items-count');
+  const cartSubtotal = document.getElementById('cart-subtotal');
+  const cartTotal = document.getElementById('cart-total');
+  const cartBubble = document.querySelector('.cart-count-bubble');
+  
+  // Update cart count
+  if (cartItemsCount) {
+    cartItemsCount.textContent = `${cartData.item_count} ${cartData.item_count === 1 ? 'item' : 'items'}`;
+  }
+  
+  if (cartBubble) {
+    cartBubble.textContent = cartData.item_count;
+    cartBubble.style.display = cartData.item_count > 0 ? 'flex' : 'none';
+  }
+  
+  // Empty cart state
+  if (cartData.item_count === 0) {
+    cartBody.innerHTML = `
+      <div class="cart-empty-state">
+        <svg class="cart-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 3h18l-1 13H4L3 3zM3 3l1 13m0 0h16m-16 0a2 2 0 104 0m12 0a2 2 0 104 0M8 3V1m8 2V1" stroke-width="1.5"/>
+        </svg>
+        <p class="cart-empty-text">Your bag is empty</p>
+        <button class="continue-shopping-btn" onclick="closeCartDrawer()">Continue Shopping</button>
+      </div>
+    `;
+    cartFooter.style.display = 'none';
+    return;
+  }
+  
+  // Build cart items HTML
+  let cartHTML = '<div class="cart-items-container">';
+  
+  cartData.items.forEach(item => {
+    const originalPrice = item.original_price || item.price;
+    const hasDiscount = originalPrice > item.price;
+    
+    cartHTML += `
+      <div class="cart-drawer-item" data-key="${item.key}">
+        <button class="cart-item-remove" onclick="removeCartItem('${item.key}')" aria-label="Remove item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6 6l12 12M6 18L18 6" stroke-width="2"/>
+          </svg>
+        </button>
+        
+        <img src="${item.image}" alt="${item.title}" class="cart-item-image" loading="lazy">
+        
+        <div class="cart-item-info">
+          <a href="${item.url}" class="cart-item-title">${item.product_title}</a>
+          
+          ${item.variant_title ? `
+            <div class="cart-item-variant">
+              <span>${item.variant_title}</span>
+            </div>
+          ` : ''}
+          
+          <div class="cart-item-price-row">
+            ${hasDiscount ? `<span class="cart-item-original-price">${formatMoney(originalPrice)}</span>` : ''}
+            <span class="cart-item-sale-price">${formatMoney(item.price)}</span>
+          </div>
+          
+          <div class="cart-item-actions">
+            <div class="cart-quantity-selector">
+              <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>−</button>
+              <input type="text" class="quantity-value" value="${item.quantity}" readonly>
+              <button class="quantity-btn" onclick="updateQuantity('${item.key}', ${item.quantity + 1})">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  
+  cartHTML += '</div>';
+  cartBody.innerHTML = cartHTML;
+  
+  // Update footer
+  cartFooter.style.display = 'block';
+  cartSubtotal.textContent = formatMoney(cartData.total_price);
+  cartTotal.textContent = formatMoney(cartData.total_price);
+}
+
+// Format Money
+function formatMoney(cents) {
+  return '{{ cart.currency.symbol }}' + (cents / 100).toFixed(2);
+}
+
+// Update Item Quantity
+async function updateQuantity(key, newQuantity) {
+  if (newQuantity < 0) return;
+  
+  try {
+    const response = await fetch('/cart/change.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: key,
+        quantity: newQuantity
+      })
+    });
+    
+    cartData = await response.json();
+    renderCartDrawer();
+    
+  } catch (error) {
+    console.error('Error updating quantity:', error);
+  }
+}
+
+// Remove Item
+async function removeCartItem(key) {
+  const item = document.querySelector(`[data-key="${key}"]`);
+  if (item) {
+    item.classList.add('removing');
+  }
+  
+  setTimeout(() => {
+    updateQuantity(key, 0);
+  }, 300);
+}
+
+// ============ CART DRAWER JAVASCRIPT END ============
+
+// ============ EXISTING JAVASCRIPT (MEGA MENU, MOBILE MENU, ETC.) ============
 document.addEventListener('DOMContentLoaded', function() {
   // Function to position mega menu full width and dynamically adjust
   function positionMegaMenu() {
@@ -1737,6 +2365,53 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+  
+  // Handle add to cart with drawer
+  const addToCartForms = document.querySelectorAll('form[action*="/cart/add"]');
+  addToCartForms.forEach(form => {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitButton = this.querySelector('[type="submit"]');
+      const originalText = submitButton ? submitButton.textContent : '';
+      
+      if (submitButton) {
+        submitButton.textContent = 'Adding...';
+        submitButton.disabled = true;
+      }
+      
+      try {
+        const formData = new FormData(this);
+        
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          const item = await response.json();
+          
+          // Open cart drawer
+          openCartDrawer();
+        }
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      } finally {
+        if (submitButton) {
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }
+      }
+    });
+  });
+  
+  // ESC key to close drawer
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && cartDrawerOpen) {
+      closeCartDrawer();
+    }
+  });
 });
 </script>
 
@@ -1808,12 +2483,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   customElements.define('sticky-header', StickyHeader);
-
-
-
-
-
-  
 {% endjavascript %}
 
 {% schema %}
