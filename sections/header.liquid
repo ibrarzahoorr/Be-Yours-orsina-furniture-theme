@@ -885,11 +885,11 @@
   }
   
   @media screen and (max-width: 990px) {
-    /* Header ko center align karo mobile pe */
+    /* Header layout for mobile */
     .header {
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
-      padding: 12px 60px;
+      padding: 12px 16px;
     }
     
     /* Mobile menu toggle ko absolute position do (left side) */
@@ -899,13 +899,16 @@
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
+      z-index: 103;
     }
     
-    /* Logo/Left section ko center mein lao */
+    /* Logo/Left section ko slightly left of center position do */
     .header__left {
-      flex: 0 0 auto;
+      flex: 1;
+      display: flex;
       justify-content: center;
-      margin: 0;
+      margin-left: -20px; /* Logo ko thoda left move karo */
+      padding-left: 40px; /* Hamburger icon ke liye space */
     }
     
     /* Hide the mobile toggle from header__left */
