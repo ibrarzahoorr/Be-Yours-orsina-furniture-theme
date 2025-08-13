@@ -365,12 +365,89 @@
     text-overflow: ellipsis;
   }
   
+  /* Clickable Column Headers */
+  .menu-column-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    text-decoration: none;
+    color: #2c2c2c;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgb(var(--color-highlight));
+    padding-bottom: 12px;
+  }
+  
+  .menu-column-header:hover {
+    background-color: rgba(var(--color-highlight), 0.08);
+    transform: translateY(-1px);
+  }
+  
+  .menu-column-header .menu-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #f5f3f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  
+  .menu-column-header h3 {
+    margin: 0;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Non-clickable headers fallback */
+  .menu-column h3:not(.clickable-header) {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgb(var(--color-highlight));
+    padding-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
   /* Responsive adjustments for column headers */
   @media screen and (max-width: 1199px) {
     .menu-column h3 {
       font-size: 12px;
       margin-bottom: 12px;
       padding-bottom: 6px;
+    }
+    
+    .menu-column-header {
+      gap: 8px;
+      padding: 6px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+    }
+    
+    .menu-column-header .menu-icon {
+      width: 28px;
+      height: 28px;
+    }
+    
+    .menu-column-header h3 {
+      font-size: 12px;
     }
   }
   
@@ -382,6 +459,22 @@
     .menu-column h3 {
       font-size: 11px;
       margin-bottom: 10px;
+    }
+    
+    .menu-column-header {
+      gap: 6px;
+      padding: 5px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+    }
+    
+    .menu-column-header .menu-icon {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .menu-column-header h3 {
+      font-size: 11px;
     }
   }
   
@@ -718,7 +811,7 @@
     border-color: rgb(var(--color-highlight));
   }
   
-  /* Search Modal Styles */
+  /* Search Modal Styles - Mobile & Desktop Responsive */
   .search-modal {
     position: fixed;
     top: 0;
@@ -804,6 +897,58 @@
     background-color: #f5f5f5;
     transform: translateY(-50%) rotate(90deg);
     color: rgb(var(--color-highlight));
+  }
+  
+  /* Mobile responsive search modal */
+  @media screen and (max-width: 768px) {
+    .search-modal {
+      padding-top: 5vh;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    
+    .search-modal-content {
+      width: 100%;
+      border-radius: 8px;
+    }
+    
+    .search-modal-header {
+      padding: 16px 20px;
+    }
+    
+    .search-modal-input {
+      font-size: 16px;
+    }
+    
+    .search-modal-close {
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      font-size: 24px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .search-modal {
+      padding: 20px 12px;
+    }
+    
+    .search-modal-header {
+      padding: 12px 16px;
+      gap: 12px;
+    }
+    
+    .search-modal-input {
+      font-size: 16px;
+      padding-right: 36px;
+    }
+    
+    .search-modal-close {
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      font-size: 20px;
+    }
   }
   
   /* Cart Drawer Container Fix */
@@ -976,9 +1121,9 @@
       height: 22px;
     }
     
-    /* Hide search on mobile */
+    /* Search icon ko mobile pe show karo */
     .search-modal-toggle {
-      display: none;
+      display: flex !important;
     }
     
     .mega-menu {
@@ -1109,7 +1254,7 @@
     }
   }
   
-  /* Desktop only - Show search on desktop */
+  /* Mobile & Desktop - Show search on all devices */
   @media screen and (min-width: 991px) {
     .search-modal-toggle {
       display: block !important;
@@ -1279,7 +1424,24 @@
                   <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
-                        <h3>{{ child_link.title }}</h3>
+                        {%- if child_link.url != blank -%}
+                          <a href="{{ child_link.url }}" class="menu-column-header">
+                            <div class="menu-icon">
+                              {%- if child_link.object.image -%}
+                                <img src="{{ child_link.object.image | image_url: width: 32 }}" 
+                                     alt="{{ child_link.title }}"
+                                     loading="lazy">
+                              {%- elsif child_link.object.type == 'collection' -%}
+                                <span style="font-size: 14px;">🏷️</span>
+                              {%- else -%}
+                                <span style="font-size: 14px;">📂</span>
+                              {%- endif -%}
+                            </div>
+                            <h3>{{ child_link.title }}</h3>
+                          </a>
+                        {%- else -%}
+                          <h3>{{ child_link.title }}</h3>
+                        {%- endif -%}
                         <div class="menu-items">
                           {%- if child_link.links != blank -%}
                             {%- for grandchild_link in child_link.links -%}
@@ -1326,9 +1488,9 @@
       {%- endif -%}
     </div>
 
-    <!-- RIGHT: Search (Desktop Only) + Account + Cart Icons -->
+    <!-- RIGHT: Search + Account + Cart Icons -->
     <div class="header__right">
-      <!-- Search Icon - Desktop Only -->
+      <!-- Search Icon - Mobile & Desktop -->
       <button class="header__icon search-modal-toggle" onclick="openSearchModal()" title="{{ 'general.search.search' | t }}">
         <svg width="24" height="24">
           <use href="#icon-search"></use>
@@ -1657,21 +1819,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Search Modal Functions - Desktop Only
+  // Search Modal Functions - Mobile & Desktop
   window.openSearchModal = function() {
-    // Check if on desktop
-    if (window.innerWidth > 990) {
-      const modal = document.getElementById('search-modal');
-      const input = document.getElementById('search-modal-input');
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('search-modal-input');
+    
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
       
-      if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        setTimeout(() => {
-          if (input) input.focus();
-        }, 300);
-      }
+      setTimeout(() => {
+        if (input) input.focus();
+      }, 300);
     }
   }
   
@@ -1703,12 +1862,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Close mobile menu on resize to desktop
+  // Close mobile menu on resize to desktop or when search opens
   window.addEventListener('resize', function() {
     if (window.innerWidth > 990) {
       closeMobileMenu();
     }
   });
+  
+  // Close mobile menu when search modal opens
+  const searchToggle = document.querySelector('.search-modal-toggle');
+  if (searchToggle) {
+    searchToggle.addEventListener('click', function() {
+      // Close mobile menu if open
+      closeMobileMenu();
+    });
+  }
   
   // Handle mega menu hover delay
   let megaMenuTimeout;
