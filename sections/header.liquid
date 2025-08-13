@@ -37,7 +37,7 @@
   }
 {%- endstyle -%}
 <style>
-  /* Single Line Header CSS - Complete Version with Fixed Mega Menu Position */
+  /* Single Line Header CSS - Complete Version with Full Width Mega Menu for Desktop */
   * {
     box-sizing: border-box;
   }
@@ -89,12 +89,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  /*padding: 1px 1px; */
+    padding: 1px 1px;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    gap: 20%;
+    gap: 20px;
     z-index: 101;
   }
   
@@ -248,19 +248,21 @@
     right: -8px;
   }
   
-  /* MEGA MENU - POSITIONED FROM LOGO TO CART */
+  /* MEGA MENU - FULL WIDTH FOR DESKTOP */
   .mega-menu {
     position: fixed !important;
     top: var(--mega-menu-top, 60px) !important;
-    left: var(--mega-menu-left, 24px) !important;
-    right: var(--mega-menu-right, 24px) !important;
-    width: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
     transform: none !important;
     background-color: white;
     border: 1px solid rgb(var(--color-header-border));
+    border-left: none;
+    border-right: none;
     border-top: none;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    border-radius: 0 0 8px 8px;
+    border-radius: 0;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -284,8 +286,9 @@
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 30px;
     width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
     background-color: white;
-    border-radius: 0 0 8px 8px;
     position: relative;
     z-index: 9999;
     min-height: auto;
@@ -1240,35 +1243,23 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Function to position mega menu from logo to cart
+  // Function to position mega menu full width
   function positionMegaMenu() {
-    const header = document.querySelector('.header');
-    const logo = document.querySelector('.header__left');
-    const cart = document.querySelector('.header__right');
+    const header = document.querySelector('.header-wrapper');
     const megaMenus = document.querySelectorAll('.mega-menu');
     
-    if (!header || !logo || !cart || !megaMenus.length) return;
+    if (!header || !megaMenus.length) return;
     
-    // Get exact positions
+    // Get exact header position
     const headerRect = header.getBoundingClientRect();
-    const logoRect = logo.getBoundingClientRect();
-    const cartRect = cart.getBoundingClientRect();
-    
-    // Calculate positions
     const topPosition = headerRect.bottom;
-    const leftPosition = logoRect.left;
-    const rightPosition = window.innerWidth - cartRect.right;
     
-    // Set CSS variables
+    // Set CSS variable for top position
     document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
-    document.documentElement.style.setProperty('--mega-menu-left', `${leftPosition}px`);
-    document.documentElement.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     
-    // Apply to each mega menu
+    // Apply to each mega menu for full width
     megaMenus.forEach(menu => {
       menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
-      menu.style.setProperty('--mega-menu-left', `${leftPosition}px`);
-      menu.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     });
   }
   
