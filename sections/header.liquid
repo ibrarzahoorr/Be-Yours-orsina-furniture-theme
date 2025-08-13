@@ -294,11 +294,64 @@
     min-height: auto;
   }
   
+  /* Flexible Grid Based on Item Count and Screen Size */
+  @media screen and (min-width: 1400px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    
+    /* For many items on large screens */
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 25px;
+    }
+  }
+  
+  @media screen and (max-width: 1399px) and (min-width: 1200px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 25px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 20px;
+    }
+  }
+  
+  @media screen and (max-width: 1199px) and (min-width: 900px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 35px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) and (min-width: 768px) {
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      padding: 30px;
+    }
+    
+    .mega-menu-content.many-items {
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+  }
+  
   .menu-column {
     padding: 0 10px;
     min-width: 0;
   }
   
+  /* Updated clickable heading styles */
   .menu-column h3 {
     margin: 0;
     padding: 0;
@@ -324,6 +377,46 @@
   .menu-column-heading:hover {
     color: rgb(var(--color-highlight));
     transform: translateX(3px);
+  }
+  
+  /* Responsive adjustments for column headers */
+  @media screen and (max-width: 1199px) {
+    .menu-column-heading {
+      font-size: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .menu-column {
+      padding: 0 8px;
+    }
+    
+    .menu-column-heading {
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+  }
+  
+  /* Extra columns class for 7+ columns */
+  .mega-menu-content.extra-columns {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  
+  @media screen and (max-width: 1199px) {
+    .mega-menu-content.extra-columns {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .mega-menu-content.extra-columns {
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
   }
   
   .menu-items {
@@ -361,6 +454,56 @@
     overflow: hidden;
     flex-shrink: 0;
     transition: transform 0.3s ease;
+  }
+  
+  /* Responsive menu items */
+  @media screen and (max-width: 1199px) {
+    .menu-item {
+      gap: 8px;
+      padding: 5px;
+      font-size: 12px;
+    }
+    
+    .menu-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  @media screen and (max-width: 899px) {
+    .menu-item {
+      gap: 6px;
+      padding: 4px;
+      font-size: 11px;
+    }
+    
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  /* For extra small items in mega menu */
+  .mega-menu-content.many-items .menu-item {
+    font-size: 12px;
+    padding: 5px;
+    gap: 8px;
+  }
+  
+  .mega-menu-content.many-items .menu-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .mega-menu-content.extra-columns .menu-item {
+    font-size: 11px;
+    padding: 4px;
+    gap: 6px;
+  }
+  
+  .mega-menu-content.extra-columns .menu-icon {
+    width: 24px;
+    height: 24px;
   }
   
   .menu-item:hover .menu-icon {
@@ -560,6 +703,7 @@
     font-size: 16px;
   }
   
+  /* Collection item with special styling if it has image */
   .mobile-sub-item.has-image {
     background: linear-gradient(90deg, rgba(var(--color-highlight), 0.05) 0%, transparent 100%);
     border-left: 3px solid rgb(var(--color-highlight));
@@ -675,140 +819,74 @@
     transform: translateY(-50%) rotate(90deg);
     color: rgb(var(--color-highlight));
   }
-
-  /* Cart Drawer Styles */
-  .drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 99999;
-    pointer-events: none;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .drawer__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  .drawer__inner {
-    position: relative;
-    width: 420px;
-    max-width: 90vw;
-    height: 100%;
-    background: white;
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: flex;
-    flex-direction: column;
-    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-  }
-
-  .drawer.active {
-    pointer-events: all;
-  }
-
-  .drawer.active .drawer__overlay {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .drawer.active .drawer__inner {
-    transform: translateX(0);
-  }
-
-  .drawer__header {
-    padding: 20px;
-    border-bottom: 1px solid #e5e5e5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #fafafa;
-  }
-
-  .drawer__heading {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .drawer__close {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-    color: #666;
-  }
-
-  .drawer__close:hover {
-    transform: rotate(90deg);
-    color: #000;
-  }
-
-  .drawer__content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-  }
-
-  .cart-drawer__spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-  }
-
-  .spinner {
-    animation: rotator 1.4s linear infinite;
-  }
-
-  @keyframes rotator {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(270deg); }
-  }
-
-  .spinner .path {
-    stroke: #333;
-    stroke-dasharray: 187;
-    stroke-dashoffset: 0;
-    transform-origin: center;
-    animation: dash 1.4s ease-in-out infinite;
-  }
-
-  @keyframes dash {
-    0% { stroke-dashoffset: 187; }
-    50% {
-      stroke-dashoffset: 47;
-      transform: rotate(135deg);
-    }
-    100% {
-      stroke-dashoffset: 187;
-      transform: rotate(450deg);
-    }
-  }
-
-  .overflow-hidden {
-    overflow: hidden;
+  
+  /* Dynamic grid classes applied by JavaScript */
+  .mega-menu-content.dynamic-grid-1 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
   }
   
-  /* RESPONSIVE BREAKPOINTS */
+  .mega-menu-content.dynamic-grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 22px;
+  }
+  
+  .mega-menu-content.dynamic-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+  }
+  
+  .mega-menu-content.dynamic-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  
+  .mega-menu-content.dynamic-grid-5 {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  
+  /* Scroll optimization for mega menu with many items */
+  .mega-menu-content.many-items {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .mega-menu-content.extra-columns {
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  
+  /* Hover optimization for performance */
+  .mega-menu-content {
+    will-change: scroll-position;
+    transform: translateZ(0);
+  }
+  
+  /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
+  @media screen and (max-width: 1400px) {
+    .mega-menu-content {
+      padding: 35px;
+    }
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .nav-menu {
+      gap: 20px;
+    }
+    
+    .header {
+      padding: 14px 20px;
+    }
+    
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      padding: 30px;
+    }
+  }
+  
   @media screen and (max-width: 990px) {
+    /* Mobile Header - Flexible Layout */
     .header {
       display: flex;
       align-items: center;
@@ -818,6 +896,7 @@
       gap: 12px;
     }
     
+    /* Mobile menu toggle - Left side */
     .mobile-menu-toggle {
       display: flex;
       align-items: center;
@@ -830,6 +909,7 @@
       z-index: 103;
     }
     
+    /* Logo section - Center, flexible */
     .header__left {
       order: 2;
       flex: 1 1 auto;
@@ -841,10 +921,17 @@
       min-width: 0;
     }
     
+    /* Hide any duplicate mobile toggle */
+    .header__left .mobile-menu-toggle {
+      display: none;
+    }
+    
+    /* Hide desktop navigation */
     .header__center {
       display: none;
     }
     
+    /* Icons section - Right side, flexible */
     .header__right {
       order: 3;
       flex: 0 0 auto;
@@ -855,6 +942,27 @@
       transform: none;
     }
     
+    /* Logo responsive sizing */
+    .header__heading-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+    }
+    
+    .header__heading-logo {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .header__heading .h2 {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Mobile icons optimization */
     .header__icon {
       display: flex;
       align-items: center;
@@ -864,6 +972,12 @@
       padding: 10px;
     }
     
+    .header__icon svg {
+      width: 22px;
+      height: 22px;
+    }
+    
+    /* Hide search on mobile */
     .search-modal-toggle {
       display: none;
     }
@@ -873,9 +987,120 @@
     }
   }
   
+  @media screen and (max-width: 768px) {
+    .header {
+      padding: 12px 14px;
+      gap: 10px;
+    }
+    
+    /* Mobile toggle adjustments */
+    .mobile-menu-toggle {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+    
+    /* Logo section responsive */
+    .header__left {
+      padding: 0 6px;
+    }
+    
+    .header__heading .h2 {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    
+    /* Icons section adjustments */
+    .header__right {
+      gap: 6px;
+    }
+    
+    .header__icon {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+    
+    .header__icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Cart bubble responsive */
+    .cart-count-bubble {
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+      top: -6px;
+      right: -6px;
+    }
+    
+    #shopify-section-{{ section.id }} {
+      --image-logo-height: {{ section.settings.mobile_logo_height }}px;
+    }
+  }
+  
   @media screen and (max-width: 480px) {
-    .drawer__inner {
-      width: 100%;
+    .header {
+      padding: 10px 12px;
+      gap: 8px;
+    }
+    
+    /* Compact mobile toggle */
+    .mobile-menu-toggle {
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+    }
+    
+    .mobile-menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Logo section compact */
+    .header__left {
+      padding: 0 4px;
+    }
+    
+    .header__heading .h2 {
+      font-size: 18px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Icons section compact */
+    .header__right {
+      gap: 4px;
+    }
+    
+    .header__icon {
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+    }
+    
+    .header__icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Cart bubble small */
+    .cart-count-bubble {
+      width: 14px;
+      height: 14px;
+      font-size: 9px;
+      top: -5px;
+      right: -5px;
+    }
+    
+    /* Mobile menu content adjustments */
+    .mobile-menu-content {
+      padding: 15px 20px;
+    }
+    
+    .mobile-nav-link {
+      font-size: 15px;
+      padding: 14px 0;
     }
   }
   
@@ -885,10 +1110,60 @@
     }
   }
   
+  /* Desktop only - Show search on desktop */
   @media screen and (min-width: 991px) {
     .search-modal-toggle {
       display: block !important;
     }
+  }
+  
+  /* Print Styles */
+  @media print {
+    .header__right,
+    .mobile-menu-toggle,
+    .mega-menu,
+    .mobile-menu,
+    .search-modal {
+      display: block !important;
+    }
+  }
+  
+  /* Accessibility - Focus Styles */
+  .header__icon:focus-visible,
+  .nav-link:focus-visible,
+  .mobile-nav-link:focus-visible,
+  .menu-item:focus-visible,
+  .menu-column-heading:focus-visible {
+    outline: 2px solid rgb(var(--color-highlight));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  
+  /* Transparent Header Specific Styles */
+  {%- if enable_transparent_header -%}
+    .shopify-section-header:not(.shopify-section-header-sticky) .header-transparent .header::before {
+      height: 0;
+    }
+    
+    .header-transparent .mega-menu {
+      border-top: none;
+    }
+  {%- endif -%}
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .mega-menu {
+    animation: fadeIn 0.3s ease forwards;
   }
   
   /* Hide/Show Header on Scroll */
@@ -902,20 +1177,40 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
   }
+  
+  /* Scrollbar styling for mega menu */
+  .mega-menu-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .mega-menu-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  .mega-menu-content::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-highlight));
+    border-radius: 3px;
+  }
+  
+  .mega-menu-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--color-highlight), 0.8);
+  }
 </style>
 
-<!-- HEADER STRUCTURE -->
-<{% if enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
+<!-- UPDATED HEADER STRUCTURE -->
+<{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
   <header class="header">
-    <!-- Mobile Menu Toggle -->
+    <!-- Mobile Menu Toggle - Positioned Absolutely -->
     <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
       <svg width="24" height="24">
         <use href="#icon-hamburger"></use>
       </svg>
     </button>
     
-    <!-- Logo -->
+    <!-- LEFT: Logo Only (Center on Mobile) -->
     <div class="header__left">
+      <!-- Logo -->
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
       {%- endif -%}
@@ -958,7 +1253,7 @@
       {%- endif -%}
     </div>
 
-    <!-- Navigation Menu -->
+    <!-- CENTER: Main Navigation Menu (Desktop Only) -->
     <div class="header__center">
       {%- if section.settings.menu != blank -%}
         <nav class="nav-menu">
@@ -969,8 +1264,21 @@
               </a>
               
               {%- if link.links != blank -%}
+                {%- liquid
+                  assign total_items = 0
+                  assign column_count = 0
+                  for child_link in link.links
+                    assign column_count = column_count | plus: 1
+                    if child_link.links != blank
+                      assign total_items = total_items | plus: child_link.links.size
+                    else
+                      assign total_items = total_items | plus: 1
+                    endif
+                  endfor
+                -%}
+                
                 <div class="mega-menu">
-                  <div class="mega-menu-content">
+                  <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
                         <h3>
@@ -987,6 +1295,8 @@
                                     <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" 
                                          alt="{{ grandchild_link.title }}"
                                          loading="lazy">
+                                  {%- elsif grandchild_link.object.type == 'collection' -%}
+                                    <span style="font-size: 16px;">🏷️</span>
                                   {%- else -%}
                                     <span style="font-size: 16px;">📁</span>
                                   {%- endif -%}
@@ -995,8 +1305,20 @@
                               </a>
                             {%- endfor -%}
                           {%- else -%}
+                            <!-- If no sub-items, show View All link -->
                             <a href="{{ child_link.url }}" class="menu-item">
-                              <span>View All</span>
+                              <div class="menu-icon">
+                                {%- if child_link.object.image -%}
+                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" 
+                                       alt="{{ child_link.title }}"
+                                       loading="lazy">
+                                {%- elsif child_link.object.type == 'collection' -%}
+                                  <span style="font-size: 16px;">🏷️</span>
+                                {%- else -%}
+                                  <span style="font-size: 16px;">📂</span>
+                                {%- endif -%}
+                              </div>
+                              <span>View All {{ child_link.title }}</span>
                             </a>
                           {%- endif -%}
                         </div>
@@ -1011,10 +1333,10 @@
       {%- endif -%}
     </div>
 
-    <!-- Icons -->
+    <!-- RIGHT: Search (Desktop Only) + Account + Cart Icons -->
     <div class="header__right">
-      <!-- Search -->
-      <button class="header__icon search-modal-toggle" onclick="openSearchModal()">
+      <!-- Search Icon - Desktop Only -->
+      <button class="header__icon search-modal-toggle" onclick="openSearchModal()" title="{{ 'general.search.search' | t }}">
         <svg width="24" height="24">
           <use href="#icon-search"></use>
         </svg>
@@ -1022,47 +1344,29 @@
       
       <!-- Account -->
       {%- if shop.customer_accounts_enabled -%}
-        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon">
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon" title="{%- if customer -%}{{ 'customer.account_fallback' | t }}{%- else -%}{{ 'customer.log_in' | t }}{%- endif -%}">
           <svg width="24" height="24">
             <use href="#icon-account"></use>
           </svg>
         </a>
       {%- endif -%}
 
-      <!-- Cart -->
-      <a href="#" class="header__icon" id="cart-icon-bubble" onclick="event.preventDefault(); openCartDrawer();">
+      <!-- Cart - FIXED to always redirect to cart page -->
+      <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
         <svg width="24" height="24">
           <use href="#icon-cart"></use>
         </svg>
         {%- if cart != empty -%}
-          <span class="cart-count-bubble">{{ cart.item_count }}</span>
+          <span class="cart-count-bubble">
+            {%- if cart.item_count < 100 -%}
+              {{ cart.item_count }}
+            {%- endif -%}
+          </span>
         {%- endif -%}
       </a>
     </div>
   </header>
-</{% if enable_sticky_header %}sticky-header{% else %}div{% endif %}>
-
-<!-- Cart Drawer -->
-<cart-drawer class="drawer" role="dialog" aria-modal="true">
-  <div class="drawer__overlay"></div>
-  <div class="drawer__inner">
-    <div class="drawer__header">
-      <h2 class="drawer__heading">Shopping Cart</h2>
-      <button class="drawer__close" onclick="closeCartDrawer()">
-        <svg width="24" height="24">
-          <use href="#icon-close"></use>
-        </svg>
-      </button>
-    </div>
-    <div class="drawer__content" id="cart-drawer-content">
-      <div class="cart-drawer__spinner">
-        <svg class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
-          <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-        </svg>
-      </div>
-    </div>
-  </div>
-</cart-drawer>
+</{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
 
 <!-- Search Modal -->
 <div class="search-modal" id="search-modal" onclick="closeSearchModal(event)">
@@ -1071,28 +1375,41 @@
       <svg width="20" height="20" style="color: #666;">
         <use href="#icon-search"></use>
       </svg>
-      <input type="text" class="search-modal-input" placeholder="{{ 'general.search.search' | t }}" id="search-modal-input">
+      <input type="text" class="search-modal-input" placeholder="{{ 'general.search.search' | t }}" id="search-modal-input" autocomplete="off">
       <button class="search-modal-close" onclick="closeSearchModal()">×</button>
     </div>
   </div>
 </div>
 
-<!-- Mobile Menu -->
+<!-- Mobile Menu with Collection Images -->
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-header">
+    <!-- Mobile Menu Logo -->
     <div class="mobile-menu-logo">
-      {%- if section.settings.logo != blank -%}
-        <img src="{{ section.settings.logo | image_url: height: 30 }}" alt="{{ shop.name }}" style="height: 30px;">
+      {%- if section.settings.mobile_logo != blank -%}
+        <img src="{{ section.settings.mobile_logo | image_url: height: 30 }}" 
+             alt="{{ shop.name }}" 
+             style="height: 30px; width: auto;">
+      {%- elsif section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: height: 30 }}" 
+             alt="{{ shop.name }}" 
+             style="height: 30px; width: auto;">
       {%- else -%}
-        <span style="font-weight: 700; font-size: 18px;">{{ shop.name }}</span>
+        <span style="font-weight: 700; font-size: 18px; color: #333;">{{ shop.name }}</span>
       {%- endif -%}
     </div>
     <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
   </div>
   
+  <!-- Mobile Search -->
   <div class="mobile-search">
-    <form action="{{ routes.search_url }}" method="get">
-      <input type="search" class="mobile-search-input" placeholder="Search" name="q">
+    <form action="{{ routes.search_url }}" method="get" style="display: flex; position: relative;">
+      <input type="search" class="mobile-search-input" placeholder="{{ 'general.search.search' | t }}" name="q" value="{{ search.terms | escape }}">
+      <button type="submit" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; padding: 8px;" aria-label="{{ 'general.search.search' | t }}">
+        <svg width="16" height="16">
+          <use href="#icon-search"></use>
+        </svg>
+      </button>
     </form>
   </div>
   
@@ -1100,26 +1417,98 @@
     {%- if section.settings.menu != blank -%}
       {%- for link in section.settings.menu.links -%}
         <div class="mobile-nav-item">
-          <a href="{{ link.url }}" class="mobile-nav-link">{{ link.title }}</a>
+          <div style="display: flex; align-items: center;">
+            <a href="{{ link.url }}" class="mobile-nav-link" style="flex: 1;">{{ link.title }}</a>
+            {%- if link.links != blank -%}
+              <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(this)">+</button>
+            {%- endif -%}
+          </div>
+          
+          {%- if link.links != blank -%}
+            <div class="mobile-dropdown">
+              {%- for child_link in link.links -%}
+                <div class="mobile-sub-item{% if child_link.object.image %} has-image{% endif %}">
+                  <a href="{{ child_link.url }}" class="mobile-sub-link">
+                    <div class="mobile-menu-icon{% unless child_link.object.image %} no-image{% endunless %}">
+                      {%- if child_link.object.image -%}
+                        <img src="{{ child_link.object.image | image_url: width: 35 }}" 
+                             alt="{{ child_link.title }}"
+                             loading="lazy">
+                      {%- elsif child_link.object.type == 'collection' -%}
+                        🏷️
+                      {%- else -%}
+                        📁
+                      {%- endif -%}
+                    </div>
+                    <span>{{ child_link.title }}</span>
+                    {%- if child_link.object.image -%}
+                      <span style="margin-left: auto; color: rgb(var(--color-highlight)); font-size: 12px;">●</span>
+                    {%- endif -%}
+                  </a>
+                  
+                  {%- if child_link.links != blank -%}
+                    <div style="margin-left: 47px; margin-top: 8px; border-left: 2px solid #f0f0f0; padding-left: 15px;">
+                      {%- for grandchild_link in child_link.links -%}
+                        <div class="mobile-sub-item{% if grandchild_link.object.image %} has-image{% endif %}" style="margin: 4px 0;">
+                          <a href="{{ grandchild_link.url }}" class="mobile-sub-link" style="font-size: 13px; padding: 6px 8px;">
+                            <div class="mobile-menu-icon" style="width: 28px; height: 28px;">
+                              {%- if grandchild_link.object.image -%}
+                                <img src="{{ grandchild_link.object.image | image_url: width: 28 }}" 
+                                     alt="{{ grandchild_link.title }}"
+                                     loading="lazy">
+                              {%- elsif grandchild_link.object.type == 'collection' -%}
+                                🏷️
+                              {%- else -%}
+                                📄
+                              {%- endif -%}
+                            </div>
+                            <span>{{ grandchild_link.title }}</span>
+                            {%- if grandchild_link.object.image -%}
+                              <span style="margin-left: auto; color: rgb(var(--color-highlight)); font-size: 10px;">●</span>
+                            {%- endif -%}
+                          </a>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     {%- endif -%}
   </div>
 </div>
 
-<!-- Load cart-drawer.js -->
-<script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+<!-- CSS Links -->
+<link rel="stylesheet" href="{{ 'component-sticky-header.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{%- if enable_transparent_header -%}
+  {{ 'component-transparent-header.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 <!-- SVG Icons -->
-<svg xmlns="http://www.w3.org/2000/svg" class="hidden" style="display: none;">
-  <symbol id="icon-cart" fill="none" viewbox="0 0 18 19">
-    <path d="M3.09333 5.87954L16.2853 5.87945V5.87945C16.3948 5.8795 16.4836 5.96831 16.4836 6.07785V11.4909C16.4836 11.974 16.1363 12.389 15.6603 12.4714C11.3279 13.2209 9.49656 13.2033 5.25251 13.9258C4.68216 14.0229 4.14294 13.6285 4.0774 13.0537C3.77443 10.3963 2.99795 3.58502 2.88887 2.62142C2.75288 1.42015 0.905376 1.51528 0.283581 1.51478" stroke="currentColor"/>
-    <path d="M13.3143 16.8554C13.3143 17.6005 13.9183 18.2045 14.6634 18.2045C15.4085 18.2045 16.0125 17.6005 16.0125 16.8554C16.0125 16.1104 15.4085 15.5063 14.6634 15.5063C13.9183 15.5063 13.3143 16.1104 13.3143 16.8554Z" fill="currentColor"/>
-    <path d="M3.72831 16.8554C3.72831 17.6005 4.33233 18.2045 5.07741 18.2045C5.8225 18.2045 6.42651 17.6005 6.42651 16.8554C6.42651 16.1104 5.8225 15.5063 5.07741 15.5063C4.33233 15.5063 3.72831 16.1104 3.72831 16.8554Z" fill="currentColor"/>
-  </symbol>
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  {%- if section.settings.cart_icon == 'bag' %}
+    <symbol id="icon-cart" fill="none" viewbox="0 0 24 24">
+      <path d="M16 10V6a4 4 0 0 0-8 0v4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      <path d="M20.46 15.44 18.39 21a1.39 1.39 0 0 1-1.27.93H6.88A1.39 1.39 0 0 1 5.61 21l-2.07-5.56-1.23-3.26c-.12-.34-.23-.62-.32-.85a17.28 17.28 0 0 1 20 0c-.09.23-.2.51-.32.85Z" fill="none" stroke="currentColor" stroke-miterlimit="10" vector-effect="non-scaling-stroke"/>
+    </symbol>
+  {% else %}
+    <symbol id="icon-cart" fill="none" viewbox="0 0 18 19">
+      <path d="M3.09333 5.87954L16.2853 5.87945V5.87945C16.3948 5.8795 16.4836 5.96831 16.4836 6.07785V11.4909C16.4836 11.974 16.1363 12.389 15.6603 12.4714C11.3279 13.2209 9.49656 13.2033 5.25251 13.9258C4.68216 14.0229 4.14294 13.6285 4.0774 13.0537C3.77443 10.3963 2.99795 3.58502 2.88887 2.62142C2.75288 1.42015 0.905376 1.51528 0.283581 1.51478" stroke="currentColor"/>
+      <path d="M13.3143 16.8554C13.3143 17.6005 13.9183 18.2045 14.6634 18.2045C15.4085 18.2045 16.0125 17.6005 16.0125 16.8554C16.0125 16.1104 15.4085 15.5063 14.6634 15.5063C13.9183 15.5063 13.3143 16.1104 13.3143 16.8554Z" fill="currentColor"/>
+      <path d="M3.72831 16.8554C3.72831 17.6005 4.33233 18.2045 5.07741 18.2045C5.8225 18.2045 6.42651 17.6005 6.42651 16.8554C6.42651 16.1104 5.8225 15.5063 5.07741 15.5063C4.33233 15.5063 3.72831 16.1104 3.72831 16.8554Z" fill="currentColor"/>
+    </symbol>
+  {% endif -%}
   <symbol id="icon-search" fill="none" viewBox="0 0 15 17">
     <circle cx="7.11113" cy="7.11113" r="6.56113" stroke="currentColor" fill="none"/>
     <path d="M11.078 12.3282L13.8878 16.0009" stroke="currentColor" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="icon-heart" fill="none" viewBox="0 0 24 24">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/>
   </symbol>
   <symbol id="icon-account" fill="none" viewBox="0 0 24 24">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
@@ -1135,128 +1524,220 @@
 </svg>
 
 <script>
-// Cart Drawer Functions
-function openCartDrawer() {
-  const drawer = document.querySelector('cart-drawer');
-  if (drawer) {
-    drawer.classList.add('active');
-    document.body.classList.add('overflow-hidden');
-    loadCartContent();
-  }
-}
-
-function closeCartDrawer() {
-  const drawer = document.querySelector('cart-drawer');
-  if (drawer) {
-    drawer.classList.remove('active');
-    document.body.classList.remove('overflow-hidden');
-  }
-}
-
-async function loadCartContent() {
-  try {
-    const response = await fetch('/cart?section_id=mini-cart');
-    const text = await response.text();
-    const html = new DOMParser().parseFromString(text, 'text/html');
-    const content = html.querySelector('.shopify-section');
-    
-    if (content) {
-      document.getElementById('cart-drawer-content').innerHTML = content.innerHTML;
-    }
-  } catch (error) {
-    console.error('Error loading cart:', error);
-  }
-}
-
-// Mobile Menu Functions
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  if (menu) {
-    menu.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
-function closeMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  if (menu) {
-    menu.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-}
-
-// Search Modal Functions
-function openSearchModal() {
-  const modal = document.getElementById('search-modal');
-  if (modal) {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-}
-
-function closeSearchModal(event) {
-  if (event && event.target !== event.currentTarget) return;
-  const modal = document.getElementById('search-modal');
-  if (modal) {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-}
-
-// Mega Menu Positioning
 document.addEventListener('DOMContentLoaded', function() {
+  // Function to position mega menu full width and dynamically adjust
   function positionMegaMenu() {
     const header = document.querySelector('.header-wrapper');
     const megaMenus = document.querySelectorAll('.mega-menu');
     
     if (!header || !megaMenus.length) return;
     
+    // Get exact header position
     const headerRect = header.getBoundingClientRect();
     const topPosition = headerRect.bottom;
     
+    // Set CSS variable for top position
     document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
+    
+    // Apply to each mega menu for full width and dynamic adjustments
+    megaMenus.forEach(menu => {
+      menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
+      
+      // Dynamic grid adjustments based on content
+      const content = menu.querySelector('.mega-menu-content');
+      if (content) {
+        const columns = parseInt(content.getAttribute('data-columns') || '0');
+        const items = parseInt(content.getAttribute('data-items') || '0');
+        const screenWidth = window.innerWidth;
+        
+        // Remove existing dynamic classes
+        content.classList.remove('dynamic-grid-1', 'dynamic-grid-2', 'dynamic-grid-3', 'dynamic-grid-4', 'dynamic-grid-5');
+        
+        // Add appropriate class based on screen size and content
+        if (screenWidth >= 1400) {
+          if (columns > 6) content.classList.add('dynamic-grid-1');
+          else if (items > 20) content.classList.add('dynamic-grid-2');
+        } else if (screenWidth >= 1200) {
+          if (columns > 5) content.classList.add('dynamic-grid-3');
+          else if (items > 15) content.classList.add('dynamic-grid-4');
+        } else if (screenWidth >= 900) {
+          if (columns > 4) content.classList.add('dynamic-grid-5');
+        }
+      }
+    });
   }
   
+  // Initial positioning
   positionMegaMenu();
-  window.addEventListener('resize', positionMegaMenu);
-  window.addEventListener('scroll', positionMegaMenu);
   
-  // Add to cart handler
-  const addToCartForms = document.querySelectorAll('form[action*="/cart/add"]');
-  addToCartForms.forEach(form => {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
+  // Update on window resize with debouncing
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      positionMegaMenu();
+    }, 100);
+  });
+  
+  // Update on scroll for sticky header
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const header = document.querySelector('.shopify-section-header');
+    
+    if (header) {
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        header.classList.add('shopify-section-header-hidden');
+      } else {
+        header.classList.remove('shopify-section-header-hidden');
+      }
       
-      const formData = new FormData(this);
+      if (scrollTop > 50) {
+        header.classList.add('shopify-section-header-sticky');
+      } else {
+        header.classList.remove('shopify-section-header-sticky');
+      }
+    }
+    
+    lastScrollTop = scrollTop;
+    positionMegaMenu();
+  });
+  
+  // Mobile Menu Functions
+  window.toggleMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  
+  window.closeMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  window.toggleMobileDropdown = function(button) {
+    const dropdown = button.parentElement.nextElementSibling;
+    const isActive = dropdown.classList.contains('active');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.mobile-dropdown.active').forEach(item => {
+      item.classList.remove('active');
+    });
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
+      btn.textContent = '+';
+      btn.classList.remove('active');
+    });
+    
+    // Toggle current dropdown
+    if (!isActive) {
+      dropdown.classList.add('active');
+      button.textContent = '−';
+      button.classList.add('active');
+    }
+  }
+  
+  // Search Modal Functions - Desktop Only
+  window.openSearchModal = function() {
+    // Check if on desktop
+    if (window.innerWidth > 990) {
+      const modal = document.getElementById('search-modal');
+      const input = document.getElementById('search-modal-input');
       
-      try {
-        const response = await fetch('/cart/add.js', {
-          method: 'POST',
-          body: formData
-        });
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
         
-        if (response.ok) {
-          openCartDrawer();
-          
-          // Update cart count
-          const cartResponse = await fetch('/cart.js');
-          const cart = await cartResponse.json();
-          updateCartCount(cart.item_count);
+        setTimeout(() => {
+          if (input) input.focus();
+        }, 300);
+      }
+    }
+  }
+  
+  window.closeSearchModal = function(event) {
+    if (event && event.target !== event.currentTarget) return;
+    
+    const modal = document.getElementById('search-modal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  // Search functionality
+  const searchInput = document.getElementById('search-modal-input');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const query = e.target.value.trim();
+        if (query) {
+          window.location.href = `/search?q=${encodeURIComponent(query)}`;
         }
-      } catch (error) {
-        console.error('Error adding to cart:', error);
+      }
+      
+      if (e.key === 'Escape') {
+        closeSearchModal();
+      }
+    });
+  }
+  
+  // Close mobile menu on resize to desktop
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 990) {
+      closeMobileMenu();
+    }
+  });
+  
+  // Handle mega menu hover delay
+  let megaMenuTimeout;
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  navItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
+      clearTimeout(megaMenuTimeout);
+      positionMegaMenu();
+      
+      // Close other mega menus
+      navItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+        }
+      });
+      
+      this.classList.add('active');
+    });
+    
+    item.addEventListener('mouseleave', function() {
+      const item = this;
+      megaMenuTimeout = setTimeout(() => {
+        item.classList.remove('active');
+      }, 300);
+    });
+  });
+  
+  // Prevent mega menu from closing when hovering over it
+  const megaMenus = document.querySelectorAll('.mega-menu');
+  megaMenus.forEach(menu => {
+    menu.addEventListener('mouseenter', function() {
+      clearTimeout(megaMenuTimeout);
+    });
+    
+    menu.addEventListener('mouseleave', function() {
+      const parentItem = this.closest('.nav-item');
+      if (parentItem) {
+        megaMenuTimeout = setTimeout(() => {
+          parentItem.classList.remove('active');
+        }, 300);
       }
     });
   });
 });
-
-function updateCartCount(count) {
-  const bubble = document.querySelector('.cart-count-bubble');
-  if (bubble) {
-    bubble.textContent = count;
-    bubble.style.display = count > 0 ? 'flex' : 'none';
-  }
-}
 </script>
 
 <!-- Sticky Header JavaScript -->
@@ -1270,6 +1751,7 @@ function updateCartCount(count) {
       this.header = document.querySelector('.shopify-section-header');
       this.headerBounds = {};
       this.currentScrollTop = 0;
+      this.preventReveal = false;
 
       this.onScrollHandler = this.onScroll.bind(this);
       window.addEventListener('scroll', this.onScrollHandler, false);
@@ -1283,6 +1765,14 @@ function updateCartCount(count) {
     createObserver() {
       let observer = new IntersectionObserver((entries, observer) => {
         this.headerBounds = entries[0].intersectionRect;
+        if (this.headerBounds.top === 0 && this.headerBounds.bottom === 0) {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const boundingClientRect = entries[0].boundingClientRect;
+          this.headerBounds = {
+            top: scrollTop + boundingClientRect.top,
+            bottom: scrollTop + boundingClientRect.bottom
+          };
+        }
         observer.disconnect();
       });
       observer.observe(this.header);
@@ -1294,7 +1784,9 @@ function updateCartCount(count) {
       if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-        requestAnimationFrame(this.reveal.bind(this));
+        if (!this.preventReveal) {
+          requestAnimationFrame(this.reveal.bind(this));
+        }
       } else if (scrollTop <= this.headerBounds.top) {
         requestAnimationFrame(this.reset.bind(this));
       }
@@ -1316,6 +1808,12 @@ function updateCartCount(count) {
     }
   }
   customElements.define('sticky-header', StickyHeader);
+
+
+
+
+
+  
 {% endjavascript %}
 
 {% schema %}
@@ -1365,13 +1863,15 @@ function updateCartCount(count) {
       "type": "link_list",
       "id": "menu",
       "default": "main-menu",
-      "label": "Main Menu"
+      "label": "Main Menu",
+      "info": "Select your main navigation menu. Collections with images will automatically display in mega menus."
     },
     {
       "type": "checkbox",
       "id": "enable_dropdown_menu",
       "default": true,
-      "label": "Enable Mega Menu"
+      "label": "Enable Mega Menu",
+      "info": "Show mega menus for menu items with sub-items"
     },
     {
       "type": "header",
@@ -1390,6 +1890,22 @@ function updateCartCount(count) {
       "label": "Show Border Line"
     },
     {
+      "type": "select",
+      "id": "cart_icon",
+      "options": [
+        {
+          "value": "cart",
+          "label": "Cart"
+        },
+        {
+          "value": "bag",
+          "label": "Bag"
+        }
+      ],
+      "default": "cart",
+      "label": "Cart Icon Style"
+    },
+    {
       "type": "header",
       "content": "Transparent Header"
     },
@@ -1397,12 +1913,14 @@ function updateCartCount(count) {
       "type": "checkbox",
       "id": "enable_transparent_header",
       "label": "Enable Transparent Header",
+      "info": "Make header background transparent. Works best on homepage with hero sections.",
       "default": false
     },
     {
       "type": "color",
       "id": "transparent_text_color",
       "label": "Transparent Header Text Color",
+      "info": "Text color when header is transparent",
       "default": "#ffffff"
     },
     {
@@ -1419,6 +1937,7 @@ function updateCartCount(count) {
       "type": "color",
       "id": "colors_icons",
       "label": "Icons Color",
+      "info": "Color for header icons (search, account, cart, etc.)",
       "default": "#282828"
     },
     {
@@ -1437,6 +1956,7 @@ function updateCartCount(count) {
       "type": "color",
       "id": "colors_highlight",
       "label": "Highlight/Hover Color",
+      "info": "Color when hovering over links and buttons",
       "default": "#A85A3B"
     },
     {
