@@ -358,11 +358,19 @@
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 0;
+    border: none;
+    padding: 0;
+  }
+  
+  /* Only regular headers (non-clickable) get border */
+  .menu-column h3.regular-header {
+    border-bottom: 2px solid rgb(var(--color-highlight));
+    padding-bottom: 8px;
+    margin-bottom: 15px;
   }
   
   /* Clickable Column Headers */
@@ -411,7 +419,7 @@
     text-overflow: ellipsis;
   }
   
-  /* Non-clickable headers fallback */
+  /* Non-clickable headers fallback - No border */
   .menu-column h3:not(.clickable-header) {
     font-size: 13px;
     font-weight: 600;
@@ -426,9 +434,16 @@
     text-overflow: ellipsis;
   }
   
+  /* When column header exists, remove border from regular h3 */
+  .menu-column:has(.menu-column-header) h3 {
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 15px;
+  }
+  
   /* Responsive adjustments for column headers */
   @media screen and (max-width: 1199px) {
-    .menu-column h3 {
+    .menu-column h3.regular-header {
       font-size: 12px;
       margin-bottom: 12px;
       padding-bottom: 6px;
@@ -456,7 +471,7 @@
       padding: 0 8px;
     }
     
-    .menu-column h3 {
+    .menu-column h3.regular-header {
       font-size: 11px;
       margin-bottom: 10px;
     }
@@ -1440,7 +1455,7 @@
                             <h3>{{ child_link.title }}</h3>
                           </a>
                         {%- else -%}
-                          <h3>{{ child_link.title }}</h3>
+                          <h3 class="regular-header">{{ child_link.title }}</h3>
                         {%- endif -%}
                         <div class="menu-items">
                           {%- if child_link.links != blank -%}
