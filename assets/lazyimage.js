@@ -1,70 +1,62 @@
-/*! Lazy Image with Size Limit */
+/*! Advanced Lazy Image for Shopify */
 class LazyImage extends HTMLImageElement {
   constructor() {
     super();
 
-    this.wrapper = this.closest('.media-wrapper');
-    if (this.wrapper === null) return;
+    this.wrapper = this.closest('.media-wrapper') || this.parentElement;
+    if (!this.wrapper) return;
 
-    this.handleLazy();
-    addEventListener('resize', this.handleLazy.bind(this), true);
-
-    const observer = new MutationObserver((changes) => {
-      changes.forEach((change) => {
-        if (change.attributeName.includes('src') || change.attributeName.includes('srcset')) {
-          this.handleLazy();
+    // Intersection Observer for lazy load
+    this.observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.loadImage();
+          this.observer.disconnect();
         }
       });
     });
-    observer.observe(this, { attributes: true });
+    this.observer.observe(this);
   }
 
-  handleLazy() {
+  loadImage() {
     const isDesktop = window.matchMedia('(min-width: 750px)').matches;
     const isMobile = !isDesktop;
+    const slowConnection = navigator.connection && navigator.connection.downlink < 1;
 
-    // Hidden image checks
-    if (isDesktop && this.classList.contains('medium-hide')) return;
-    if (isMobile && this.classList.contains('small-hide')) return;
-    if (this.complete || this.classList.contains('loaded')) return;
+    let mobileImg = this.getAttribute('data-src-mobile');   // ~200kb
+    let desktopImg = this.getAttribute('data-src-desktop'); // ~533kb
+    let ultraLowImg = this.getAttribute('data-src-ultra');  // ~50kb fallback
 
-    // Decide which image to load based on device
-    let mobileImage = this.getAttribute('data-src-mobile');   // ~200kb version
-    let desktopImage = this.getAttribute('data-src-desktop'); // ~533kb version
-
-    if (isDesktop && desktopImage) {
-      this.src = desktopImage;
-    } else if (isMobile && mobileImage) {
-      this.src = mobileImage;
+    // Slow internet: load ultra-low image
+    if (slowConnection && ultraLowImg) {
+      this.src = ultraLowImg;
+      return;
     }
 
+    // Load image based on device
+    this.src = isDesktop ? desktopImg : mobileImg;
+
+    // Blur-up effect
     this.wrapper.classList.add('loading');
     this.addEventListener('load', () => {
-      const loaded = () => {
-        this.classList.add('loaded');
-        this.wrapper.classList.remove('loading');
-      };
-      window.requestIdleCallback
-        ? window.requestIdleCallback(loaded, { timeout: 150 })
-        : setTimeout(loaded);
-    }, false);
+      this.classList.add('loaded');
+      this.wrapper.classList.remove('loading');
+    }, { once: true });
   }
 }
 window.customElements.define('lazy-image', LazyImage, { extends: 'img' });
 
-
-/*! Progressive Picture */
+/*! Progressive Picture for Pinch Zoom HQ */
 class ProgPicture extends HTMLPictureElement {
   constructor() {
     super();
-
     this.abortController = new AbortController();
     this.addEventListener('touchmove', this.touchmove_handler, { signal: this.abortController.signal });
   }
 
   touchmove_handler(ev) {
     if (ev.scale > 1) {
-      var hqImage = this.getAttribute('data-hq');
+      let hqImage = this.getAttribute('data-hq');
       let source = this.querySelector('source');
       if (hqImage && source) {
         source.setAttribute('srcset', hqImage);
