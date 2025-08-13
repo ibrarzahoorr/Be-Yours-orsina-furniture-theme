@@ -34,23 +34,21 @@
     --color-highlight: {{ section.settings.colors_highlight.red }}, {{ section.settings.colors_highlight.green }}, {{ section.settings.colors_highlight.blue }};
     --color-icons: {{ section.settings.colors_icons.red }}, {{ section.settings.colors_icons.green }}, {{ section.settings.colors_icons.blue }};
     --icon-weight: 1.5px;
-    --header-text-color: {% if enable_transparent_header %}{{ section.settings.transparent_text_color }}{% else %}rgb(var(--color-header-foreground)){% endif %};
-    --header-bg-color: {% if enable_transparent_header %}transparent{% else %}rgb(var(--color-header-background)){% endif %};
-    --header-border: {% if enable_transparent_header %}none{% else %}1px solid rgb(var(--color-header-border)){% endif %};
   }
 {%- endstyle -%}
-
 <style>
-  /* Reset & Base */
-  *, ::before, ::after { box-sizing: border-box; }
+  /* Single Line Header CSS - Complete Version with Fixed Mega Menu Position */
+  * {
+    box-sizing: border-box;
+  }
   
   /* Header Wrapper */
   .header-wrapper {
-    background-color: var(--header-bg-color);
-    border-bottom: var(--header-border);
+    background-color: {% if enable_transparent_header %}transparent{% else %}rgb(var(--color-header-background)){% endif %};
+    border-bottom: {% if enable_transparent_header %}none{% else %}1px solid rgb(var(--color-header-border)){% endif %};
     position: relative;
     transition: all 0.3s ease;
-    overflow: visible;
+    overflow: visible !important;
     z-index: 100;
   }
   
@@ -64,11 +62,11 @@
     border-bottom: none;
   }
   
-  /* Shopify Section Header States */
+  /* Shopify Section Header */
   .shopify-section-header {
     position: relative;
     z-index: 90;
-    overflow: visible;
+    overflow: visible !important;
   }
   
   .shopify-section-header-sticky {
@@ -77,22 +75,16 @@
     left: 0;
     right: 0;
     z-index: 90;
-    background-color: rgb(var(--color-header-background));
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   }
   
-  .shopify-section-header-hidden {
-    transform: translateY(-100%);
-  }
-  
-  /* Sticky Header Component */
+  /* Sticky Header */
   sticky-header {
     position: relative;
     z-index: 90;
-    overflow: visible;
+    overflow: visible !important;
   }
   
-  /* Main Header Layout */
+  /* MAIN HEADER - FLEXIBLE LAYOUT */
   .header {
     display: flex;
     align-items: center;
@@ -106,7 +98,7 @@
     z-index: 101;
   }
   
-  /* Header Sections */
+  /* Logo Section - FLEXIBLE */
   .header__left {
     flex: 0 1 auto;
     display: flex;
@@ -115,27 +107,9 @@
     min-width: 0;
   }
   
-  .header__center {
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: center;
-    margin: 0 20px;
-    min-width: 0;
-    overflow: visible;
-    position: static;
-  }
-  
-  .header__right {
-    flex: 0 1 auto;
-    display: flex;
-    align-items: center;
-    gap: clamp(12px, 2vw, 20px);
-  }
-  
-  /* Logo */
   .header__heading-link {
     text-decoration: none;
-    color: var(--header-text-color);
+    color: {% if enable_transparent_header %}{{ section.settings.transparent_text_color }}{% else %}rgb(var(--color-header-foreground)){% endif %};
     display: flex;
     align-items: center;
   }
@@ -148,13 +122,24 @@
   }
   
   .header__heading .h2 {
-    font: 700 clamp(20px, 4vw, 28px)/1 inherit;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
     letter-spacing: 2px;
     margin: 0;
     white-space: nowrap;
   }
   
-  /* Navigation Menu */
+  /* CENTER MAIN MENU - FLEXIBLE */
+  .header__center {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    margin: 0 20px;
+    min-width: 0;
+    overflow: visible !important;
+    position: static;
+  }
+  
   .nav-menu {
     display: flex;
     align-items: center;
@@ -171,23 +156,29 @@
     z-index: auto;
   }
   
-  .nav-item:hover, .nav-item.active {
+  .nav-item:hover {
+    z-index: 9998;
+  }
+  
+  .nav-item.active {
     z-index: 9998;
   }
   
   .nav-link {
     display: block;
     padding: 8px 0;
-    color: var(--header-text-color);
+    color: {% if enable_transparent_header %}{{ section.settings.transparent_text_color }}{% else %}rgb(var(--color-header-foreground)){% endif %};
     text-decoration: none;
-    font: 500 clamp(12px, 1.2vw, 14px)/1 inherit;
+    font-size: clamp(12px, 1.2vw, 14px);
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
     white-space: nowrap;
   }
   
-  .nav-link:hover, .nav-item:hover .nav-link {
+  .nav-link:hover,
+  .nav-item:hover .nav-link {
     color: rgb(var(--color-highlight));
   }
   
@@ -196,17 +187,38 @@
     font-weight: 600;
   }
   
-  /* Header Icons */
+  /* Icons Section - FLEXIBLE */
+  .header__right {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2vw, 20px);
+  }
+  
   .header__icon {
-    color: var(--header-text-color);
+    color: {% if enable_transparent_header %}{{ section.settings.transparent_text_color }}{% else %}rgb(var(--color-icons)){% endif %};
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
     text-decoration: none;
     position: relative;
     padding: 4px;
     background: none;
     border: none;
     outline: none;
+  }
+  
+  /* Search button specific - Remove all borders */
+  .search-modal-toggle {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 4px;
+  }
+  
+  .header__icon:focus {
+    outline: none;
+    box-shadow: none;
   }
   
   .header__icon:hover {
@@ -226,7 +238,8 @@
     border-radius: 50%;
     width: 18px;
     height: 18px;
-    font: 600 11px/18px inherit;
+    font-size: 11px;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,14 +248,14 @@
     right: -8px;
   }
   
-  /* Mega Menu */
+  /* MEGA MENU - POSITIONED FROM LOGO TO CART */
   .mega-menu {
-    position: fixed;
-    top: var(--mega-menu-top, 60px);
-    left: var(--mega-menu-left, 24px);
-    right: var(--mega-menu-right, 24px);
-    width: auto;
-    transform: none;
+    position: fixed !important;
+    top: var(--mega-menu-top, 60px) !important;
+    left: var(--mega-menu-left, 24px) !important;
+    right: var(--mega-menu-right, 24px) !important;
+    width: auto !important;
+    transform: none !important;
     background-color: white;
     border: 1px solid rgb(var(--color-header-border));
     border-top: none;
@@ -251,15 +264,15 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 9999;
+    z-index: 9999 !important;
     pointer-events: none;
     margin-top: -1px;
     max-height: 80vh;
     overflow-y: auto;
-    animation: fadeIn 0.3s ease forwards;
   }
   
-  .nav-item:hover .mega-menu, .nav-item.active .mega-menu {
+  .nav-item:hover .mega-menu,
+  .nav-item.active .mega-menu {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
@@ -283,7 +296,8 @@
   }
   
   .menu-column h3 {
-    font: 600 14px/1 inherit;
+    font-size: 14px;
+    font-weight: 600;
     color: #2c2c2c;
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -346,16 +360,15 @@
     border: none;
     padding: 8px;
     cursor: pointer;
-    color: var(--header-text-color);
+    color: {% if enable_transparent_header %}{{ section.settings.transparent_text_color }}{% else %}rgb(var(--color-icons)){% endif %};
     z-index: 102;
-    transition: color 0.3s ease;
   }
   
   .mobile-menu-toggle:hover {
     color: rgb(var(--color-highlight));
   }
   
-  /* Mobile Menu */
+  /* Mobile Menu Styles */
   .mobile-menu {
     position: fixed;
     top: 0;
@@ -399,7 +412,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
   }
   
   .mobile-menu-close:hover {
@@ -427,7 +440,8 @@
     padding: 16px 0;
     color: #333;
     text-decoration: none;
-    font: 500 16px/1 inherit;
+    font-weight: 500;
+    font-size: 16px;
     transition: color 0.3s ease;
   }
   
@@ -461,6 +475,17 @@
   .mobile-dropdown.active {
     display: block;
     animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .mobile-sub-item {
@@ -515,6 +540,7 @@
     font-size: 16px;
   }
   
+  /* Collection item with special styling if it has image */
   .mobile-sub-item.has-image {
     background: linear-gradient(90deg, rgba(var(--color-highlight), 0.05) 0%, transparent 100%);
     border-left: 3px solid rgb(var(--color-highlight));
@@ -522,7 +548,7 @@
     margin: 4px 0;
   }
   
-  /* Search Components */
+  /* Search in mobile menu */
   .mobile-search {
     padding: 20px 0;
     border-bottom: 1px solid #eee;
@@ -543,6 +569,7 @@
     border-color: rgb(var(--color-highlight));
   }
   
+  /* Search Modal Styles */
   .search-modal {
     position: fixed;
     top: 0;
@@ -630,7 +657,7 @@
     color: rgb(var(--color-highlight));
   }
   
-  /* Cart Drawer Fix */
+  /* Cart Drawer Container Fix */
   .cart-drawer-container {
     position: relative;
   }
@@ -643,18 +670,165 @@
     display: none;
   }
   
-  /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
+  @media screen and (max-width: 1400px) {
+    .mega-menu-content {
+      padding: 35px;
+    }
   }
   
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+  @media screen and (max-width: 1200px) {
+    .nav-menu {
+      gap: 20px;
+    }
+    
+    .header {
+      padding: 14px 20px;
+    }
+    
+    .mega-menu-content {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      padding: 30px;
+    }
   }
   
-  /* Accessibility */
+  @media screen and (max-width: 990px) {
+    /* Header ko center align karo mobile pe */
+    .header {
+      justify-content: center;
+      position: relative;
+      padding: 12px 60px;
+    }
+    
+    /* Mobile menu toggle ko absolute position do (left side) */
+    .mobile-menu-toggle {
+      display: block;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    
+    /* Logo/Left section ko center mein lao */
+    .header__left {
+      flex: 0 0 auto;
+      justify-content: center;
+      margin: 0;
+    }
+    
+    /* Hide the mobile toggle from header__left */
+    .header__left .mobile-menu-toggle {
+      display: none;
+    }
+    
+    /* Center navigation hide */
+    .header__center {
+      display: none;
+    }
+    
+    /* Right section ko absolute position do */
+    .header__right {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      flex: 0 0 auto;
+    }
+    
+    /* Search icon ko mobile pe completely hide karo */
+    .search-modal-toggle {
+      display: none !important;
+    }
+    
+    .mega-menu {
+      display: none !important;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .header {
+      padding: 12px 50px;
+      gap: 12px;
+    }
+    
+    .mobile-menu-toggle {
+      left: 12px;
+    }
+    
+    .header__right {
+      right: 12px;
+      gap: 12px;
+    }
+    
+    .header__heading .h2 {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    
+    .header__icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    #shopify-section-{{ section.id }} {
+      --image-logo-height: {{ section.settings.mobile_logo_height }}px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .header {
+      padding: 10px 45px;
+      gap: 10px;
+    }
+    
+    .mobile-menu-toggle {
+      left: 10px;
+    }
+    
+    .header__right {
+      right: 10px;
+      gap: 10px;
+    }
+    
+    .header__heading .h2 {
+      font-size: 18px;
+    }
+    
+    .mobile-menu-content {
+      padding: 15px 20px;
+    }
+    
+    .mobile-nav-link {
+      font-size: 15px;
+      padding: 14px 0;
+    }
+  }
+  
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      --image-logo-height: {{ section.settings.logo_height }}px;
+    }
+  }
+  
+  /* Desktop only - Show search on desktop */
+  @media screen and (min-width: 991px) {
+    .search-modal-toggle {
+      display: block !important;
+    }
+  }
+  
+  /* Print Styles */
+  @media print {
+    .header__right,
+    .mobile-menu-toggle,
+    .mega-menu,
+    .mobile-menu,
+    .search-modal {
+      display: none !important;
+    }
+  }
+  
+  /* Accessibility - Focus Styles */
   .header__icon:focus-visible,
   .nav-link:focus-visible,
   .mobile-nav-link:focus-visible,
@@ -664,7 +838,46 @@
     border-radius: 4px;
   }
   
-  /* Scrollbar styling */
+  /* Transparent Header Specific Styles */
+  {%- if enable_transparent_header -%}
+    .shopify-section-header:not(.shopify-section-header-sticky) .header-transparent .header::before {
+      height: 0;
+    }
+    
+    .header-transparent .mega-menu {
+      border-top: none;
+    }
+  {%- endif -%}
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .mega-menu {
+    animation: fadeIn 0.3s ease forwards;
+  }
+  
+  /* Hide/Show Header on Scroll */
+  .shopify-section-header-hidden {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .shopify-section-header-sticky {
+    background-color: rgb(var(--color-header-background));
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  
+  /* Scrollbar styling for mega menu */
   .mega-menu-content::-webkit-scrollbar {
     width: 6px;
   }
@@ -682,144 +895,73 @@
   .mega-menu-content::-webkit-scrollbar-thumb:hover {
     background: rgba(var(--color-highlight), 0.8);
   }
-  
-  /* Responsive Design */
-  @media screen and (max-width: 1400px) {
-    .mega-menu-content { padding: 35px; }
-  }
-  
-  @media screen and (max-width: 1200px) {
-    .nav-menu { gap: 20px; }
-    .header { padding: 14px 20px; }
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      padding: 30px;
-    }
-  }
-  
-  @media screen and (max-width: 990px) {
-    .header {
-      justify-content: center;
-      position: relative;
-      padding: 12px 60px;
-    }
-    
-    .mobile-menu-toggle {
-      display: block;
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    
-    .header__left {
-      flex: 0 0 auto;
-      justify-content: center;
-      margin: 0;
-    }
-    
-    .header__left .mobile-menu-toggle { display: none; }
-    .header__center { display: none; }
-    .search-modal-toggle { display: none !important; }
-    .mega-menu { display: none !important; }
-    
-    .header__right {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      flex: 0 0 auto;
-    }
-  }
-  
-  @media screen and (max-width: 768px) {
-    .header { padding: 12px 50px; gap: 12px; }
-    .mobile-menu-toggle { left: 12px; }
-    .header__right { right: 12px; gap: 12px; }
-    .header__heading .h2 { font-size: 20px; letter-spacing: 1px; }
-    .header__icon svg { width: 20px; height: 20px; }
-    #shopify-section-{{ section.id }} { --image-logo-height: {{ section.settings.mobile_logo_height }}px; }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .header { padding: 10px 45px; gap: 10px; }
-    .mobile-menu-toggle { left: 10px; }
-    .header__right { right: 10px; gap: 10px; }
-    .header__heading .h2 { font-size: 18px; }
-    .mobile-menu-content { padding: 15px 20px; }
-    .mobile-nav-link { font-size: 15px; padding: 14px 0; }
-  }
-  
-  @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} { --image-logo-height: {{ section.settings.logo_height }}px; }
-  }
-  
-  @media screen and (min-width: 991px) {
-    .search-modal-toggle { display: block !important; }
-  }
-  
-  @media print {
-    .header__right, .mobile-menu-toggle, .mega-menu, .mobile-menu, .search-modal { display: none !important; }
-  }
-  
-  /* Transparent Header Specific */
-  {%- if enable_transparent_header -%}
-    .shopify-section-header:not(.shopify-section-header-sticky) .header-transparent .header::before { height: 0; }
-    .header-transparent .mega-menu { border-top: none; }
-  {%- endif -%}
 </style>
 
-<!-- Header Structure -->
+<!-- UPDATED HEADER STRUCTURE -->
 <{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
   <header class="header">
-    <!-- Mobile Menu Toggle -->
+    <!-- Mobile Menu Toggle - Positioned Absolutely -->
     <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-      <svg width="24" height="24"><use href="#icon-hamburger"></use></svg>
+      <svg width="24" height="24">
+        <use href="#icon-hamburger"></use>
+      </svg>
     </button>
     
-    <!-- Logo Section -->
+    <!-- LEFT: Logo Only (Center on Mobile) -->
     <div class="header__left">
-      {%- if request.page_type == 'index' -%}<h1 class="header__heading">{%- endif -%}
-        <a href="{{ routes.root_url }}" class="header__heading-link">
-          {%- if section.settings.logo != blank -%}
-            {%- liquid
-              assign logo = section.settings.logo
-              assign logo_height = section.settings.logo_height
-              assign logo_height_2x = section.settings.logo_height | times: 2
-              assign mobile_logo = section.settings.mobile_logo | default: logo
-              assign mobile_logo_height = section.settings.mobile_logo_height
-              assign mobile_logo_height_2x = section.settings.mobile_logo_height | times: 2
-            -%}
-            {%- if mobile_logo -%}
-              <img srcset="{{ mobile_logo | image_url: height: mobile_logo_height }} 1x, {{ mobile_logo | image_url: height: mobile_logo_height_2x }} 2x"
-                src="{{ mobile_logo | image_url: height: mobile_logo_height }}"
+      <!-- Logo -->
+      {%- if request.page_type == 'index' -%}
+        <h1 class="header__heading">
+      {%- endif -%}
+          <a href="{{ routes.root_url }}" class="header__heading-link">
+            {%- if section.settings.logo != blank -%}
+              {%- liquid
+                assign logo = section.settings.logo
+                assign logo_height = section.settings.logo_height
+                assign logo_height_2x = section.settings.logo_height | times: 2
+                assign mobile_logo = section.settings.mobile_logo | default: logo
+                assign mobile_logo_height = section.settings.mobile_logo_height
+                assign mobile_logo_height_2x = section.settings.mobile_logo_height | times: 2
+              -%}
+
+              {%- if mobile_logo -%}
+                <img srcset="{{ mobile_logo | image_url: height: mobile_logo_height }} 1x, {{ mobile_logo | image_url: height: mobile_logo_height_2x }} 2x"
+                  src="{{ mobile_logo | image_url: height: mobile_logo_height }}"
+                  loading="lazy"
+                  width="{{ mobile_logo.width }}"
+                  height="{{ mobile_logo.height }}"
+                  alt="{{ mobile_logo.alt | default: shop.name | escape }}"
+                  class="header__heading-logo medium-hide large-up-hide"
+                />
+              {%- endif -%}
+
+              <img srcset="{{ logo | image_url: height: logo_height }} 1x, {{ logo | image_url: height: logo_height_2x }} 2x"
+                src="{{ logo | image_url: height: logo_height }}"
                 loading="lazy"
-                width="{{ mobile_logo.width }}"
-                height="{{ mobile_logo.height }}"
-                alt="{{ mobile_logo.alt | default: shop.name | escape }}"
-                class="header__heading-logo medium-hide large-up-hide">
+                width="{{ logo.width }}"
+                height="{{ logo.height }}"
+                alt="{{ logo.alt | default: shop.name | escape }}"
+                class="header__heading-logo{% if mobile_logo %} small-hide{% endif %}"
+              />
+            {%- else -%}
+              <span class="h2">{{ shop.name }}</span>
             {%- endif -%}
-            <img srcset="{{ logo | image_url: height: logo_height }} 1x, {{ logo | image_url: height: logo_height_2x }} 2x"
-              src="{{ logo | image_url: height: logo_height }}"
-              loading="lazy"
-              width="{{ logo.width }}"
-              height="{{ logo.height }}"
-              alt="{{ logo.alt | default: shop.name | escape }}"
-              class="header__heading-logo{% if mobile_logo %} small-hide{% endif %}">
-          {%- else -%}
-            <span class="h2">{{ shop.name }}</span>
-          {%- endif -%}
-        </a>
-      {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
+          </a>
+      {%- if request.page_type == 'index' -%}
+        </h1>
+      {%- endif -%}
     </div>
 
-    <!-- Navigation Menu -->
+    <!-- CENTER: Main Navigation Menu (Desktop Only) -->
     <div class="header__center">
       {%- if section.settings.menu != blank -%}
         <nav class="nav-menu">
           {%- for link in section.settings.menu.links -%}
             <div class="nav-item">
-              <a href="{{ link.url }}" class="nav-link{% if link.title contains 'Sale' %} sale{% endif %}">{{ link.title }}</a>
+              <a href="{{ link.url }}" class="nav-link{% if link.title contains 'Sale' %} sale{% endif %}">
+                {{ link.title }}
+              </a>
+              
               {%- if link.links != blank -%}
                 {%- liquid
                   assign total_items = 0
@@ -831,6 +973,7 @@
                     endif
                   endfor
                 -%}
+                
                 <div class="mega-menu">
                   <div class="mega-menu-content{% if total_items > 12 %} many-items{% endif %}">
                     {%- for child_link in link.links -%}
@@ -842,7 +985,9 @@
                               <a href="{{ grandchild_link.url }}" class="menu-item">
                                 <div class="menu-icon">
                                   {%- if grandchild_link.object.image -%}
-                                    <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" alt="{{ grandchild_link.title }}" loading="lazy">
+                                    <img src="{{ grandchild_link.object.image | image_url: width: 40 }}" 
+                                         alt="{{ grandchild_link.title }}"
+                                         loading="lazy">
                                   {%- elsif grandchild_link.object.type == 'collection' -%}
                                     <span style="font-size: 16px;">🏷️</span>
                                   {%- else -%}
@@ -856,7 +1001,9 @@
                             <a href="{{ child_link.url }}" class="menu-item">
                               <div class="menu-icon">
                                 {%- if child_link.object.image -%}
-                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" alt="{{ child_link.title }}" loading="lazy">
+                                  <img src="{{ child_link.object.image | image_url: width: 40 }}" 
+                                       alt="{{ child_link.title }}"
+                                       loading="lazy">
                                 {%- elsif child_link.object.type == 'collection' -%}
                                   <span style="font-size: 16px;">🏷️</span>
                                 {%- else -%}
@@ -878,19 +1025,21 @@
       {%- endif -%}
     </div>
 
-    <!-- Icons Section -->
+    <!-- RIGHT: Search (Desktop Only) + Account + Cart Icons -->
     <div class="header__right">
-      <!-- Search Icon -->
+      <!-- Search Icon - Desktop Only -->
       <button class="header__icon search-modal-toggle" onclick="openSearchModal()" title="{{ 'general.search.search' | t }}">
-        <svg width="24" height="24"><use href="#icon-search"></use></svg>
+        <svg width="24" height="24">
+          <use href="#icon-search"></use>
+        </svg>
       </button>
       
       <!-- Account -->
       {%- if shop.customer_accounts_enabled -%}
-        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" 
-           class="header__icon" 
-           title="{%- if customer -%}{{ 'customer.account_fallback' | t }}{%- else -%}{{ 'customer.log_in' | t }}{%- endif -%}">
-          <svg width="24" height="24"><use href="#icon-account"></use></svg>
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon" title="{%- if customer -%}{{ 'customer.account_fallback' | t }}{%- else -%}{{ 'customer.log_in' | t }}{%- endif -%}">
+          <svg width="24" height="24">
+            <use href="#icon-account"></use>
+          </svg>
         </a>
       {%- endif -%}
 
@@ -899,18 +1048,30 @@
         <cart-drawer>
           <details class="cart-drawer-container">
             <summary class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-              <svg width="24" height="24"><use href="#icon-cart"></use></svg>
+              <svg width="24" height="24">
+                <use href="#icon-cart"></use>
+              </svg>
               {%- if cart != empty -%}
-                <span class="cart-count-bubble">{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- endif -%}</span>
+                <span class="cart-count-bubble">
+                  {%- if cart.item_count < 100 -%}
+                    {{ cart.item_count }}
+                  {%- endif -%}
+                </span>
               {%- endif -%}
             </summary>
           </details>
         </cart-drawer>
       {%- else -%}
         <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
-          <svg width="24" height="24"><use href="#icon-cart"></use></svg>
+          <svg width="24" height="24">
+            <use href="#icon-cart"></use>
+          </svg>
           {%- if cart != empty -%}
-            <span class="cart-count-bubble">{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- endif -%}</span>
+            <span class="cart-count-bubble">
+              {%- if cart.item_count < 100 -%}
+                {{ cart.item_count }}
+              {%- endif -%}
+            </span>
           {%- endif -%}
         </a>
       {%- endif -%}
@@ -922,21 +1083,28 @@
 <div class="search-modal" id="search-modal" onclick="closeSearchModal(event)">
   <div class="search-modal-content" onclick="event.stopPropagation()">
     <div class="search-modal-header">
-      <svg width="20" height="20" style="color: #666;"><use href="#icon-search"></use></svg>
+      <svg width="20" height="20" style="color: #666;">
+        <use href="#icon-search"></use>
+      </svg>
       <input type="text" class="search-modal-input" placeholder="{{ 'general.search.search' | t }}" id="search-modal-input" autocomplete="off">
       <button class="search-modal-close" onclick="closeSearchModal()">×</button>
     </div>
   </div>
 </div>
 
-<!-- Mobile Menu -->
+<!-- Mobile Menu with Collection Images -->
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-header">
+    <!-- Mobile Menu Logo -->
     <div class="mobile-menu-logo">
       {%- if section.settings.mobile_logo != blank -%}
-        <img src="{{ section.settings.mobile_logo | image_url: height: 30 }}" alt="{{ shop.name }}" style="height: 30px; width: auto;">
+        <img src="{{ section.settings.mobile_logo | image_url: height: 30 }}" 
+             alt="{{ shop.name }}" 
+             style="height: 30px; width: auto;">
       {%- elsif section.settings.logo != blank -%}
-        <img src="{{ section.settings.logo | image_url: height: 30 }}" alt="{{ shop.name }}" style="height: 30px; width: auto;">
+        <img src="{{ section.settings.logo | image_url: height: 30 }}" 
+             alt="{{ shop.name }}" 
+             style="height: 30px; width: auto;">
       {%- else -%}
         <span style="font-weight: 700; font-size: 18px; color: #333;">{{ shop.name }}</span>
       {%- endif -%}
@@ -949,7 +1117,9 @@
     <form action="{{ routes.search_url }}" method="get" style="display: flex; position: relative;">
       <input type="search" class="mobile-search-input" placeholder="{{ 'general.search.search' | t }}" name="q" value="{{ search.terms | escape }}">
       <button type="submit" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; padding: 8px;" aria-label="{{ 'general.search.search' | t }}">
-        <svg width="16" height="16"><use href="#icon-search"></use></svg>
+        <svg width="16" height="16">
+          <use href="#icon-search"></use>
+        </svg>
       </button>
     </form>
   </div>
@@ -964,6 +1134,7 @@
               <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown(this)">+</button>
             {%- endif -%}
           </div>
+          
           {%- if link.links != blank -%}
             <div class="mobile-dropdown">
               {%- for child_link in link.links -%}
@@ -971,7 +1142,9 @@
                   <a href="{{ child_link.url }}" class="mobile-sub-link">
                     <div class="mobile-menu-icon{% unless child_link.object.image %} no-image{% endunless %}">
                       {%- if child_link.object.image -%}
-                        <img src="{{ child_link.object.image | image_url: width: 35 }}" alt="{{ child_link.title }}" loading="lazy">
+                        <img src="{{ child_link.object.image | image_url: width: 35 }}" 
+                             alt="{{ child_link.title }}"
+                             loading="lazy">
                       {%- elsif child_link.object.type == 'collection' -%}
                         🏷️
                       {%- else -%}
@@ -983,6 +1156,7 @@
                       <span style="margin-left: auto; color: rgb(var(--color-highlight)); font-size: 12px;">●</span>
                     {%- endif -%}
                   </a>
+                  
                   {%- if child_link.links != blank -%}
                     <div style="margin-left: 47px; margin-top: 8px; border-left: 2px solid #f0f0f0; padding-left: 15px;">
                       {%- for grandchild_link in child_link.links -%}
@@ -990,7 +1164,9 @@
                           <a href="{{ grandchild_link.url }}" class="mobile-sub-link" style="font-size: 13px; padding: 6px 8px;">
                             <div class="mobile-menu-icon" style="width: 28px; height: 28px;">
                               {%- if grandchild_link.object.image -%}
-                                <img src="{{ grandchild_link.object.image | image_url: width: 28 }}" alt="{{ grandchild_link.title }}" loading="lazy">
+                                <img src="{{ grandchild_link.object.image | image_url: width: 28 }}" 
+                                     alt="{{ grandchild_link.title }}"
+                                     loading="lazy">
                               {%- elsif grandchild_link.object.type == 'collection' -%}
                                 🏷️
                               {%- else -%}
@@ -1019,9 +1195,11 @@
 <!-- CSS Links -->
 <link rel="stylesheet" href="{{ 'component-sticky-header.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+
 {%- if settings.cart_drawer_enabled -%}
-  <link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
+
 {%- if enable_transparent_header -%}
   {{ 'component-transparent-header.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
@@ -1062,230 +1240,275 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Cache DOM elements
-  const elements = {
-    header: document.querySelector('.header'),
-    logo: document.querySelector('.header__left'),
-    cart: document.querySelector('.header__right'),
-    megaMenus: document.querySelectorAll('.mega-menu'),
-    mobileMenu: document.getElementById('mobile-menu'),
-    searchModal: document.getElementById('search-modal'),
-    searchInput: document.getElementById('search-modal-input'),
-    sectionHeader: document.querySelector('.shopify-section-header'),
-    navItems: document.querySelectorAll('.nav-item')
-  };
-
-  // Mega menu positioning
+  // Function to position mega menu from logo to cart
   function positionMegaMenu() {
-    const { header, logo, cart, megaMenus } = elements;
+    const header = document.querySelector('.header');
+    const logo = document.querySelector('.header__left');
+    const cart = document.querySelector('.header__right');
+    const megaMenus = document.querySelectorAll('.mega-menu');
+    
     if (!header || !logo || !cart || !megaMenus.length) return;
     
+    // Get exact positions
     const headerRect = header.getBoundingClientRect();
     const logoRect = logo.getBoundingClientRect();
     const cartRect = cart.getBoundingClientRect();
     
-    const positions = {
-      top: `${headerRect.bottom}px`,
-      left: `${logoRect.left}px`,
-      right: `${window.innerWidth - cartRect.right}px`
-    };
+    // Calculate positions
+    const topPosition = headerRect.bottom;
+    const leftPosition = logoRect.left;
+    const rightPosition = window.innerWidth - cartRect.right;
     
-    Object.entries(positions).forEach(([prop, value]) => {
-      document.documentElement.style.setProperty(`--mega-menu-${prop}`, value);
-      megaMenus.forEach(menu => menu.style.setProperty(`--mega-menu-${prop}`, value));
+    // Set CSS variables
+    document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-right', `${rightPosition}px`);
+    
+    // Apply to each mega menu
+    megaMenus.forEach(menu => {
+      menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
+      menu.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+      menu.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     });
   }
-
-  // Scroll handler with throttling
-  let lastScrollTop = 0;
-  let ticking = false;
   
-  function handleScroll() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const { sectionHeader } = elements;
-        
-        if (sectionHeader) {
-          const isScrollingDown = scrollTop > lastScrollTop && scrollTop > 100;
-          const isScrollingUp = scrollTop < lastScrollTop && scrollTop > 50;
-          
-          sectionHeader.classList.toggle('shopify-section-header-hidden', isScrollingDown);
-          sectionHeader.classList.toggle('shopify-section-header-sticky', scrollTop > 50);
-        }
-        
-        lastScrollTop = scrollTop;
-        positionMegaMenu();
-        ticking = false;
-      });
-      ticking = true;
+  // Initial positioning
+  positionMegaMenu();
+  
+  // Update on window resize
+  window.addEventListener('resize', function() {
+    positionMegaMenu();
+  });
+  
+  // Update on scroll for sticky header
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const header = document.querySelector('.shopify-section-header');
+    
+    if (header) {
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        header.classList.add('shopify-section-header-hidden');
+      } else {
+        header.classList.remove('shopify-section-header-hidden');
+      }
+      
+      if (scrollTop > 50) {
+        header.classList.add('shopify-section-header-sticky');
+      } else {
+        header.classList.remove('shopify-section-header-sticky');
+      }
+    }
+    
+    lastScrollTop = scrollTop;
+    positionMegaMenu();
+  });
+  
+  // Mobile Menu Functions
+  window.toggleMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
   }
-
-  // Global functions
-  Object.assign(window, {
-    toggleMobileMenu() {
-      const { mobileMenu } = elements;
-      if (mobileMenu) {
-        mobileMenu.classList.add('active');
+  
+  window.closeMobileMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+      menu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  window.toggleMobileDropdown = function(button) {
+    const dropdown = button.parentElement.nextElementSibling;
+    const isActive = dropdown.classList.contains('active');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.mobile-dropdown.active').forEach(item => {
+      item.classList.remove('active');
+    });
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
+      btn.textContent = '+';
+      btn.classList.remove('active');
+    });
+    
+    // Toggle current dropdown
+    if (!isActive) {
+      dropdown.classList.add('active');
+      button.textContent = '−';
+      button.classList.add('active');
+    }
+  }
+  
+  // Search Modal Functions - Desktop Only
+  window.openSearchModal = function() {
+    // Check if on desktop
+    if (window.innerWidth > 990) {
+      const modal = document.getElementById('search-modal');
+      const input = document.getElementById('search-modal-input');
+      
+      if (modal) {
+        modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-      }
-    },
-
-    closeMobileMenu() {
-      const { mobileMenu } = elements;
-      if (mobileMenu) {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    },
-
-    toggleMobileDropdown(button) {
-      const dropdown = button.parentElement.nextElementSibling;
-      const isActive = dropdown.classList.contains('active');
-      
-      // Close all dropdowns
-      document.querySelectorAll('.mobile-dropdown.active, .mobile-dropdown-toggle.active').forEach(el => {
-        el.classList.remove('active');
-        if (el.classList.contains('mobile-dropdown-toggle')) el.textContent = '+';
-      });
-      
-      // Toggle current
-      if (!isActive) {
-        dropdown.classList.add('active');
-        button.classList.add('active');
-        button.textContent = '−';
-      }
-    },
-
-    openSearchModal() {
-      if (window.innerWidth > 990) {
-        const { searchModal, searchInput } = elements;
-        if (searchModal) {
-          searchModal.classList.add('active');
-          document.body.style.overflow = 'hidden';
-          setTimeout(() => searchInput?.focus(), 300);
-        }
-      }
-    },
-
-    closeSearchModal(event) {
-      if (event && event.target !== event.currentTarget) return;
-      const { searchModal } = elements;
-      if (searchModal) {
-        searchModal.classList.remove('active');
-        document.body.style.overflow = '';
+        
+        setTimeout(() => {
+          if (input) input.focus();
+        }, 300);
       }
     }
-  });
-
-  // Event listeners
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  window.addEventListener('resize', () => {
-    positionMegaMenu();
-    if (window.innerWidth > 990) window.closeMobileMenu();
-  });
-
-  // Search input handlers
-  if (elements.searchInput) {
-    elements.searchInput.addEventListener('keydown', (e) => {
+  }
+  
+  window.closeSearchModal = function(event) {
+    if (event && event.target !== event.currentTarget) return;
+    
+    const modal = document.getElementById('search-modal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  // Search functionality
+  const searchInput = document.getElementById('search-modal-input');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         const query = e.target.value.trim();
-        if (query) window.location.href = `/search?q=${encodeURIComponent(query)}`;
-      } else if (e.key === 'Escape') {
-        window.closeSearchModal();
+        if (query) {
+          window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        }
+      }
+      
+      if (e.key === 'Escape') {
+        closeSearchModal();
       }
     });
   }
-
-  // Mega menu hover with optimized timeout
+  
+  // Close mobile menu on resize to desktop
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 990) {
+      closeMobileMenu();
+    }
+  });
+  
+  // Handle mega menu hover delay
   let megaMenuTimeout;
-  elements.navItems.forEach(item => {
+  const navItems = document.querySelectorAll('.nav-item');
+  
+  navItems.forEach(item => {
     item.addEventListener('mouseenter', function() {
       clearTimeout(megaMenuTimeout);
       positionMegaMenu();
-      elements.navItems.forEach(other => other !== this && other.classList.remove('active'));
+      
+      // Close other mega menus
+      navItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('active');
+        }
+      });
+      
       this.classList.add('active');
     });
-
+    
     item.addEventListener('mouseleave', function() {
-      megaMenuTimeout = setTimeout(() => this.classList.remove('active'), 300);
+      const item = this;
+      megaMenuTimeout = setTimeout(() => {
+        item.classList.remove('active');
+      }, 300);
     });
   });
-
-  // Prevent mega menu closing on hover
-  elements.megaMenus.forEach(menu => {
-    menu.addEventListener('mouseenter', () => clearTimeout(megaMenuTimeout));
+  
+  // Prevent mega menu from closing when hovering over it
+  const megaMenus = document.querySelectorAll('.mega-menu');
+  megaMenus.forEach(menu => {
+    menu.addEventListener('mouseenter', function() {
+      clearTimeout(megaMenuTimeout);
+    });
+    
     menu.addEventListener('mouseleave', function() {
       const parentItem = this.closest('.nav-item');
       if (parentItem) {
-        megaMenuTimeout = setTimeout(() => parentItem.classList.remove('active'), 300);
+        megaMenuTimeout = setTimeout(() => {
+          parentItem.classList.remove('active');
+        }, 300);
       }
     });
   });
-
-  // Initial setup
-  positionMegaMenu();
 });
 </script>
 
-<!-- Sticky Header Component -->
+<!-- Sticky Header JavaScript -->
 {% javascript %}
-class StickyHeader extends HTMLElement {
-  constructor() {
-    super();
-    this.header = document.querySelector('.shopify-section-header');
-    this.headerBounds = {};
-    this.currentScrollTop = 0;
-    this.onScrollHandler = this.onScroll.bind(this);
-  }
-
-  connectedCallback() {
-    window.addEventListener('scroll', this.onScrollHandler, { passive: true });
-    this.createObserver();
-  }
-
-  disconnectedCallback() {
-    window.removeEventListener('scroll', this.onScrollHandler);
-  }
-
-  createObserver() {
-    const observer = new IntersectionObserver((entries, observer) => {
-      this.headerBounds = entries[0].intersectionRect;
-      if (this.headerBounds.top === 0 && this.headerBounds.bottom === 0) {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const boundingClientRect = entries[0].boundingClientRect;
-        this.headerBounds = {
-          top: scrollTop + boundingClientRect.top,
-          bottom: scrollTop + boundingClientRect.bottom
-        };
-      }
-      observer.disconnect();
-    });
-    observer.observe(this.header);
-  }
-
-  onScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const classes = this.header.classList;
-    
-    if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-      requestAnimationFrame(() => classes.add('shopify-section-header-hidden', 'shopify-section-header-sticky'));
-    } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
-      requestAnimationFrame(() => {
-        classes.add('shopify-section-header-sticky');
-        classes.remove('shopify-section-header-hidden');
-      });
-    } else if (scrollTop <= this.headerBounds.top) {
-      requestAnimationFrame(() => classes.remove('shopify-section-header-hidden', 'shopify-section-header-sticky'));
+  class StickyHeader extends HTMLElement {
+    constructor() {
+      super();
     }
-    
-    this.currentScrollTop = scrollTop;
-  }
-}
 
-customElements.define('sticky-header', StickyHeader);
+    connectedCallback() {
+      this.header = document.querySelector('.shopify-section-header');
+      this.headerBounds = {};
+      this.currentScrollTop = 0;
+      this.preventReveal = false;
+
+      this.onScrollHandler = this.onScroll.bind(this);
+      window.addEventListener('scroll', this.onScrollHandler, false);
+      this.createObserver();
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('scroll', this.onScrollHandler);
+    }
+
+    createObserver() {
+      let observer = new IntersectionObserver((entries, observer) => {
+        this.headerBounds = entries[0].intersectionRect;
+        if (this.headerBounds.top === 0 && this.headerBounds.bottom === 0) {
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const boundingClientRect = entries[0].boundingClientRect;
+          this.headerBounds = {
+            top: scrollTop + boundingClientRect.top,
+            bottom: scrollTop + boundingClientRect.bottom
+          };
+        }
+        observer.disconnect();
+      });
+      observer.observe(this.header);
+    }
+
+    onScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        requestAnimationFrame(this.hide.bind(this));
+      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        if (!this.preventReveal) {
+          requestAnimationFrame(this.reveal.bind(this));
+        }
+      } else if (scrollTop <= this.headerBounds.top) {
+        requestAnimationFrame(this.reset.bind(this));
+      }
+      
+      this.currentScrollTop = scrollTop;
+    }
+
+    hide() {
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+    }
+
+    reveal() {
+      this.header.classList.add('shopify-section-header-sticky');
+      this.header.classList.remove('shopify-section-header-hidden');
+    }
+
+    reset() {
+      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky');
+    }
+  }
+  customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
 
 {% schema %}
