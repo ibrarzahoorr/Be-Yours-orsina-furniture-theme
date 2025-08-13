@@ -885,54 +885,100 @@
   }
   
   @media screen and (max-width: 990px) {
-    /* Header layout for mobile */
+    /* Mobile Header - Flexible Layout */
     .header {
-      justify-content: flex-start;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       position: relative;
       padding: 12px 16px;
+      gap: 12px;
     }
     
-    /* Mobile menu toggle ko absolute position do (left side) */
+    /* Mobile menu toggle - Left side */
     .mobile-menu-toggle {
-      display: block;
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      order: 1;
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
       z-index: 103;
     }
     
-    /* Logo/Left section ko slightly left of center position do */
+    /* Logo section - Center, flexible */
     .header__left {
-      flex: 1;
+      order: 2;
+      flex: 1 1 auto;
       display: flex;
       justify-content: center;
-      margin-left: -20px; /* Logo ko thoda left move karo */
-      padding-left: 0px; /* Hamburger icon ke liye space */
+      align-items: center;
+      margin: 0;
+      padding: 0 8px;
+      min-width: 0;
     }
     
-    /* Hide the mobile toggle from header__left */
+    /* Hide any duplicate mobile toggle */
     .header__left .mobile-menu-toggle {
       display: none;
     }
     
-    /* Center navigation hide */
+    /* Hide desktop navigation */
     .header__center {
       display: none;
     }
     
-    /* Right section ko absolute position do */
+    /* Icons section - Right side, flexible */
     .header__right {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
+      order: 3;
       flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: static;
+      transform: none;
     }
     
-    /* Search icon ko mobile pe completely hide karo */
+    /* Logo responsive sizing */
+    .header__heading-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+    }
+    
+    .header__heading-logo {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .header__heading .h2 {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Mobile icons optimization */
+    .header__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+    }
+    
+    .header__icon svg {
+      width: 22px;
+      height: 22px;
+    }
+    
+    /* Hide search on mobile */
     .search-modal-toggle {
-      display: block;
+      display: none;
     }
     
     .mega-menu {
@@ -942,17 +988,20 @@
   
   @media screen and (max-width: 768px) {
     .header {
-      padding: 12px 50px;
-      gap: 12px;
+      padding: 12px 14px;
+      gap: 10px;
     }
     
+    /* Mobile toggle adjustments */
     .mobile-menu-toggle {
-      left: 12px;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
     }
     
-    .header__right {
-      right: 1px;
-      gap: 1px;
+    /* Logo section responsive */
+    .header__left {
+      padding: 0 6px;
     }
     
     .header__heading .h2 {
@@ -960,9 +1009,29 @@
       letter-spacing: 1px;
     }
     
+    /* Icons section adjustments */
+    .header__right {
+      gap: 6px;
+    }
+    
+    .header__icon {
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+    
     .header__icon svg {
       width: 20px;
       height: 20px;
+    }
+    
+    /* Cart bubble responsive */
+    .cart-count-bubble {
+      width: 16px;
+      height: 16px;
+      font-size: 10px;
+      top: -6px;
+      right: -6px;
     }
     
     #shopify-section-{{ section.id }} {
@@ -972,23 +1041,58 @@
   
   @media screen and (max-width: 480px) {
     .header {
-      padding: 10px 45px;
-      gap: 10px;
+      padding: 10px 12px;
+      gap: 8px;
     }
     
+    /* Compact mobile toggle */
     .mobile-menu-toggle {
-      left: 10px;
+      width: 36px;
+      height: 36px;
+      padding: 6px;
     }
     
-    .header__right {
-      right: 1px;
-      gap: 1px;
+    .mobile-menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Logo section compact */
+    .header__left {
+      padding: 0 4px;
     }
     
     .header__heading .h2 {
       font-size: 18px;
+      letter-spacing: 0.5px;
     }
     
+    /* Icons section compact */
+    .header__right {
+      gap: 4px;
+    }
+    
+    .header__icon {
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+    }
+    
+    .header__icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Cart bubble small */
+    .cart-count-bubble {
+      width: 14px;
+      height: 14px;
+      font-size: 9px;
+      top: -5px;
+      right: -5px;
+    }
+    
+    /* Mobile menu content adjustments */
     .mobile-menu-content {
       padding: 15px 20px;
     }
