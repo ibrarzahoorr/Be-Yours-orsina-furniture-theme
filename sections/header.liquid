@@ -37,7 +37,7 @@
   }
 {%- endstyle -%}
 <style>
-  /* Single Line Header CSS - Complete Version with Full Width Mega Menu for Desktop */
+  /* Single Line Header CSS - Complete Version with Fixed Mega Menu Position */
   * {
     box-sizing: border-box;
   }
@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1px 1px;
+    padding: 16px 24px;
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
@@ -248,21 +248,19 @@
     right: -8px;
   }
   
-  /* MEGA MENU - FULL WIDTH FOR DESKTOP */
+  /* MEGA MENU - POSITIONED FROM LOGO TO CART */
   .mega-menu {
     position: fixed !important;
     top: var(--mega-menu-top, 60px) !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100vw !important;
+    left: var(--mega-menu-left, 24px) !important;
+    right: var(--mega-menu-right, 24px) !important;
+    width: auto !important;
     transform: none !important;
     background-color: white;
     border: 1px solid rgb(var(--color-header-border));
-    border-left: none;
-    border-right: none;
     border-top: none;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    border-radius: 0;
+    border-radius: 0 0 8px 8px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -283,234 +281,29 @@
   .mega-menu-content {
     padding: 40px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
     background-color: white;
+    border-radius: 0 0 8px 8px;
     position: relative;
     z-index: 9999;
     min-height: auto;
   }
   
-  /* Flexible Grid Based on Item Count and Screen Size */
-  @media screen and (min-width: 1400px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-    }
-    
-    /* For many items on large screens */
-    .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 25px;
-    }
-  }
-  
-  @media screen and (max-width: 1399px) and (min-width: 1200px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 25px;
-    }
-    
-    .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 20px;
-    }
-  }
-  
-  @media screen and (max-width: 1199px) and (min-width: 900px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 35px;
-    }
-    
-    .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 18px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) and (min-width: 768px) {
-    .mega-menu-content {
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 18px;
-      padding: 30px;
-    }
-    
-    .mega-menu-content.many-items {
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 15px;
-    }
-  }
-  
   .menu-column {
-    padding: 0 10px;
-    min-width: 0;
+    padding: 0 15px;
   }
   
   .menu-column h3 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #2c2c2c;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-    border: none;
-    padding: 0;
-  }
-  
-  /* Only regular headers (non-clickable) get border */
-  .menu-column h3.regular-header {
-    border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-  }
-  
-  /* Clickable Column Headers */
-  .menu-column-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px;
-    text-decoration: none;
-    color: #2c2c2c;
-    transition: all 0.3s ease;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 12px;
-  }
-  
-  .menu-column-header:hover {
-    background-color: rgba(var(--color-highlight), 0.08);
-    transform: translateY(-1px);
-  }
-  
-  .menu-column-header .menu-icon {
-    width: 32px;
-    height: 32px;
-    background-color: #f5f3f0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  
-  .menu-column-header h3 {
-    margin: 0;
-    border: none;
-    padding: 0;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  /* Non-clickable headers fallback - No border */
-  .menu-column h3:not(.clickable-header) {
-    font-size: 13px;
-    font-weight: 600;
-    color: #2c2c2c;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-bottom: 2px solid rgb(var(--color-highlight));
-    padding-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  /* When column header exists, remove border from regular h3 */
-  .menu-column:has(.menu-column-header) h3 {
-    border: none;
-    padding-bottom: 0;
-    margin-bottom: 15px;
-  }
-  
-  /* Responsive adjustments for column headers */
-  @media screen and (max-width: 1199px) {
-    .menu-column h3.regular-header {
-      font-size: 12px;
-      margin-bottom: 12px;
-      padding-bottom: 6px;
-    }
-    
-    .menu-column-header {
-      gap: 8px;
-      padding: 6px;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-    }
-    
-    .menu-column-header .menu-icon {
-      width: 28px;
-      height: 28px;
-    }
-    
-    .menu-column-header h3 {
-      font-size: 12px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .menu-column {
-      padding: 0 8px;
-    }
-    
-    .menu-column h3.regular-header {
-      font-size: 11px;
-      margin-bottom: 10px;
-    }
-    
-    .menu-column-header {
-      gap: 6px;
-      padding: 5px;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-    }
-    
-    .menu-column-header .menu-icon {
-      width: 24px;
-      height: 24px;
-    }
-    
-    .menu-column-header h3 {
-      font-size: 11px;
-    }
-  }
-  
-  /* Extra columns class for 7+ columns */
-  .mega-menu-content.extra-columns {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
-  }
-  
-  @media screen and (max-width: 1199px) {
-    .mega-menu-content.extra-columns {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .mega-menu-content.extra-columns {
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 12px;
-    }
+    padding-bottom: 10px;
   }
   
   .menu-items {
@@ -522,11 +315,11 @@
   .menu-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px;
+    gap: 12px;
+    padding: 8px;
     text-decoration: none;
     color: #666;
-    font-size: 13px;
+    font-size: 14px;
     transition: all 0.3s ease;
     border-radius: 4px;
   }
@@ -534,12 +327,12 @@
   .menu-item:hover {
     color: rgb(var(--color-highlight));
     background-color: rgba(var(--color-highlight), 0.05);
-    transform: translateX(3px);
+    transform: translateX(5px);
   }
   
   .menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background-color: #f5f3f0;
     border-radius: 50%;
     display: flex;
@@ -548,56 +341,6 @@
     overflow: hidden;
     flex-shrink: 0;
     transition: transform 0.3s ease;
-  }
-  
-  /* Responsive menu items */
-  @media screen and (max-width: 1199px) {
-    .menu-item {
-      gap: 8px;
-      padding: 5px;
-      font-size: 12px;
-    }
-    
-    .menu-icon {
-      width: 28px;
-      height: 28px;
-    }
-  }
-  
-  @media screen and (max-width: 899px) {
-    .menu-item {
-      gap: 6px;
-      padding: 4px;
-      font-size: 11px;
-    }
-    
-    .menu-icon {
-      width: 24px;
-      height: 24px;
-    }
-  }
-  
-  /* For extra small items in mega menu */
-  .mega-menu-content.many-items .menu-item {
-    font-size: 12px;
-    padding: 5px;
-    gap: 8px;
-  }
-  
-  .mega-menu-content.many-items .menu-icon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .mega-menu-content.extra-columns .menu-item {
-    font-size: 11px;
-    padding: 4px;
-    gap: 6px;
-  }
-  
-  .mega-menu-content.extra-columns .menu-icon {
-    width: 24px;
-    height: 24px;
   }
   
   .menu-item:hover .menu-icon {
@@ -826,7 +569,7 @@
     border-color: rgb(var(--color-highlight));
   }
   
-  /* Search Modal Styles - Mobile & Desktop Responsive */
+  /* Search Modal Styles */
   .search-modal {
     position: fixed;
     top: 0;
@@ -914,58 +657,6 @@
     color: rgb(var(--color-highlight));
   }
   
-  /* Mobile responsive search modal */
-  @media screen and (max-width: 768px) {
-    .search-modal {
-      padding-top: 5vh;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-    
-    .search-modal-content {
-      width: 100%;
-      border-radius: 8px;
-    }
-    
-    .search-modal-header {
-      padding: 16px 20px;
-    }
-    
-    .search-modal-input {
-      font-size: 16px;
-    }
-    
-    .search-modal-close {
-      right: 16px;
-      width: 32px;
-      height: 32px;
-      font-size: 24px;
-    }
-  }
-  
-  @media screen and (max-width: 480px) {
-    .search-modal {
-      padding: 20px 12px;
-    }
-    
-    .search-modal-header {
-      padding: 12px 16px;
-      gap: 12px;
-    }
-    
-    .search-modal-input {
-      font-size: 16px;
-      padding-right: 36px;
-    }
-    
-    .search-modal-close {
-      right: 12px;
-      width: 28px;
-      height: 28px;
-      font-size: 20px;
-    }
-  }
-  
   /* Cart Drawer Container Fix */
   .cart-drawer-container {
     position: relative;
@@ -977,49 +668,6 @@
   
   .cart-drawer-container summary::-webkit-details-marker {
     display: none;
-  }
-  
-  /* Dynamic grid classes applied by JavaScript */
-  .mega-menu-content.dynamic-grid-1 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
-  }
-  
-  .mega-menu-content.dynamic-grid-2 {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 22px;
-  }
-  
-  .mega-menu-content.dynamic-grid-3 {
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 18px;
-  }
-  
-  .mega-menu-content.dynamic-grid-4 {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-  }
-  
-  .mega-menu-content.dynamic-grid-5 {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-  }
-  
-  /* Scroll optimization for mega menu with many items */
-  .mega-menu-content.many-items {
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  
-  .mega-menu-content.extra-columns {
-    max-height: 75vh;
-    overflow-y: auto;
-  }
-  
-  /* Hover optimization for performance */
-  .mega-menu-content {
-    will-change: scroll-position;
-    transform: translateZ(0);
   }
   
   /* RESPONSIVE BREAKPOINTS - MOBILE LOGO CENTER & HIDE SEARCH */
@@ -1045,100 +693,51 @@
   }
   
   @media screen and (max-width: 990px) {
-    /* Mobile Header - Flexible Layout */
+    /* Header ko center align karo mobile pe */
     .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       position: relative;
-      padding: 12px 16px;
-      gap: 12px;
+      padding: 12px 60px;
     }
     
-    /* Mobile menu toggle - Left side */
+    /* Mobile menu toggle ko absolute position do (left side) */
     .mobile-menu-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      order: 1;
-      flex: 0 0 auto;
-      width: 44px;
-      height: 44px;
-      padding: 10px;
-      z-index: 103;
+      display: block;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     
-    /* Logo section - Center, flexible */
+    /* Logo/Left section ko center mein lao */
     .header__left {
-      order: 2;
-      flex: 1 1 auto;
-      display: flex;
+      flex: 0 0 auto;
       justify-content: center;
-      align-items: center;
       margin: 0;
-      padding: 0 8px;
-      min-width: 0;
     }
     
-    /* Hide any duplicate mobile toggle */
+    /* Hide the mobile toggle from header__left */
     .header__left .mobile-menu-toggle {
       display: none;
     }
     
-    /* Hide desktop navigation */
+    /* Center navigation hide */
     .header__center {
       display: none;
     }
     
-    /* Icons section - Right side, flexible */
+    /* Right section ko absolute position do */
     .header__right {
-      order: 3;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
       flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      position: static;
-      transform: none;
     }
     
-    /* Logo responsive sizing */
-    .header__heading-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 100%;
-    }
-    
-    .header__heading-logo {
-      max-width: 100%;
-      height: auto;
-    }
-    
-    .header__heading .h2 {
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
-    /* Mobile icons optimization */
-    .header__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 10px;
-    }
-    
-    .header__icon svg {
-      width: 22px;
-      height: 22px;
-    }
-    
-    /* Search icon ko mobile pe show karo */
+    /* Search icon ko mobile pe completely hide karo */
     .search-modal-toggle {
-      display: flex !important;
+      display: none !important;
     }
     
     .mega-menu {
@@ -1148,20 +747,17 @@
   
   @media screen and (max-width: 768px) {
     .header {
-      padding: 12px 14px;
-      gap: 10px;
+      padding: 12px 50px;
+      gap: 12px;
     }
     
-    /* Mobile toggle adjustments */
     .mobile-menu-toggle {
-      width: 40px;
-      height: 40px;
-      padding: 8px;
+      left: 12px;
     }
     
-    /* Logo section responsive */
-    .header__left {
-      padding: 0 6px;
+    .header__right {
+      right: 12px;
+      gap: 12px;
     }
     
     .header__heading .h2 {
@@ -1169,29 +765,9 @@
       letter-spacing: 1px;
     }
     
-    /* Icons section adjustments */
-    .header__right {
-      gap: 6px;
-    }
-    
-    .header__icon {
-      width: 40px;
-      height: 40px;
-      padding: 8px;
-    }
-    
     .header__icon svg {
       width: 20px;
       height: 20px;
-    }
-    
-    /* Cart bubble responsive */
-    .cart-count-bubble {
-      width: 16px;
-      height: 16px;
-      font-size: 10px;
-      top: -6px;
-      right: -6px;
     }
     
     #shopify-section-{{ section.id }} {
@@ -1201,58 +777,23 @@
   
   @media screen and (max-width: 480px) {
     .header {
-      padding: 10px 12px;
-      gap: 8px;
+      padding: 10px 45px;
+      gap: 10px;
     }
     
-    /* Compact mobile toggle */
     .mobile-menu-toggle {
-      width: 36px;
-      height: 36px;
-      padding: 6px;
+      left: 10px;
     }
     
-    .mobile-menu-toggle svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    /* Logo section compact */
-    .header__left {
-      padding: 0 4px;
+    .header__right {
+      right: 10px;
+      gap: 10px;
     }
     
     .header__heading .h2 {
       font-size: 18px;
-      letter-spacing: 0.5px;
     }
     
-    /* Icons section compact */
-    .header__right {
-      gap: 4px;
-    }
-    
-    .header__icon {
-      width: 36px;
-      height: 36px;
-      padding: 6px;
-    }
-    
-    .header__icon svg {
-      width: 18px;
-      height: 18px;
-    }
-    
-    /* Cart bubble small */
-    .cart-count-bubble {
-      width: 14px;
-      height: 14px;
-      font-size: 9px;
-      top: -5px;
-      right: -5px;
-    }
-    
-    /* Mobile menu content adjustments */
     .mobile-menu-content {
       padding: 15px 20px;
     }
@@ -1269,7 +810,7 @@
     }
   }
   
-  /* Mobile & Desktop - Show search on all devices */
+  /* Desktop only - Show search on desktop */
   @media screen and (min-width: 991px) {
     .search-modal-toggle {
       display: block !important;
@@ -1283,7 +824,7 @@
     .mega-menu,
     .mobile-menu,
     .search-modal {
-      display: block !important;
+      display: none !important;
     }
   }
   
@@ -1424,9 +965,7 @@
               {%- if link.links != blank -%}
                 {%- liquid
                   assign total_items = 0
-                  assign column_count = 0
                   for child_link in link.links
-                    assign column_count = column_count | plus: 1
                     if child_link.links != blank
                       assign total_items = total_items | plus: child_link.links.size
                     else
@@ -1436,27 +975,10 @@
                 -%}
                 
                 <div class="mega-menu">
-                  <div class="mega-menu-content{% if total_items > 15 %} many-items{% endif %}{% if column_count > 6 %} extra-columns{% endif %}" data-columns="{{ column_count }}" data-items="{{ total_items }}">
+                  <div class="mega-menu-content{% if total_items > 12 %} many-items{% endif %}">
                     {%- for child_link in link.links -%}
                       <div class="menu-column">
-                        {%- if child_link.url != blank -%}
-                          <a href="{{ child_link.url }}" class="menu-column-header">
-                            <div class="menu-icon">
-                              {%- if child_link.object.image -%}
-                                <img src="{{ child_link.object.image | image_url: width: 32 }}" 
-                                     alt="{{ child_link.title }}"
-                                     loading="lazy">
-                              {%- elsif child_link.object.type == 'collection' -%}
-                                <span style="font-size: 14px;">🏷️</span>
-                              {%- else -%}
-                                <span style="font-size: 14px;">📂</span>
-                              {%- endif -%}
-                            </div>
-                            <h3>{{ child_link.title }}</h3>
-                          </a>
-                        {%- else -%}
-                          <h3 class="regular-header">{{ child_link.title }}</h3>
-                        {%- endif -%}
+                        <h3>{{ child_link.title }}</h3>
                         <div class="menu-items">
                           {%- if child_link.links != blank -%}
                             {%- for grandchild_link in child_link.links -%}
@@ -1503,9 +1025,9 @@
       {%- endif -%}
     </div>
 
-    <!-- RIGHT: Search + Account + Cart Icons -->
+    <!-- RIGHT: Search (Desktop Only) + Account + Cart Icons -->
     <div class="header__right">
-      <!-- Search Icon - Mobile & Desktop -->
+      <!-- Search Icon - Desktop Only -->
       <button class="header__icon search-modal-toggle" onclick="openSearchModal()" title="{{ 'general.search.search' | t }}">
         <svg width="24" height="24">
           <use href="#icon-search"></use>
@@ -1718,58 +1240,44 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Function to position mega menu full width and dynamically adjust
+  // Function to position mega menu from logo to cart
   function positionMegaMenu() {
-    const header = document.querySelector('.header-wrapper');
+    const header = document.querySelector('.header');
+    const logo = document.querySelector('.header__left');
+    const cart = document.querySelector('.header__right');
     const megaMenus = document.querySelectorAll('.mega-menu');
     
-    if (!header || !megaMenus.length) return;
+    if (!header || !logo || !cart || !megaMenus.length) return;
     
-    // Get exact header position
+    // Get exact positions
     const headerRect = header.getBoundingClientRect();
+    const logoRect = logo.getBoundingClientRect();
+    const cartRect = cart.getBoundingClientRect();
+    
+    // Calculate positions
     const topPosition = headerRect.bottom;
+    const leftPosition = logoRect.left;
+    const rightPosition = window.innerWidth - cartRect.right;
     
-    // Set CSS variable for top position
+    // Set CSS variables
     document.documentElement.style.setProperty('--mega-menu-top', `${topPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+    document.documentElement.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     
-    // Apply to each mega menu for full width and dynamic adjustments
+    // Apply to each mega menu
     megaMenus.forEach(menu => {
       menu.style.setProperty('--mega-menu-top', `${topPosition}px`);
-      
-      // Dynamic grid adjustments based on content
-      const content = menu.querySelector('.mega-menu-content');
-      if (content) {
-        const columns = parseInt(content.getAttribute('data-columns') || '0');
-        const items = parseInt(content.getAttribute('data-items') || '0');
-        const screenWidth = window.innerWidth;
-        
-        // Remove existing dynamic classes
-        content.classList.remove('dynamic-grid-1', 'dynamic-grid-2', 'dynamic-grid-3', 'dynamic-grid-4', 'dynamic-grid-5');
-        
-        // Add appropriate class based on screen size and content
-        if (screenWidth >= 1400) {
-          if (columns > 6) content.classList.add('dynamic-grid-1');
-          else if (items > 20) content.classList.add('dynamic-grid-2');
-        } else if (screenWidth >= 1200) {
-          if (columns > 5) content.classList.add('dynamic-grid-3');
-          else if (items > 15) content.classList.add('dynamic-grid-4');
-        } else if (screenWidth >= 900) {
-          if (columns > 4) content.classList.add('dynamic-grid-5');
-        }
-      }
+      menu.style.setProperty('--mega-menu-left', `${leftPosition}px`);
+      menu.style.setProperty('--mega-menu-right', `${rightPosition}px`);
     });
   }
   
   // Initial positioning
   positionMegaMenu();
   
-  // Update on window resize with debouncing
-  let resizeTimeout;
+  // Update on window resize
   window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-      positionMegaMenu();
-    }, 100);
+    positionMegaMenu();
   });
   
   // Update on scroll for sticky header
@@ -1834,18 +1342,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Search Modal Functions - Mobile & Desktop
+  // Search Modal Functions - Desktop Only
   window.openSearchModal = function() {
-    const modal = document.getElementById('search-modal');
-    const input = document.getElementById('search-modal-input');
-    
-    if (modal) {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+    // Check if on desktop
+    if (window.innerWidth > 990) {
+      const modal = document.getElementById('search-modal');
+      const input = document.getElementById('search-modal-input');
       
-      setTimeout(() => {
-        if (input) input.focus();
-      }, 300);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        setTimeout(() => {
+          if (input) input.focus();
+        }, 300);
+      }
     }
   }
   
@@ -1877,21 +1388,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Close mobile menu on resize to desktop or when search opens
+  // Close mobile menu on resize to desktop
   window.addEventListener('resize', function() {
     if (window.innerWidth > 990) {
       closeMobileMenu();
     }
   });
-  
-  // Close mobile menu when search modal opens
-  const searchToggle = document.querySelector('.search-modal-toggle');
-  if (searchToggle) {
-    searchToggle.addEventListener('click', function() {
-      // Close mobile menu if open
-      closeMobileMenu();
-    });
-  }
   
   // Handle mega menu hover delay
   let megaMenuTimeout;
