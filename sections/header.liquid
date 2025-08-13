@@ -819,6 +819,137 @@
     transform: translateY(-50%) rotate(90deg);
     color: rgb(var(--color-highlight));
   }
+
+  /* Cart Drawer Styles */
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .drawer__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .drawer__inner {
+    position: relative;
+    width: 420px;
+    max-width: 90vw;
+    height: 100%;
+    background: white;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .drawer.active {
+    pointer-events: all;
+  }
+
+  .drawer.active .drawer__overlay {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .drawer.active .drawer__inner {
+    transform: translateX(0);
+  }
+
+  .drawer__header {
+    padding: 20px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+  }
+
+  .drawer__heading {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    color: #666;
+  }
+
+  .drawer__close:hover {
+    transform: rotate(90deg);
+    color: #000;
+  }
+
+  .drawer__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+
+  .cart-drawer__spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+
+  .spinner {
+    animation: rotator 1.4s linear infinite;
+  }
+
+  @keyframes rotator {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(270deg); }
+  }
+
+  .spinner .path {
+    stroke: #333;
+    stroke-dasharray: 187;
+    stroke-dashoffset: 0;
+    transform-origin: center;
+    animation: dash 1.4s ease-in-out infinite;
+  }
+
+  @keyframes dash {
+    0% { stroke-dashoffset: 187; }
+    50% {
+      stroke-dashoffset: 47;
+      transform: rotate(135deg);
+    }
+    100% {
+      stroke-dashoffset: 187;
+      transform: rotate(450deg);
+    }
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
   
   /* Dynamic grid classes applied by JavaScript */
   .mega-menu-content.dynamic-grid-1 {
@@ -1102,6 +1233,10 @@
       font-size: 15px;
       padding: 14px 0;
     }
+
+    .drawer__inner {
+      width: 100%;
+    }
   }
   
   @media screen and (min-width: 750px) {
@@ -1351,8 +1486,12 @@
         </a>
       {%- endif -%}
 
-      <!-- Cart - FIXED to always redirect to cart page -->
-      <a href="{{ routes.cart_url }}" class="header__icon" id="cart-icon-bubble" title="{{ 'templates.cart.cart' | t }}">
+      <!-- Cart - Opens Drawer -->
+      <a href="{{ routes.cart_url }}" 
+         class="header__icon" 
+         id="cart-icon-bubble" 
+         title="{{ 'templates.cart.cart' | t }}"
+         onclick="event.preventDefault(); document.querySelector('cart-drawer')?.openMenuDrawer();">
         <svg width="24" height="24">
           <use href="#icon-cart"></use>
         </svg>
@@ -1367,6 +1506,33 @@
     </div>
   </header>
 </{% if enable_sticky_header %}sticky-header{% else %}header-wrapper{% endif %}>
+
+<!-- Cart Drawer HTML Structure -->
+<cart-drawer class="drawer drawer--end{% if cart == empty %} is-empty{% endif %}" role="dialog" aria-modal="true" aria-label="{{ 'sections.cart.title' | t }}" data-url="{{ routes.cart_url }}">
+  <div class="drawer__overlay" onclick="this.closest('cart-drawer').close()"></div>
+  <div class="drawer__inner">
+    <!-- Mini Cart Container -->
+    <mini-cart id="mini-cart" data-url="{{ routes.cart_url }}?section_id=mini-cart">
+      <div class="drawer__header">
+        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <button class="drawer__close" type="button" onclick="this.closest('cart-drawer').close()" aria-label="{{ 'accessibility.close' | t }}">
+          <svg width="24" height="24">
+            <use href="#icon-close"></use>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Cart content will be loaded here -->
+      <div class="drawer__content">
+        <div class="cart-drawer__spinner">
+          <svg class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+          </svg>
+        </div>
+      </div>
+    </mini-cart>
+  </div>
+</cart-drawer>
 
 <!-- Search Modal -->
 <div class="search-modal" id="search-modal" onclick="closeSearchModal(event)">
@@ -1489,6 +1655,9 @@
   {{ 'component-transparent-header.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
+<!-- Load cart-drawer.js -->
+<script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+
 <!-- SVG Icons -->
 <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
   {%- if section.settings.cart_icon == 'bag' %}
@@ -1524,6 +1693,47 @@
 </svg>
 
 <script>
+// Extend cart drawer functionality
+class CartDrawer extends HTMLElement {
+  constructor() {
+    super();
+    this.addEventListener('keyup', (evt) => evt.code === 'Escape' && this.close());
+    this.querySelector('.drawer__overlay').addEventListener('click', this.close.bind(this));
+  }
+
+  openMenuDrawer() {
+    this.classList.add('active');
+    document.body.classList.add('overflow-hidden');
+    this.loadCartContents();
+  }
+
+  close() {
+    this.classList.remove('active');
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  loadCartContents() {
+    fetch('/cart?section_id=mini-cart')
+      .then(response => response.text())
+      .then(html => {
+        const miniCart = this.querySelector('mini-cart');
+        if (miniCart) {
+          const parsed = new DOMParser().parseFromString(html, 'text/html');
+          const newContent = parsed.querySelector('.shopify-section');
+          if (newContent) {
+            miniCart.querySelector('.drawer__content').innerHTML = newContent.innerHTML;
+          }
+        }
+      })
+      .catch(error => console.error('Error loading cart:', error));
+  }
+}
+
+// Define the custom element if not already defined
+if (!customElements.get('cart-drawer')) {
+  customElements.define('cart-drawer', CartDrawer);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Function to position mega menu full width and dynamically adjust
   function positionMegaMenu() {
@@ -1737,7 +1947,57 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+
+  // Handle add to cart with drawer
+  const addToCartForms = document.querySelectorAll('form[action*="/cart/add"]');
+  addToCartForms.forEach(form => {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const item = await response.json();
+        
+        // Update cart and open drawer
+        const drawer = document.querySelector('cart-drawer');
+        
+        if (drawer) {
+          // Fetch updated cart
+          const cartResponse = await fetch('/cart.js');
+          const cart = await cartResponse.json();
+          
+          // Update cart bubble count
+          updateCartBubble(cart);
+          
+          // Open drawer
+          drawer.openMenuDrawer();
+        }
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
+    });
+  });
 });
+
+// Update cart bubble count
+function updateCartBubble(cart) {
+  const bubbles = document.querySelectorAll('.cart-count-bubble');
+  bubbles.forEach(bubble => {
+    if (cart.item_count > 0) {
+      bubble.style.display = 'flex';
+      bubble.textContent = cart.item_count < 100 ? cart.item_count : '99+';
+    } else {
+      bubble.style.display = 'none';
+    }
+  });
+}
 </script>
 
 <!-- Sticky Header JavaScript -->
