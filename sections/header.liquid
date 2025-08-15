@@ -1771,22 +1771,55 @@
   }
 }
 
-/* Mobile Cart Drawer Scroll Adjustment */
+/* Mobile Cart Drawer Adjustments */
 @media (max-width: 990px) {
-  #cart-drawer-body {
-    max-height: calc(60vh - 50px); /* thoda space top buttons ke liye */
-    overflow-y: auto; /* scrollable */
+  /* Cart items wrapper */
+  #cart-drawer-body .cart-item {
+    padding: 8px 10px; /* thoda kam padding */
+    gap: 0.4rem;
   }
 
-  #cart-drawer-body .cart-items-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  /* Product image */
+  #cart-drawer-body .cart-item img {
+    width: 50px; /* chhoti image */
+    height: 50px;
+    object-fit: cover;
+  }
+
+  /* Product title & price */
+  #cart-drawer-body .cart-item-details {
+    font-size: 14px; /* chhota text */
+  }
+
+  /* Quantity input and buttons */
+  #cart-drawer-body .cart-item-quantity input {
+    width: 40px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  #cart-drawer-body .cart-item-quantity button {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  /* Remove/delete icon */
+  #cart-drawer-body .cart-item-remove {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+  }
+
+  /* Make cart body scrollable */
+  #cart-drawer-body {
+    max-height: 60vh; /* space for "You May Also Like" */
+    overflow-y: auto;
   }
 
   /* Recommended section styling */
   #you-may-like-section {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
   }
 }
 
