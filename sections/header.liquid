@@ -1747,6 +1747,73 @@
   .mega-menu-content::-webkit-scrollbar-thumb:hover {
     background: rgba(var(--color-highlight), 0.8);
   }
+
+
+  /* Cart Drawer Base */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px; /* Desktop width */
+  max-width: 100%;
+  height: 100%;
+  background-color: #fff;
+  overflow-y: auto;
+  z-index: 9999;
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+}
+
+/* Overlay */
+.cart-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9998;
+  display: none;
+}
+
+/* Active Drawer */
+.cart-drawer.active {
+  transform: translateX(0);
+}
+
+.cart-drawer-overlay.active {
+  display: block;
+}
+
+/* "You May Also Like" section */
+.you-may-like-section {
+  margin-top: 2rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 990px) {
+  .cart-drawer {
+    width: 100%;
+    right: 0;
+  }
+
+  /* Flex ordering to show "You May Also Like" at bottom */
+  .cart-drawer-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #you-may-like-section {
+    order: 2; /* Move below cart items */
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .cart-drawer-footer {
+    order: 3;
+  }
+}
+
 </style>
 
 <!-- Continue with rest of the template... -->
