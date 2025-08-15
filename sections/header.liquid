@@ -1771,33 +1771,22 @@
   }
 }
 
-/* Mobile Cart Drawer Scrollable */
+/* Mobile Cart Drawer Scroll Adjustment */
 @media (max-width: 990px) {
   #cart-drawer-body {
-    max-height: 60vh; /* mobile screen ka 60% height */
+    max-height: calc(60vh - 50px); /* thoda space top buttons ke liye */
     overflow-y: auto; /* scrollable */
   }
 
-  #cart-drawer-body .cart-item {
+  #cart-drawer-body .cart-items-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  #cart-drawer-body .cart-item img {
-    max-width: 60px;
-    height: auto;
-    object-fit: contain;
-  }
-
-  #cart-drawer-body .cart-item-details {
-    flex: 1;
-    margin-left: 0.5rem;
-  }
-
-  #cart-drawer-body .cart-item-quantity {
-    min-width: 50px;
+  /* Recommended section styling */
+  #you-may-like-section {
+    margin-top: 1rem;
   }
 }
 
