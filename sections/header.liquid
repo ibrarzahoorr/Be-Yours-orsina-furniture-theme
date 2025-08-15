@@ -1775,51 +1775,51 @@
 @media (max-width: 990px) {
   /* Cart items wrapper */
   #cart-drawer-body .cart-item {
-    padding: 8px 10px; /* thoda kam padding */
-    gap: 0.4rem;
+    padding: 6px 8px; /* aur chhota */
+    gap: 0.3rem;
   }
 
   /* Product image */
   #cart-drawer-body .cart-item img {
-    width: 50px; /* chhoti image */
-    height: 50px;
+    width: 45px;
+    height: 45px;
     object-fit: cover;
   }
 
   /* Product title & price */
   #cart-drawer-body .cart-item-details {
-    font-size: 14px; /* chhota text */
+    font-size: 13px;
   }
 
   /* Quantity input and buttons */
   #cart-drawer-body .cart-item-quantity input {
-    width: 40px;
-    height: 28px;
-    font-size: 13px;
+    width: 36px;
+    height: 26px;
+    font-size: 12px;
   }
 
   #cart-drawer-body .cart-item-quantity button {
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
   }
 
   /* Remove/delete icon */
   #cart-drawer-body .cart-item-remove {
-    width: 20px;
-    height: 20px;
-    font-size: 16px;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
   }
 
-  /* Make cart body scrollable */
+  /* Cart drawer height & scroll */
   #cart-drawer-body {
-    max-height: 60vh; /* space for "You May Also Like" */
+    max-height: 50vh; /* You May Also Like section ke liye space */
     overflow-y: auto;
   }
 
   /* Recommended section styling */
   #you-may-like-section {
-    margin-top: 0.8rem;
+    margin-top: 0.5rem;
   }
 }
 
@@ -1827,7 +1827,27 @@
 </style>
 
 <!-- Continue with rest of the template... -->
+<script>
+// Mobile Cart Drawer Open/Close
+function openCartDrawer() {
+  const drawer = document.getElementById('cart-drawer');
+  if (drawer) {
+    drawer.classList.add('active');
+    document.body.style.overflow = 'hidden'; // background scroll lock
+  }
+}
 
+function closeCartDrawer() {
+  const drawer = document.getElementById('cart-drawer');
+  if (drawer) {
+    drawer.classList.remove('active');
+    document.body.style.overflow = ''; // background scroll unlock
+  }
+}
+
+
+
+</script>
 
 <!-- UPDATED HEADER STRUCTURE -->
 <{% if enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper{% if enable_transparent_header %} header-transparent{% endif %}">
