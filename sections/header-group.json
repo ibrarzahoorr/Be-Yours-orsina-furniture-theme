@@ -87,7 +87,7 @@
         "mobile_logo_height": 72,
         "menu": "main-menu",
         "enable_dropdown_menu": true,
-        "recommendation_type": "automatic",
+        "recommendation_type": "manual",
         "recommended_collection": "",
         "recommended_title": "You May Also Like",
         "recommended_products_count": 4,
