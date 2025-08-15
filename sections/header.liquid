@@ -904,6 +904,27 @@
     right: 0;
   }
   
+  /* Desktop - Flex layout for left sidebar */
+  @media (min-width: 768px) {
+    .cart-drawer {
+      width: 700px;
+      flex-direction: row;
+    }
+    
+    .cart-drawer.active {
+      right: 0;
+    }
+  }
+  
+  /* Cart Drawer Main Container */
+  .cart-drawer-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #fff;
+  }
+  
   /* Cart Header */
   .cart-drawer-header {
     padding: 20px 25px;
@@ -956,7 +977,7 @@
   .cart-drawer-body {
     flex: 1;
     overflow-y: auto;
-    padding: 25px;
+    padding: 20px;
     background: #fafafa;
   }
   
@@ -1001,16 +1022,16 @@
   .cart-items-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
   
   /* Individual Cart Item */
   .cart-drawer-item {
     background: #fff;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     display: flex;
-    gap: 15px;
+    gap: 12px;
     position: relative;
     transition: all 0.3s;
     border: 1px solid #f0f0f0;
@@ -1020,12 +1041,12 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
   
-  /* UPDATED CART ITEM IMAGE SIZE */
+  /* Smaller Cart Item Image */
   .cart-item-image {
-    width: 120px;
-    height: 140px;
+    width: 90px;
+    height: 100px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 4px;
     flex-shrink: 0;
   }
   
@@ -1033,11 +1054,11 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
   
   .cart-item-title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: #333;
     text-decoration: none;
@@ -1053,7 +1074,7 @@
   }
   
   .cart-item-variant {
-    font-size: 13px;
+    font-size: 12px;
     color: #666;
     display: flex;
     align-items: center;
@@ -1063,18 +1084,18 @@
   .cart-item-price-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 8px 0;
+    gap: 8px;
+    margin: 6px 0;
   }
   
   .cart-item-original-price {
-    font-size: 14px;
+    font-size: 13px;
     color: #999;
     text-decoration: line-through;
   }
   
   .cart-item-sale-price {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #e74c3c;
   }
@@ -1084,7 +1105,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 8px;
   }
   
   .cart-quantity-selector {
@@ -1096,8 +1117,8 @@
   }
   
   .quantity-btn {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border: none;
     background: #fff;
     cursor: pointer;
@@ -1105,7 +1126,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
-    font-size: 18px;
+    font-size: 16px;
     color: #666;
   }
   
@@ -1119,12 +1140,12 @@
   }
   
   .quantity-value {
-    width: 50px;
+    width: 40px;
     text-align: center;
     border: none;
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
   }
   
@@ -1133,11 +1154,11 @@
     border: none;
     color: #666;
     cursor: pointer;
-    padding: 8px;
+    padding: 6px;
     transition: all 0.2s;
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 12px;
+    right: 12px;
   }
   
   .cart-item-remove:hover {
@@ -1147,7 +1168,7 @@
   
   /* Cart Footer */
   .cart-drawer-footer {
-    padding: 25px;
+    padding: 20px;
     border-top: 2px solid #e5e5e5;
     background: #fff;
   }
@@ -1156,7 +1177,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-size: 14px;
     color: #666;
   }
@@ -1165,32 +1186,32 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    font-size: 18px;
+    margin-bottom: 20px;
+    font-size: 17px;
     font-weight: 600;
     color: #000;
-    padding-top: 10px;
+    padding-top: 8px;
     border-top: 1px solid #f0f0f0;
   }
   
   .cart-total-price {
-    font-size: 22px;
+    font-size: 20px;
     color: #e74c3c;
   }
   
   .cart-footer-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   
   .cart-checkout-btn {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     background: #000;
     color: #fff;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-transform: uppercase;
@@ -1209,11 +1230,11 @@
   
   .cart-view-btn {
     width: 100%;
-    padding: 15px;
+    padding: 13px;
     background: #fff;
     color: #000;
     border: 2px solid #000;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     text-transform: uppercase;
@@ -1229,113 +1250,162 @@
     color: #fff;
   }
 
-  /* ============ YOU MAY ALSO LIKE SECTION WITH MANUAL COLLECTION ============ */
+  /* ============ YOU MAY ALSO LIKE SECTION - UPDATED STYLES ============ */
   .you-may-like-section {
-    padding: 30px 25px;
+    padding: 20px;
     border-top: 1px solid #e5e5e5;
-    background: #f9f9f9;
+    background: #fafafa;
   }
-  
+
+  /* Desktop - Left side panel */
+  @media (min-width: 768px) {
+    .you-may-like-section {
+      width: 250px;
+      flex-shrink: 0;
+      border-top: none;
+      border-right: 1px solid #e5e5e5;
+      background: #fff;
+      height: 100%;
+      overflow-y: auto;
+      order: -1; /* Place on left side */
+      padding: 20px 15px;
+    }
+  }
+
   .you-may-like-title {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 600;
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0;
     color: #333;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
   }
-  
+
   .recommended-products {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
   }
-  
+
   .recommended-product {
     display: flex;
-    gap: 12px;
-    padding: 15px;
+    gap: 10px;
+    padding: 10px;
     background: #fff;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    border: 1px solid #f0f0f0;
-  }
-  
-  .recommended-product:hover {
-    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
-  }
-  
-  .recommended-product-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
     border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid #f5f5f5;
+    align-items: flex-start;
+  }
+
+  .recommended-product:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+    border-color: #e0e0e0;
+  }
+
+  /* Smaller product image */
+  .recommended-product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
     flex-shrink: 0;
   }
-  
+
   .recommended-product-info {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 3px;
   }
-  
+
   .recommended-product-title {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 500;
     color: #333;
     text-decoration: none;
     line-height: 1.3;
-    margin-bottom: 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .recommended-product-title:hover {
-    color: rgb(var(--color-highlight));
+    color: #000;
+    text-decoration: underline;
   }
-  
+
   .recommended-product-price {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 5px;
+    margin: 2px 0;
   }
-  
+
   .recommended-original-price {
-    font-size: 12px;
+    font-size: 10px;
     color: #999;
     text-decoration: line-through;
   }
-  
+
   .recommended-sale-price {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    color: #e74c3c;
+    color: #333;
   }
-  
+
+  /* Elegant button with default theme color */
   .recommended-add-btn {
-    background: rgb(var(--color-highlight));
+    background: #000; /* Default elegant black */
     color: white;
     border: none;
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 4px 8px;
+    font-size: 10px;
     font-weight: 500;
-    border-radius: 4px;
+    border-radius: 3px;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     transition: all 0.3s ease;
     align-self: flex-start;
+    margin-top: 3px;
   }
-  
+
   .recommended-add-btn:hover {
-    background: rgba(var(--color-highlight), 0.8);
+    background: #333;
     transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  .recommended-add-btn:active {
+    transform: translateY(0);
+  }
+
+  .recommended-add-btn.loading {
+    background: #666;
+    pointer-events: none;
+  }
+
+  .recommended-add-btn.added {
+    background: #28a745;
+  }
+
+  /* Mobile styles - keep as column */
+  @media (max-width: 767px) {
+    .you-may-like-section {
+      padding: 20px 15px;
+      border-top: 1px solid #e5e5e5;
+    }
+    
+    .recommended-product-image {
+      width: 45px;
+      height: 45px;
+    }
   }
   
   /* Loading State */
@@ -1554,30 +1624,31 @@
     .cart-drawer {
       width: 100%;
       right: -100%;
+      flex-direction: column;
     }
     
     .cart-drawer-body {
-      padding: 20px;
+      padding: 15px;
     }
     
     .cart-drawer-item {
-      padding: 15px;
+      padding: 12px;
     }
     
     /* Mobile cart item image size */
     .cart-item-image {
-      width: 100px;
-      height: 120px;
+      width: 80px;
+      height: 90px;
     }
     
     /* Adjust you may like section for mobile */
     .you-may-like-section {
-      padding: 20px 15px;
+      padding: 15px 12px;
     }
     
     .recommended-product-image {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
     }
   }
   
@@ -1906,26 +1977,10 @@
   </header>
 </{% if enable_sticky_header %}sticky-header{% else %}div{% endif %}>
 
-<!-- Cart Drawer HTML -->
+<!-- Cart Drawer HTML - UPDATED STRUCTURE -->
 <div class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
 <div class="cart-drawer" id="cart-drawer">
-  <div class="cart-drawer-header">
-    <h2 class="cart-drawer-title">
-      Shopping Cart
-      <span class="cart-items-count" id="cart-items-count">0 items</span>
-    </h2>
-    <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart">
-      ✕
-    </button>
-  </div>
-  
-  <div class="cart-drawer-body" id="cart-drawer-body">
-    <div class="cart-loading-state">
-      <div class="cart-spinner"></div>
-    </div>
-  </div>
-  
-  <!-- YOU MAY ALSO LIKE SECTION - DYNAMIC + MANUAL -->
+  <!-- YOU MAY ALSO LIKE SECTION - Will appear on left on desktop -->
   <div class="you-may-like-section" id="you-may-like-section" style="display: none;">
     <h3 class="you-may-like-title">{{ section.settings.recommended_title | default: "You May Also Like" }}</h3>
     <div class="recommended-products" id="recommended-products-container">
@@ -1933,18 +1988,37 @@
     </div>
   </div>
   
-  <div class="cart-drawer-footer" id="cart-drawer-footer" style="display: none;">
-    <div class="cart-subtotal-row">
-      <span>Subtotal:</span>
-      <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+  <!-- Main container for desktop flex layout -->
+  <div class="cart-drawer-main">
+    <div class="cart-drawer-header">
+      <h2 class="cart-drawer-title">
+        Shopping Cart
+        <span class="cart-items-count" id="cart-items-count">0 items</span>
+      </h2>
+      <button class="cart-drawer-close" onclick="closeCartDrawer()" aria-label="Close cart">
+        ✕
+      </button>
     </div>
-    <div class="cart-total-row">
-      <span>Total:</span>
-      <span class="cart-total-price" id="cart-total">{{ cart.total_price | money }}</span>
+    
+    <div class="cart-drawer-body" id="cart-drawer-body">
+      <div class="cart-loading-state">
+        <div class="cart-spinner"></div>
+      </div>
     </div>
-    <div class="cart-footer-buttons">
-      <a href="/checkout" class="cart-checkout-btn">CHECKOUT</a>
-      <a href="/cart" class="cart-view-btn">VIEW MY BAG</a>
+    
+    <div class="cart-drawer-footer" id="cart-drawer-footer" style="display: none;">
+      <div class="cart-subtotal-row">
+        <span>Subtotal:</span>
+        <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Total:</span>
+        <span class="cart-total-price" id="cart-total">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cart-footer-buttons">
+        <a href="/checkout" class="cart-checkout-btn">CHECKOUT</a>
+        <a href="/cart" class="cart-view-btn">VIEW MY BAG</a>
+      </div>
     </div>
   </div>
 </div>
@@ -2139,7 +2213,7 @@ function closeCartDrawer() {
   }
 }
 
-// ============ DYNAMIC RECOMMENDATIONS JAVASCRIPT ============
+// ============ DYNAMIC RECOMMENDATIONS JAVASCRIPT - IMPROVED TAG MATCHING ============
 // Global settings from Liquid
 const recommendationSettings = {
   type: '{{ section.settings.recommendation_type }}',
@@ -2207,177 +2281,108 @@ async function loadRecommendations() {
   }
 }
 
-// Get dynamic recommendations based on cart items
+// Get dynamic recommendations based on cart items - IMPROVED VERSION
 async function getDynamicRecommendations() {
   if (!cartData || !cartData.items || cartData.items.length === 0) {
     return [];
   }
   
-  // Extract tags and price ranges from cart items
   const cartTags = new Set();
-  const cartPrices = [];
   const cartProductIds = new Set();
-  
-  cartData.items.forEach(item => {
-    // Collect product IDs to exclude from recommendations
-    cartProductIds.add(item.product_id);
-    
-    // Collect prices for price range matching
-    cartPrices.push(item.price);
-    
-    // We'll need to fetch full product data to get tags
-    // For now, we'll use a search-based approach
-  });
-  
   const recommendations = [];
   
-  try {
-    // Use Shopify's search to find related products
-    const searchQueries = [];
+  // Collect all tags from cart items
+  for (const item of cartData.items) {
+    cartProductIds.add(item.product_id);
     
-    // Create search queries for each cart item
-    for (const item of cartData.items) {
-      // Search by product type, vendor, or collection
-      const productHandle = item.handle || item.product_title.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      
-      if (recommendationSettings.matchByTags) {
-        // Try to get product tags through a separate API call
-        try {
-          const productResponse = await fetch(`/products/${productHandle}.js`);
-          if (productResponse.ok) {
-            const productData = await productResponse.json();
-            productData.tags.forEach(tag => cartTags.add(tag));
-          }
-        } catch (e) {
-          console.log('Could not fetch product tags for:', productHandle);
-        }
-      }
-    }
-    
-    // Search for products with matching tags
-    if (cartTags.size > 0) {
-      const tagArray = Array.from(cartTags);
-      for (let i = 0; i < Math.min(tagArray.length, 3); i++) {
-        const tag = tagArray[i];
-        try {
-          const searchResponse = await fetch(`/search?q=tag:${encodeURIComponent(tag)}&type=product&limit=20`);
-          if (searchResponse.ok) {
-            const searchText = await searchResponse.text();
-            const products = parseSearchResults(searchText);
-            
-            products.forEach(product => {
-              if (!cartProductIds.has(product.id) && 
-                  !recommendations.find(p => p.id === product.id)) {
-                
-                // Check price range if enabled
-                if (recommendationSettings.matchByPriceRange) {
-                  const isInPriceRange = cartPrices.some(cartPrice => {
-                    const tolerance = recommendationSettings.priceRangePercentage / 100;
-                    const minPrice = cartPrice * (1 - tolerance);
-                    const maxPrice = cartPrice * (1 + tolerance);
-                    return product.price >= minPrice && product.price <= maxPrice;
-                  });
-                  
-                  if (isInPriceRange) {
-                    recommendations.push(product);
-                  }
-                } else {
-                  recommendations.push(product);
-                }
-              }
+    // Get product tags
+    try {
+      const productHandle = item.handle || item.url.split('/products/')[1]?.split('?')[0];
+      if (productHandle) {
+        const productResponse = await fetch(`/products/${productHandle}.js`);
+        if (productResponse.ok) {
+          const productData = await productResponse.json();
+          
+          // Add all tags to set
+          if (productData.tags && productData.tags.length > 0) {
+            productData.tags.forEach(tag => {
+              // Clean and normalize tags
+              const cleanTag = tag.trim().toLowerCase();
+              if (cleanTag) cartTags.add(cleanTag);
             });
           }
-        } catch (e) {
-          console.log('Search error for tag:', tag, e);
-        }
-      }
-    }
-    
-    // If no tag-based results, try price-based search
-    if (recommendations.length === 0 && recommendationSettings.matchByPriceRange) {
-      try {
-        const avgPrice = cartPrices.reduce((a, b) => a + b, 0) / cartPrices.length;
-        const tolerance = recommendationSettings.priceRangePercentage / 100;
-        const minPrice = Math.floor(avgPrice * (1 - tolerance) / 100);
-        const maxPrice = Math.ceil(avgPrice * (1 + tolerance) / 100);
-        
-        const priceSearchResponse = await fetch(`/search?q=*&type=product&limit=20`);
-        if (priceSearchResponse.ok) {
-          const searchText = await priceSearchResponse.text();
-          const products = parseSearchResults(searchText);
-          
-          products.forEach(product => {
-            if (!cartProductIds.has(product.id) && 
-                product.price >= (minPrice * 100) && 
-                product.price <= (maxPrice * 100) &&
-                !recommendations.find(p => p.id === product.id)) {
-              recommendations.push(product);
-            }
-          });
-        }
-      } catch (e) {
-        console.log('Price-based search error:', e);
-      }
-    }
-    
-  } catch (error) {
-    console.error('Error in dynamic recommendations:', error);
-  }
-  
-  // Shuffle and limit results
-  const shuffled = recommendations.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, recommendationSettings.productsCount);
-}
-
-// Parse search results from HTML (basic implementation)
-function parseSearchResults(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const products = [];
-  
-  // This is a simplified parser - you might need to adjust based on your theme's search results structure
-  const productElements = doc.querySelectorAll('.product-item, .product-card, [data-product-id]');
-  
-  productElements.forEach(element => {
-    try {
-      const titleElement = element.querySelector('.product-title, .product-card__title, h3, a[href*="/products/"]');
-      const priceElement = element.querySelector('.price, .product-price, [data-price]');
-      const imageElement = element.querySelector('img');
-      const linkElement = element.querySelector('a[href*="/products/"]');
-      
-      if (titleElement && priceElement && linkElement) {
-        const title = titleElement.textContent.trim();
-        const url = linkElement.href;
-        const handle = url.split('/products/')[1]?.split('?')[0];
-        const priceText = priceElement.textContent.replace(/[^\d.,]/g, '');
-        const price = Math.round(parseFloat(priceText.replace(',', '.')) * 100);
-        
-        if (title && handle && !isNaN(price)) {
-          products.push({
-            id: Date.now() + Math.random(), // Temporary ID
-            title: title,
-            handle: handle,
-            price: price,
-            compare_at_price: 0,
-            image: imageElement ? imageElement.src : '',
-            url: url,
-            variant_id: null, // Will be fetched when adding to cart
-            tags: []
-          });
         }
       }
     } catch (e) {
-      console.log('Error parsing product element:', e);
+      console.log('Could not fetch product tags for:', item.title);
     }
-  });
+  }
   
-  return products;
+  // If we have tags, search for products with matching tags
+  if (cartTags.size > 0) {
+    const tagArray = Array.from(cartTags);
+    const uniqueProductIds = new Set();
+    
+    // Search for products with each tag using Shopify AJAX Search API
+    for (const tag of tagArray) {
+      try {
+        // Use Shopify AJAX API to search products
+        const searchUrl = `/search/suggest.json?q=${encodeURIComponent(tag)}&resources[type]=product&resources[limit]=10`;
+        const response = await fetch(searchUrl);
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          if (data.resources && data.resources.results && data.resources.results.products) {
+            for (const product of data.resources.results.products) {
+              // Skip if product is already in cart or recommendations
+              if (!cartProductIds.has(product.id) && !uniqueProductIds.has(product.id)) {
+                uniqueProductIds.add(product.id);
+                
+                // Format product for display
+                recommendations.push({
+                  id: product.id,
+                  title: product.title,
+                  handle: product.handle,
+                  price: Math.round(parseFloat(product.price) * 100),
+                  compare_at_price: product.compare_at_price ? Math.round(parseFloat(product.compare_at_price) * 100) : 0,
+                  image: product.featured_image?.url || product.image,
+                  url: product.url,
+                  variant_id: product.variants?.[0]?.id || null,
+                  tags: product.tags || []
+                });
+                
+                // Limit recommendations
+                if (recommendations.length >= recommendationSettings.productsCount) {
+                  break;
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        console.log('Search error for tag:', tag);
+      }
+      
+      if (recommendations.length >= recommendationSettings.productsCount) {
+        break;
+      }
+    }
+  }
+  
+  // If no tag-based recommendations, fall back to collection products
+  if (recommendations.length === 0 && recommendationSettings.manualProducts.length > 0) {
+    return recommendationSettings.manualProducts.slice(0, recommendationSettings.productsCount);
+  }
+  
+  // Return limited recommendations
+  return recommendations.slice(0, recommendationSettings.productsCount);
 }
 
-// Render recommended products
+// Updated render function with better error handling
 function renderRecommendedProducts(products, container) {
   if (!products || products.length === 0) {
-    container.innerHTML = '';
+    container.innerHTML = '<p style="text-align: center; color: #999; font-size: 11px; padding: 20px;">No recommendations available</p>';
     return;
   }
   
@@ -2404,8 +2409,10 @@ function renderRecommendedProducts(products, container) {
             <span class="recommended-sale-price">${displayPrice}</span>
           </div>
           <button class="recommended-add-btn" 
-                  onclick="addRecommendedProductToCart('${product.handle}', '${product.title.replace(/'/g, "\\'")}')">
-            Add to Cart
+                  data-handle="${product.handle}"
+                  data-title="${product.title.replace(/"/g, '&quot;')}"
+                  onclick="addRecommendedProductToCart(this)">
+            Add
           </button>
         </div>
       </div>
@@ -2415,13 +2422,16 @@ function renderRecommendedProducts(products, container) {
   container.innerHTML = html;
 }
 
-// Add recommended product to cart (fetch variant ID first)
-async function addRecommendedProductToCart(productHandle, productTitle) {
+// Updated add to cart function with better button handling
+async function addRecommendedProductToCart(button) {
+  const productHandle = button.getAttribute('data-handle');
+  const productTitle = button.getAttribute('data-title');
+  
   try {
-    const button = event.target;
     const originalText = button.textContent;
-    button.textContent = 'Adding...';
+    button.textContent = '...';
     button.disabled = true;
+    button.classList.add('loading');
     
     // Fetch product data to get variant ID
     const productResponse = await fetch(`/products/${productHandle}.js`);
@@ -2451,12 +2461,13 @@ async function addRecommendedProductToCart(productHandle, productTitle) {
       await loadCartDrawer();
       
       // Show success feedback
-      button.textContent = 'Added!';
-      button.style.background = '#28a745';
+      button.textContent = '✓';
+      button.classList.remove('loading');
+      button.classList.add('added');
       
       setTimeout(() => {
         button.textContent = originalText;
-        button.style.background = '';
+        button.classList.remove('added');
         button.disabled = false;
       }, 2000);
     } else {
@@ -2464,14 +2475,12 @@ async function addRecommendedProductToCart(productHandle, productTitle) {
     }
     
   } catch (error) {
-    console.error('Error adding recommended product to cart:', error);
-    const button = event.target;
-    button.textContent = 'Error';
-    button.style.background = '#dc3545';
+    console.error('Error adding product to cart:', error);
+    button.textContent = '✗';
+    button.classList.remove('loading');
     
     setTimeout(() => {
-      button.textContent = 'Add to Cart';
-      button.style.background = '';
+      button.textContent = 'Add';
       button.disabled = false;
     }, 2000);
   }
@@ -2540,7 +2549,7 @@ function renderCartDrawer() {
     cartHTML += `
       <div class="cart-drawer-item" data-key="${item.key}">
         <button class="cart-item-remove" onclick="removeCartItem('${item.key}')" aria-label="Remove item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M3 6h18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -3060,7 +3069,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       "type": "checkbox",
       "id": "match_by_price_range",
-      "default": true,
+      "default": false,
       "label": "Match by Price Range",
       "info": "Show products in similar price range (±30%)"
     },
