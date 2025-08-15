@@ -2178,63 +2178,22 @@ const recommendationSettings = {
   ]
 };
 
-// Load recommendations based on cart product metafield
+// Load recommendations
 async function loadRecommendations() {
   const recommendationsSection = document.getElementById('you-may-like-section');
   const container = document.getElementById('recommended-products-container');
-
+  
   if (!recommendationsSection || !container) return;
-
-  try {
-    // 1. Get cart data to read first product's metafield
-    const cartRes = await fetch('/cart.js');
-    if (!cartRes.ok) throw new Error('Cart fetch failed');
-    const cartData = await cartRes.json();
-
-    if (cartData.items.length > 0) {
-      const firstProductHandle = cartData.items[0].handle;
-
-      // 2. Fetch product details to get metafield (custom.range)
-      const prodRes = await fetch(`/products/${firstProductHandle}.js`);
-      if (!prodRes.ok) throw new Error('Product fetch failed');
-      const productData = await prodRes.json();
-
-      // Shopify metafields API via Liquid embed OR JSON (if stored in productData)
-      // Assuming metafield is stored in productData.metafields.custom.range
-      // If not directly available, you need to inject via Liquid in theme
-      let rangeCollectionHandle = productData?.metafields?.custom?.range;
-
-      if (rangeCollectionHandle) {
-        // 3. Fetch products from that collection
-        const colRes = await fetch(`/collections/${encodeURIComponent(rangeCollectionHandle)}/products.json?limit=4`);
-        if (colRes.ok) {
-          const colData = await colRes.json();
-          const products = colData.products.slice(0, 4).map(product => ({
-            id: product.id,
-            title: product.title,
-            handle: product.handle,
-            price: product.variants[0].price * 100,
-            compare_at_price: product.variants[0].compare_at_price ? product.variants[0].compare_at_price * 100 : 0,
-            image: product.images[0] || '',
-            url: `/products/${product.handle}`,
-            variant_id: product.variants[0].id
-          }));
-
-          if (products.length > 0) {
-            renderRecommendedProducts(products, container);
-            recommendationsSection.style.display = 'block';
-            return; // Stop here since we found metafield products
-          }
-        }
-      }
-    }
-
-    // 4. Fallback to manual or default products
-    const manualProducts = recommendationSettings.manualProducts;
-    if (manualProducts && manualProducts.length > 0) {
-      renderRecommendedProducts(manualProducts, container);
-      recommendationsSection.style.display = 'block';
-    } else {
+  
+  // Use manual collection products if set
+  const manualProducts = recommendationSettings.manualProducts;
+  
+  if (manualProducts && manualProducts.length > 0) {
+    renderRecommendedProducts(manualProducts, container);
+    recommendationsSection.style.display = 'block';
+  } else {
+    // Try to fetch from a default collection
+    try {
       const response = await fetch('/collections/all/products.json?limit=4');
       if (response.ok) {
         const data = await response.json();
@@ -2248,21 +2207,54 @@ async function loadRecommendations() {
           url: `/products/${product.handle}`,
           variant_id: product.variants[0].id
         }));
-
+        
         if (products.length > 0) {
           renderRecommendedProducts(products, container);
           recommendationsSection.style.display = 'block';
         }
       }
+    } catch (error) {
+      console.error('Error loading recommendations:', error);
     }
-  } catch (error) {
-    console.error('Error loading recommendations:', error);
   }
 }
-<script>
-  window.productMetaRange = "{{ product.metafields.custom.range }}";
-</script>
 
+// Render products
+function renderRecommendedProducts(products, container) {
+  if (!products || products.length === 0) return;
+  
+  let html = '';
+  products.forEach(product => {
+    const hasDiscount = product.compare_at_price > product.price;
+    const displayPrice = formatMoney(product.price);
+    const originalPrice = hasDiscount ? formatMoney(product.compare_at_price) : '';
+    
+    html += `
+      <div class="recommended-product">
+        <img src="${product.image || '/assets/placeholder.svg'}" 
+             alt="${product.title}" 
+             class="recommended-product-image"
+             loading="lazy">
+        <div class="recommended-product-info">
+          <a href="${product.url}" class="recommended-product-title">
+            ${product.title}
+          </a>
+          <div class="recommended-product-price">
+            ${hasDiscount ? `<span class="recommended-original-price">${originalPrice}</span>` : ''}
+            <span class="recommended-sale-price">${displayPrice}</span>
+          </div>
+          <button class="recommended-add-btn" 
+                  data-variant-id="${product.variant_id}"
+                  onclick="quickAddToCart(${product.variant_id}, this)">
+            Add
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
 
 // Quick add to cart
 async function quickAddToCart(variantId, button) {
