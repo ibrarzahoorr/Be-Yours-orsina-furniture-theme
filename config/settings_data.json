@@ -121,7 +121,7 @@
       "bathroom-mirrors",
       "coat-and-umbrella-stands",
       "coffee-tables",
-      "dining",
+      "tableware-and-dining",
       "dining-chairs",
       "home-textiles",
       "kitchen-and-dining",
@@ -516,23 +516,8 @@
         "disabled": false,
         "settings": {}
       },
-      "6174324309569838175": {
-        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
-        "disabled": false,
-        "settings": {}
-      },
-      "5460033060862993441": {
-        "type": "shopify://apps/essential-announcer/blocks/app-embed/93b5429f-c8d6-4c33-ae14-250fd84f361b",
-        "disabled": false,
-        "settings": {}
-      },
       "410654874852735521": {
         "type": "shopify://apps/fordeer-product-labels/blocks/badge/6efba0f5-50fb-446d-8a52-da07098aad0c",
-        "disabled": false,
-        "settings": {}
-      },
-      "9388344762370057067": {
-        "type": "shopify://apps/essential-sticky-cart/blocks/app-embed/824bb1f9-5f36-4608-a60c-1f2b6a6f8834",
         "disabled": false,
         "settings": {}
       },
@@ -559,11 +544,6 @@
           "button_vertical_position": "higher",
           "greeting_message": ""
         }
-      },
-      "5958325610427746679": {
-        "type": "shopify://apps/search7-smart-search-filter/blocks/search-filter/88e24ea2-237e-4897-9894-0fe383246073",
-        "disabled": false,
-        "settings": {}
       }
     }
   },
